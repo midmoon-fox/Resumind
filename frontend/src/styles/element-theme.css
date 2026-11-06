@@ -1,0 +1,114 @@
+:root {
+  --el-color-primary: #7453d7;
+  --el-color-primary-dark-2: #5d3bb8;
+  --el-color-primary-light-3: #9e87e3;
+  --el-color-primary-light-5: #b9a9eb;
+  --el-color-primary-light-7: #d5cbf3;
+  --el-color-primary-light-8: #e3ddf7;
+  --el-color-primary-light-9: #f1eefa;
+  --el-font-family: var(--font-body);
+  --el-border-radius-base: 10px;
+  --el-text-color-primary: var(--color-ink);
+  --el-text-color-regular: var(--color-ink-2);
+  --el-border-color: var(--color-field-edge);
+  --el-border-color-light: var(--color-rule);
+  --el-fill-color-blank: var(--color-paper);
+  --el-fill-color-light: var(--color-paper-2);
+}
+:root .el-input,
+:root .el-select,
+:root .el-input-number,
+:root .el-date-editor.el-input {
+  width: 100%;
+  min-width: 0;
+}
+:root .el-input__wrapper,
+:root .el-select__wrapper {
+  min-height: 42px;
+  background: var(--color-paper);
+}
+/* Native-control rules from the existing design must not restyle library internals. */
+:root .el-input__inner,
+:root .el-select__input,
+:root .el-textarea__inner {
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: normal;
+}
+:root .el-textarea__inner {
+  padding: 12px 14px;
+  background: var(--color-paper);
+}
+:root .el-checkbox {
+  height: auto;
+  min-height: 28px;
+  white-space: normal;
+  margin-right: 0;
+}
+:root .el-checkbox__label {
+  white-space: normal;
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+:root .el-checkbox__original,
+:root .el-switch__input {
+  min-height: 0;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+:root .el-button + .el-button {
+  margin-left: 0;
+}
+:root .base-button.el-button {
+  height: auto;
+  min-height: 42px;
+}
+:root .base-button.button-small {
+  min-height: 34px;
+}
+:root .el-dialog {
+  --el-dialog-border-radius: 18px;
+}
+:root .app-dialog .el-dialog__body {
+  overflow-wrap: anywhere;
+}
+:root .el-slider {
+  padding-inline: 12px;
+}
+.creation-steps {
+  margin: 8px 0 32px;
+}
+.creation-steps .el-step__title {
+  font-size: 14px;
+}
+.creation-steps .el-step__head.is-finish,
+.creation-steps .el-step__title.is-finish {
+  color: var(--el-color-primary);
+  border-color: var(--el-color-primary);
+}
+.el-checkbox.journey-task .task-check {
+  display: none;
+}
+.el-checkbox.journey-task .el-checkbox__label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+@media (max-width: 640px) {
+  .creation-steps .el-step__title {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+/* Element Plus owns the single visual boundary of each form control. */
+:root :is(.search-input, .inline-search, .password-input, .rich-color):has(.el-input, .el-select) {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+}
+:root .el-textarea__inner { border: 0; }
+:root .el-select__input-wrapper input { border: 0; outline: 0; box-shadow: none; }
+:root { --el-text-color-placeholder: var(--color-muted); }

@@ -1,0 +1,309 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: purple brand · signature: actual resume document · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V4 · weakest: V, task structure preserved with local pastel accents */
+
+/* Purple restoration and stronger motion requested by the user; controls and content preserved. */
+/* Continuous backdrop with pause control; 30fps desktop WebGL and mobile CSS fallback. */
+.route-surface {
+  min-width: 0;
+}
+.page-enter-active {
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+}
+.page-leave-active {
+  transition: opacity 150ms ease;
+}
+.js .page-enter-from {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.js .page-leave-to {
+  opacity: 0;
+}
+.hero-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.ribbon-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--color-paper);
+}
+.ribbon-canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.ribbon-ready {
+  opacity: 1;
+}
+.hero-content {
+  position: relative;
+}
+.hero-art {
+  background: var(--color-clear);
+  border-left-color: var(--color-rule);
+}
+.hero-art .resume-document {
+  box-shadow: 0 12px 32px var(--color-shadow);
+}
+.base-button {
+  position: relative;
+  overflow: clip;
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+.button-primary {
+  border-radius: var(--radius-pill);
+}
+.button-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-sheen-strong);
+  transform: translateX(-110%) skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+.button-primary:not(:disabled):hover::after {
+  animation: button-sheen 650ms var(--ease-out);
+}
+.base-button:not(:disabled):active {
+  transform: scale(0.96);
+}
+.base-button:disabled {
+  transform: none;
+}
+.busy-orbit {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  border: 1.5px solid currentColor;
+  border-right-color: var(--color-clear);
+  border-radius: var(--radius-pill);
+  animation: busy-orbit 900ms linear infinite;
+}
+.feature-icon,
+.feature-jobs .feature-icon,
+.feature-interview .feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-control);
+  padding: var(--space-xs);
+  color: var(--color-accent-text);
+}
+.feature-generator .feature-icon {
+  background: var(--color-accent-soft);
+}
+.feature-jobs .feature-icon {
+  background: var(--color-mint);
+}
+.feature-interview .feature-icon {
+  background: var(--color-ice);
+}
+.feature-card {
+  transition: transform var(--dur-short) var(--ease-out);
+}
+.feature-card:hover {
+  background: var(--color-clear);
+}
+.feature-card-top {
+  padding-right: var(--space-lg);
+}
+.feature-card .feature-corner {
+  right: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .feature-card:hover {
+    transform: translateY(-6px);
+  }
+  .resume-card {
+    transition: transform var(--dur-short) var(--ease-out);
+  }
+  .resume-card:hover {
+    transform: translateY(-6px);
+  }
+}
+@keyframes button-sheen {
+  from {
+    transform: translateX(-110%) skewX(-18deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(110%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+@keyframes busy-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 960px) {
+  .ribbon-canvas {
+    display: none;
+  }
+  .hero-art {
+    background: var(--color-ice);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active,
+  .base-button,
+  .feature-card,
+  .resume-card {
+    transition: none !important;
+  }
+  .js .page-enter-from,
+  .js .page-leave-to {
+    opacity: 1;
+    transform: none;
+  }
+  .button-primary::after,
+  .busy-orbit {
+    animation: none !important;
+  }
+  .ribbon-canvas {
+    display: none;
+  }
+  .feature-card:hover,
+  .resume-card:hover,
+  .base-button:not(:disabled):active {
+    transform: none;
+  }
+}
+@media print {
+  .ribbon-backdrop {
+    display: none;
+  }
+  .route-surface {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .busy-orbit,
+  .button-primary::after {
+    animation: none !important;
+  }
+}
+
+/* Stronger purple motion: the fallback remains visible below the desktop canvas. */
+.ribbon-backdrop::before,
+.ribbon-backdrop::after {
+  content: '';
+  position: absolute;
+  width: 145%;
+  height: 80%;
+  border-radius: 50%;
+  border: 28px solid var(--color-ribbon-light);
+  opacity: 0.7;
+  transform: translate(-12%, 30%) rotate(-12deg);
+  animation: purple-wave 7s ease-in-out infinite alternate;
+}
+.ribbon-backdrop::after {
+  border-color: var(--color-ribbon-strong);
+  opacity: 0.32;
+  transform: translate(-5%, -50%) rotate(12deg);
+  animation: purple-wave-second 9s ease-in-out infinite alternate;
+}
+.ribbon-canvas {
+  position: relative;
+  z-index: 1;
+}
+.ribbon-paused::before,
+.ribbon-paused::after {
+  animation-play-state: paused;
+}
+.motion-control {
+  position: absolute;
+  right: var(--space-sm);
+  top: var(--space-xs);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 32px;
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--color-field-edge);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-accent-text);
+  font-size: var(--text-xs);
+}
+.motion-control:focus-visible:not([class*="el-"]) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.motion-control:hover {
+  background: var(--color-accent-soft);
+}
+.motion-control:active {
+  transform: scale(0.96);
+}
+.feature-card:active,
+.resume-preview-button:active {
+  transform: translateY(0) scale(0.98);
+}
+@media (hover: hover) and (pointer: fine) {
+  .base-button:not(:disabled):hover {
+    transform: translateY(-3px);
+  }
+  .base-button:not(:disabled):active {
+    transform: translateY(0) scale(0.96);
+  }
+  .feature-card:hover .feature-corner {
+    transform: translate(3px, -3px);
+  }
+}
+.feature-corner {
+  transition: transform 260ms var(--ease-out);
+}
+@keyframes purple-wave {
+  from {
+    transform: translate(-12%, 30%) rotate(-12deg);
+  }
+  to {
+    transform: translate(1%, -12%) rotate(6deg);
+  }
+}
+@keyframes purple-wave-second {
+  from {
+    transform: translate(-5%, -50%) rotate(12deg);
+  }
+  to {
+    transform: translate(-18%, -12%) rotate(-8deg);
+  }
+}
+@media (max-width: 960px) {
+  .hero-art {
+    background: var(--color-accent-soft);
+  }
+  .hero-content {
+    padding-top: var(--space-xl);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-backdrop::before,
+  .ribbon-backdrop::after {
+    animation: none !important;
+  }
+  .motion-control {
+    display: none;
+  }
+  .base-button:not(:disabled):hover,
+  .feature-card:hover .feature-corner,
+  .feature-card:active,
+  .resume-preview-button:active {
+    transform: none;
+  }
+  .feature-corner {
+    transition: none;
+  }
+}

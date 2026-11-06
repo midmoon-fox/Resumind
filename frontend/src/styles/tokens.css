@@ -1,0 +1,107 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · nav: kept task sidebar · signature: actual resume document · states: existing full empty validation and saving · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, shared app shell kept while content regions become distinct task workspaces */
+/* Hallmark · paper: var(--color-paper) · accent: var(--color-accent) · display: var(--font-display) · body: var(--font-body) · axes: light/grotesk-sans/cool · posture: restrained · contrast: default UI checked in render · finish-review: subagent, 2 resolved */
+:root {
+  --color-paper: #fefdff;
+  --color-paper-2: #f6f5f9;
+  --color-paper-3: #edeaf2;
+  --color-paper-4: #e3dfee;
+  --color-ink: #28232f;
+  --color-ink-2: #504858;
+  --color-muted: #696070;
+  --color-rule: #ded9e5;
+  --color-field-edge: #897b95;
+  --color-accent: #7453d7;
+  --color-accent-hover: #5d3bb8;
+  --color-accent-ink: #fefdff;
+  --color-accent-soft: #eee8fa;
+  --color-accent-text: #5d3aa7;
+  --color-focus: #6541bb;
+  --color-success: #30624b;
+  --color-success-soft: #edf5ef;
+  --color-error: #a03f55;
+  --color-error-soft: #fbf0f3;
+  --color-warning: #80511f;
+  --color-overlay: #28232f80;
+  --color-shadow: #28232f12;
+  --color-clear: transparent;
+  --font-body: 'Microsoft YaHei UI', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-display: var(--font-body);
+  --font-outlier: var(--font-body);
+  --font-resume: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-serif-choice: 'SimSun', serif;
+  --primary: var(--color-accent);
+  --primary-dark: var(--color-accent-hover);
+  --primary-light: var(--color-accent-soft);
+  --muted: var(--color-muted);
+  --border: var(--color-rule);
+  --sidebar-width: 224px;
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-5: 20px;
+  --space-lg: 24px;
+  --space-8: 32px;
+  --space-xl: 40px;
+  --space-12: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-display-s: 1.5rem;
+  --text-display: 1.875rem;
+  --text-section: 1.25rem;
+  --text-title: 1.125rem;
+  --text-lead: 1rem;
+  --display-weight: 600;
+  --tracking-display: 0;
+  --container: 1392px;
+  --gutter: 32px;
+  --gap-columns: 24px;
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+  --shadow-card: none;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+  --resume-accent: var(--color-accent);
+  --resume-font: var(--font-resume);
+  --resume-size: 11pt;
+  --resume-leading: 1.65;
+  --resume-gap: 18px;
+}
+
+/* Purple brand restored at user request; document-specific colours remain user controlled. */
+:root {
+  --color-mint: #e3f2e9;
+  --color-ice: #e7eff8;
+  --color-lemon: #f7f1d6;
+  --color-sheen: #ffffff26;
+}
+
+:root {
+  --color-ribbon-light: #e6dafb;
+  --color-ribbon-strong: #cbb4ef;
+  --color-sheen-strong: #ffffff55;
+}

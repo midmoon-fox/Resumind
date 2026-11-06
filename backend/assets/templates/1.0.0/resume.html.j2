@@ -1,0 +1,62 @@
+{% macro rich(nodes) -%}
+{% for node in nodes %}
+{% if node.type == 'text' %}{{ inline(node) }}
+{% elif node.type == 'hardBreak' %}<br>
+{% elif node.type == 'paragraph' %}<p>{{ rich(node.get('content', [])) }}</p>
+{% elif node.type == 'bulletList' %}<ul>{{ rich(node.content) }}</ul>
+{% elif node.type == 'orderedList' %}<ol start="{{ node.get('attrs', {}).get('start', 1) }}">{{ rich(node.content) }}</ol>
+{% elif node.type == 'listItem' %}<li>{{ rich(node.content) }}</li>
+{% endif %}{% endfor %}
+{%- endmacro %}
+<main class="sheet {{ templateId }}" data-resume-print-root lang="zh-CN"
+ style="font-family:'{{ style.fontFamily }}',sans-serif;font-size:{{ style.fontSize }}pt;line-height:{{ style.lineHeight }};--accent:{{ style.accentColor }};--section-gap:{{ style.sectionGap }}px">
+  <header class="resume-header" data-edit-key="basic">
+    {% if profile.get("photoData") %}<img src="{{ profile.photoData }}" alt="个人照片" style="float:right;width:78px;height:104px;object-fit:cover">{% endif %}
+    <p class="eyebrow">个人简历</p>
+    <h1 data-edit-field="name">{{ profile.name }}</h1>
+    <p class="intention" data-edit-field="intention">{{ profile.intention }}</p>
+    <p class="contact">{{ contacts | join('　·　') }}</p>
+  </header>
+  {% for section in sections %}
+  <section class="resume-section" data-edit-section-id="{{ section.id }}"
+    data-edit-key="{{ 'education' if section.type == 'EDUCATION' else ('skills' if section.type == 'SKILLS' else section.id) }}">
+    <h2>{{ section.title }}</h2>
+    {% if section.type == 'EDUCATION' %}
+      {% for education in profile.education %}
+      <article class="entry education" data-edit-key="education">
+        <div class="entry-heading"><h3>{{ education.school }}</h3><span class="dates">{{ dates(education) }}</span></div>
+        <p class="subtitle">{{ education.major }}{% if education.major and education.degree %} / {% endif %}{{ education.degree }}</p>
+      </article>
+      {% endfor %}
+    {% elif section.type == 'SKILLS' %}
+      <p class="skills-text" data-edit-field="skills" style="white-space:pre-wrap">{{ profile.skills | join("\n") }}</p>
+    {% elif section.type == 'CHARTS' %}
+      <ul class="charts" data-edit-field="charts">
+        {% for datum in section.chartData %}
+        <li class="chart-row">
+          <span class="chart-label">{{ datum.label }}</span>
+          <span class="chart-bar"><span class="chart-fill" style="width:{{ datum.value }}%"></span></span>
+          <span class="chart-value">{{ datum.value }}{% if datum.unit %} {{ datum.unit }}{% endif %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    {% elif section.type == 'SOCIAL_LINKS' %}
+      <ul class="social-links" data-edit-field="links">
+        {% for link in section.links %}
+        <li>{{ link.platform }}{% if link.label %} · {{ link.label }}{% endif %}{% if link.url %} · <a href="{{ link.url }}" rel="noopener noreferrer">{{ link.url }}</a>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    {% elif section.type == 'TEXT' %}
+      <div class="text-block" data-edit-field="text">{{ rich(section.text.content) }}</div>
+    {% else %}
+      {% for item in section['items'] %}
+      <article class="entry {% if section.type == 'PROJECTS' %}project-entry{% endif %}" data-edit-item-id="{{ item.id }}" data-edit-field="description">
+        <div class="entry-heading"><h3>{{ item.title }}</h3><span class="dates">{{ dates(item) }}</span></div>
+        {% if item.subtitle %}<p class="subtitle">{{ item.subtitle }}</p>{% endif %}
+        <div class="description">{{ rich(item.description.content) }}</div>
+      </article>
+      {% endfor %}
+    {% endif %}
+  </section>
+  {% endfor %}
+</main>

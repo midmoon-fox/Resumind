@@ -1,0 +1,18 @@
+packages:
+  - '.'
+
+# Windows 普通账户不需要创建符号链接。
+nodeLinker: hoisted
+enableGlobalVirtualStore: false
+storeDir: .pnpm-store
+cacheDir: .pnpm-cache
+
+# esbuild 是 Vite 构建所需的工具；仅允许它的安装脚本。
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@lucide/vue@1.69.0'
+
+updateNotifier: false
+verifyDepsBeforeRun: error

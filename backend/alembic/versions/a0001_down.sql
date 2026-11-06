@@ -1,0 +1,15 @@
+ALTER TABLE job_descriptions DROP FOREIGN KEY fk_jd_current_version;
+ALTER TABLE users DROP FOREIGN KEY fk_users_avatar;
+DROP TABLE experience_sources;
+DROP TABLE material_segments;
+DROP TABLE materials;
+DROP TABLE experiences;
+DROP TABLE workspaces;
+DROP TABLE jd_versions;
+DROP TABLE sessions;
+DROP TABLE job_descriptions;
+DROP TABLE idempotency_records;
+DROP TABLE files;
+DROP TABLE audit_events;
+DROP TABLE users;
+DROP TABLE auth_idempotency;

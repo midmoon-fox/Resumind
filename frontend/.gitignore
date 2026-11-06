@@ -1,0 +1,26 @@
+# Dependencies, build output and machine-local caches
+**/node_modules/
+**/dist/
+**/.pnpm-store/
+**/.pnpm-cache/
+**/.vite/
+**/artifacts/
+**/.hallmark/
+
+# Hosting identity and local deployment records
+**/.openai/
+
+# Local environment and credentials; keep shareable examples
+**/.env
+**/.env.*
+!**/.env.example
+**/*.local
+**/*.log
+**/*.pem
+**/*.key
+
+# Operating system and Python caches
+.DS_Store
+Thumbs.db
+**/__pycache__/
+**/.venv/

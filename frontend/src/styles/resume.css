@@ -1,0 +1,156 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · nav: kept task sidebar · signature: actual resume document · states: existing full empty validation and saving · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, shared app shell kept while content regions become distinct task workspaces */
+/* Hallmark · paper: var(--color-paper) · accent: var(--color-accent) · display: var(--font-display) · body: var(--font-body) · axes: light/grotesk-sans/cool · posture: restrained · contrast: default UI checked in render · finish-review: subagent, 2 resolved */
+@import url('./tokens.css');
+.resume-document {
+  box-sizing: border-box;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  background: var(--color-paper);
+  padding: 17mm 16mm;
+  font-family: var(--resume-font);
+  font-size: var(--resume-size);
+  line-height: var(--resume-leading);
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.resume-document * {
+  box-sizing: border-box;
+}
+.resume-document p,
+.resume-document h1,
+.resume-document h2 {
+  margin: 0;
+}
+.document-heading {
+  padding-bottom: var(--space-md);
+  border-bottom: 2px solid var(--resume-accent);
+  margin-bottom: var(--space-5);
+}
+.document-heading h1 {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--resume-accent);
+  line-height: 1.5;
+}
+.document-role {
+  font-size: 1.03em;
+  margin-top: var(--space-2xs) !important;
+  font-weight: 600;
+}
+.document-contact {
+  margin-top: var(--space-xs) !important;
+  font-size: 0.85em;
+  color: var(--color-ink-2);
+}
+.document-section {
+  margin-top: var(--resume-gap);
+}
+.document-section h2 {
+  font-size: 1.1em;
+  line-height: 1.8;
+  color: var(--resume-accent);
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: var(--space-3xs);
+  margin-bottom: var(--space-xs);
+}
+.document-item {
+  margin-bottom: var(--space-sm);
+}
+.document-item:last-child {
+  margin-bottom: 0;
+}
+.document-item-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-3xs);
+  break-after: avoid;
+}
+.document-item-heading strong {
+  font-weight: 650;
+}
+.document-item-heading span {
+  font-size: 0.85em;
+  color: var(--color-ink-2);
+  flex-shrink: 0;
+}
+.document-subtitle {
+  font-size: 0.9em;
+  color: var(--color-ink-2);
+  margin: var(--space-3xs) 0 var(--space-xs) !important;
+}
+.document-rich p {
+  margin: var(--space-3xs) 0;
+}
+.document-rich ul,
+.document-rich ol {
+  margin: var(--space-2xs) 0;
+  padding-left: var(--space-5);
+}
+.document-rich li {
+  margin: var(--space-3xs) 0;
+}
+.preserve-lines {
+  white-space: pre-wrap;
+}
+.document-project .document-heading {
+  background: var(--resume-accent);
+  color: var(--color-accent-ink);
+  padding: var(--space-5) var(--space-lg);
+  border: 0;
+  margin: calc(var(--space-xs) * -1) calc(var(--space-xs) * -1) var(--space-lg);
+}
+.document-project .document-heading h1,
+.document-project .document-contact {
+  color: var(--color-accent-ink);
+}
+.document-project .document-section h2 {
+  border: 0;
+  background: var(--color-paper);
+  padding: var(--space-2xs) var(--space-xs);
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 16mm;
+  }
+  body {
+    margin: 0;
+    background: var(--color-paper);
+  }
+  .resume-document {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .document-heading,
+  .document-section h2 {
+    break-after: avoid;
+  }
+  .document-item-heading {
+    break-after: avoid;
+  }
+  .document-rich p,
+  .document-rich li {
+    orphans: 2;
+    widows: 2;
+  }
+}
+
+.resume-document h1,
+.resume-document h2 {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+.document-project .document-section h2 {
+  padding-left: 0;
+  background: none;
+  border-bottom: 1px solid var(--color-rule);
+}
