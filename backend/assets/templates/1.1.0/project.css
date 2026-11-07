@@ -1,0 +1,5 @@
+.project .resume-header { border-left: 5px solid var(--accent); padding-left: 18px; }
+.project h1 { font-size: 30pt; }
+.project h2 { border-bottom: 2px solid var(--accent); padding-bottom: 6px; }
+.project .project-entry { border-left: 2px solid #d8dee7; padding-left: 13px; }
+.project .project-entry h3 { color: var(--accent); font-size: 12pt; }

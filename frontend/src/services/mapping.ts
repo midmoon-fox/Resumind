@@ -141,7 +141,7 @@ export function htmlRich(html: string): Schema<'RichNode-Input'> {
               .join('')
               .toUpperCase()
           : child.style.color.toUpperCase();
-        if (!['#333333', '#1F2937', '#2563EB'].includes(color))
+        if (!['#333333', '#1F2937', '#2563EB', '#7661A6', '#D4A72C', '#357A5B', '#AAA3BE', '#879FB7'].includes(color))
           throw new Error('文字颜色超出后端允许范围');
         return nodes(child, [...(marks ?? []), { type: 'textStyle', attrs: { color } }]);
       }

@@ -1,0 +1,3 @@
+.simple .resume-header { text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 18px; }
+.simple .eyebrow { display: none; }
+.simple h2 { letter-spacing: 1px; }

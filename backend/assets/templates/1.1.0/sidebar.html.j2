@@ -1,0 +1,28 @@
+{% from 'sections.html.j2' import render_sections with context %}
+<main class="sheet sidebar" data-resume-print-root lang="zh-CN"
+ style="font-family:'{{ style.fontFamily }}',sans-serif;font-size:{{ style.fontSize }}pt;line-height:{{ style.lineHeight }};--accent:{{ style.accentColor }};--theme-ink:{{ themeInk }};--section-gap:{{ style.sectionGap }}px">
+  <div class="sidebar-top" aria-hidden="true"><span>● ● · ·</span></div>
+  <div class="sidebar-columns">
+    <div class="profile-sidebar" data-edit-key="basic">
+      {% if profile.get('photoData') %}<img class="profile-photo" src="{{ profile.photoData }}" alt="个人照片">{% endif %}
+      <h1 data-edit-field="name">{{ profile.name }}</h1>
+      {% if profile.intention %}<p class="intention" data-edit-field="intention">求职意向：{{ profile.intention }}</p>{% endif %}
+      {% if profile.age is not none or profile.education %}
+      <h2>基本信息</h2>
+      {% if profile.age is not none %}<p>年龄：{{ profile.age }}岁</p>{% endif %}
+      {% if profile.education %}
+      {% set education = profile.education[0] %}
+      {% if education.school %}<p>院校：{{ education.school }}</p>{% endif %}
+      {% if education.major %}<p>专业：{{ education.major }}</p>{% endif %}
+      {% if education.degree %}<p>学历：{{ education.degree }}</p>{% endif %}
+      {% endif %}
+      {% endif %}
+      {% if profile.phone or profile.email %}
+      <h2>联系方式</h2>
+      {% if profile.phone %}<p>电话：{{ profile.phone }}</p>{% endif %}
+      {% if profile.email %}<p>邮箱：{{ profile.email }}</p>{% endif %}
+      {% endif %}
+    </div>
+    <div class="sidebar-main">{{ render_sections(sections, profile, dates, inline) }}</div>
+  </div>
+</main>

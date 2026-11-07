@@ -57,6 +57,18 @@ class WordRenderer:
         for border in output.styles['Heading 1'].element.iter(qn('w:bottom')):
             border.set(qn('w:color'), style['accentColor'][1:])
         theme = {'ribbon': 'AAA3BE', 'sidebar': '879FB7'}.get(snapshot['templateId'])
+        if theme and snapshot['templateVersion'] != '1.0.0':
+            theme = style['accentColor'][1:]
+            ink = '24282E' if style['accentColor'] in {'#D4A72C', '#AAA3BE', '#879FB7'} else 'FFFFFF'
+            # Recolor the template's decorative bands and masthead; neutral sidebar stays neutral.
+            for node in output.element.iter(qn('w:shd')):
+                if node.get(qn('w:fill')) in {'AAA3BE', '879FB7'}:
+                    node.set(qn('w:fill'), theme)
+            for node in output.element.iter(qn('w:color')):
+                if node.get(qn('w:val')) in {'AAA3BE', '879FB7'}:
+                    node.set(qn('w:val'), theme)
+                elif node.get(qn('w:val')) == 'FFFFFF':
+                    node.set(qn('w:val'), ink)
         if theme:
             output.styles['Heading 1'].font.color.rgb = RGBColor.from_string(theme)
             for border in output.styles['Heading 1'].element.iter(qn('w:bottom')):

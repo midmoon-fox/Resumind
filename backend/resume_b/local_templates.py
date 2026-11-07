@@ -108,7 +108,8 @@ class StaticHtmlRenderer:
         root = environment.get_template(layout).render(
             profile=profile, sections=[{**s, "items": [i for i in s["items"] if item_has_content(i)]} for s in document["sections"] if section_has_content(s, profile)],
             style=style, templateId=snapshot["templateId"], contacts=contacts,
-            inline=inline, dates=date_label)
+            inline=inline, dates=date_label,
+            themeInk="#24282E" if style["accentColor"] in {"#D4A72C", "#AAA3BE", "#879FB7"} else "#FFFFFF")
         css = "\n".join((directory / name).read_text(encoding="utf-8")
                         for name in ("base.css", snapshot["templateId"] + ".css"))
         return root, css

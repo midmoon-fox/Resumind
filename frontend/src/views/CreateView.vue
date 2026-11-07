@@ -291,7 +291,7 @@ async function generate() {
         .filter((e) => e.confirmed && !e.excluded)
         .map((e) => ({ id: e.id, revision: e.backend!.revision })),
       templateId: draft.value.template,
-      templateVersion: '1.0.0',
+      templateVersion: '1.1.0',
       sectionTypes: [
         'EDUCATION',
         ...new Set(

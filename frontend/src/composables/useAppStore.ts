@@ -434,7 +434,7 @@ async function createResume(title: string, role: string, profile = emptyProfile(
       sections: [section('EDUCATION', '教育背景'), section('SKILLS', '专业技能')],
     },
     templateId: 'simple',
-    templateVersion: '1.0.0',
+    templateVersion: '1.1.0',
     style: {
       fontFamily: 'Microsoft YaHei',
       fontSize: 11,

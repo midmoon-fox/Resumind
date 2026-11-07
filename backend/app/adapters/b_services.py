@@ -24,7 +24,7 @@ from pydantic import TypeAdapter
 from resume_b.ai_bridge import DocumentBridge, replace_target, target_value
 from resume_b.api import Dependencies
 from resume_b.deletion import DeletionService
-from resume_b.documents import COLORS, DEFAULT_STYLE, dates, fields, string, uuid4 as _uuid4
+from resume_b.documents import COLORS, default_style, dates, fields, string, uuid4 as _uuid4
 from resume_b.documents import validate_document as b_validate_document
 from resume_b.documents import validate_richtext
 from resume_b.exports import ExportCoordinator, ExportDependencies, ExportResumeHandler
@@ -317,7 +317,7 @@ class BServicesAdapter:
             version=version,
             name=row.name,
             allowedSectionTypes=list(row.section_types_json),
-            defaultStyle=DEFAULT_STYLE,
+            defaultStyle=default_style(key, version),
         )
 
     @_translate_b
@@ -371,7 +371,8 @@ class BServicesAdapter:
 
     @_translate_b
     def save_generated(self, db, task, document):
-        self._bridge(db).complete_generation(task.user_id, task.resource_id, task.id, None, document, DEFAULT_STYLE)
+        resume = self._resumes(db).get(task.user_id, task.resource_id, lock=True)
+        self._bridge(db).complete_generation(task.user_id, task.resource_id, task.id, None, document, resume.style_json)
 
     @_translate_b
     def save_preparation(self, db, task, content):

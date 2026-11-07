@@ -1,0 +1,41 @@
+@page { size: A4; margin: 18mm 20mm; }
+* { box-sizing: border-box; }
+html { background: #e9edf1; color: #24282e; }
+body { margin: 0; padding: 28px 12px; }
+.sheet { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 18mm 20mm;
+  background: #fff; box-shadow: 0 4px 26px #17243a14; overflow-wrap: anywhere; }
+h1,h2,h3,p,ul,ol { margin: 0; }
+.resume-header { margin-bottom: 22px; }
+.eyebrow { color: #66717f; font-size: 9pt; letter-spacing: 4px; margin-bottom: 5px; }
+h1 { font-size: 28pt; line-height: 1.25; font-weight: 700; letter-spacing: 2px; }
+.intention { font-size: 12pt; color: var(--accent); margin: 9px 0 6px; }
+.contact { color: #525d6b; font-size: 9.5pt; }
+.resume-section { margin-top: var(--section-gap); }
+h2 { font-size: 12pt; color: var(--accent); padding-bottom: 5px; margin-bottom: 10px;
+  border-bottom: 1px solid #d8dee7; break-after: avoid; page-break-after: avoid; }
+h3 { font-size: 11.5pt; font-weight: 700; }
+.entry { margin-bottom: 12px; }
+.entry-heading { display: flex; justify-content: space-between; align-items: baseline;
+  gap: 14px; break-after: avoid; page-break-after: avoid; }
+.entry-heading h3 { min-width: 0; }
+.dates { color: #687382; font-size: 9pt; flex-shrink: 0; }
+.subtitle { color: #647080; font-size: 10pt; margin: 2px 0 6px; break-after: avoid; }
+.description p { margin: 3px 0; }
+ul,ol { padding-left: 1.4em; margin: 3px 0; }
+li { padding-left: 2px; margin: 3px 0; }
+li p { margin: 0; }
+.skills li { margin: 4px 0; }
+a { color: inherit; text-decoration: underline; }
+p,li { orphans: 2; widows: 2; }
+@media print {
+  html,body { background: white; margin: 0; padding: 0; }
+  .sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
+@media screen and (max-width: 820px) { body { padding: 0; } .sheet { margin: 0; box-shadow: none; } }
+.charts { list-style: none; padding: 0; margin: 0; }
+.chart-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.chart-label { flex: 0 0 130px; font-size: 10pt; color: #3c4654; }
+.chart-bar { flex: 1; height: 8px; background: #e7ebf1; border-radius: 4px; overflow: hidden; }
+.chart-fill { display: block; height: 100%; background: var(--accent, #333); border-radius: 4px; }
+.chart-value { flex: 0 0 auto; min-width: 70px; text-align: right; font-size: 9pt; color: #687382; }

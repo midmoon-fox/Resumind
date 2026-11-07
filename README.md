@@ -49,7 +49,10 @@ python -m playwright install chromium
 
 ```powershell
 python -m alembic upgrade head
+python -m scripts.publish_templates --version 1.1.0
 ```
+
+`1.1.0` 模板支持蓝、紫、黄、绿及原始雾紫、蓝灰主题色。已有旧版模板保留用于历史简历；新建和编辑保存使用最新已发布模板版本。
 
 开发 Web 启动示例（请自行准备本机 HTTPS 证书，路径替换为实际文件）：
 

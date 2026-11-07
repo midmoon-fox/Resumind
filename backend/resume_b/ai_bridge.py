@@ -2,7 +2,7 @@
 from copy import deepcopy
 from uuid import uuid4
 
-from .documents import DEFAULT_STYLE, fields, require, validate_document, validate_style, validate_template
+from .documents import default_style, fields, require, validate_document, validate_style, validate_template
 from .service import RevisionConflict, StateConflict
 from .templates import TemplateService
 
@@ -89,7 +89,7 @@ class DocumentBridge:
 
     def create_draft(self, user, *, title, template_key, template_version, workspace_id=None, jd_snapshot=None):
         empty = {"schemaVersion": "1.0.0", "profile": {"name": "", "phone": "", "email": "", "intention": "", "age": None, "education": [], "skills": []}, "sections": []}
-        return self.service.create(user, title=title, document=empty, style=DEFAULT_STYLE, template_key=template_key, template_version=template_version, workspace_id=workspace_id, jd_snapshot=jd_snapshot)
+        return self.service.create(user, title=title, document=empty, style=default_style(template_key, template_version), template_key=template_key, template_version=template_version, workspace_id=workspace_id, jd_snapshot=jd_snapshot)
 
     def bind_generation(self, user, resume_id, task_id):
         from .documents import uuid4 as validate_uuid

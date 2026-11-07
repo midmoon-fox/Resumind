@@ -32,7 +32,7 @@ export interface Schemas {
     provenance: Array<Schemas['Provenance']>;
     conflicts: Array<string>;
   };
-  ColorAttrs: { color: '#333333' | '#1F2937' | '#2563EB' };
+  ColorAttrs: { color: '#333333' | '#1F2937' | '#2563EB' | '#7661A6' | '#D4A72C' | '#357A5B' | '#AAA3BE' | '#879FB7' };
   ColorMark: { type: 'textStyle'; attrs: Schemas['ColorAttrs'] };
   CompleteRequest: { baseRevision: number; reason?: string };
   ConfirmRequest: { baseRevision: number; turnId: string; updates: Array<Schemas['Confirmation']> };
@@ -209,7 +209,7 @@ export interface Schemas {
     baseWorkspaceRevision: number;
     experienceRevisions: Array<Schemas['ExperienceRef']>;
     templateId: 'simple' | 'project' | 'ribbon' | 'sidebar';
-    templateVersion: '1.0.0';
+    templateVersion: '1.0.0' | '1.1.0';
     sectionTypes: Array<'PROJECTS' | 'INTERNSHIPS' | 'CAMPUS' | 'AWARDS' | 'EDUCATION' | 'SKILLS' | 'ACHIEVEMENTS' | 'CERTIFICATES' | 'GOAL' | 'CHARTS' | 'HOBBIES' | 'PUBLICATIONS' | 'REFERENCES' | 'SOCIAL_LINKS' | 'STRENGTHS' | 'TEXT' | 'VOLUNTEERING' | 'WORK_EXPERIENCE'>;
     title?: string;
   };
@@ -589,7 +589,7 @@ export interface Schemas {
     fontFamily: 'Microsoft YaHei' | 'SimSun';
     fontSize: number;
     lineHeight: number;
-    accentColor: '#333333' | '#1F2937' | '#2563EB';
+    accentColor: '#333333' | '#1F2937' | '#2563EB' | '#7661A6' | '#D4A72C' | '#357A5B' | '#AAA3BE' | '#879FB7';
     sectionGap: number;
   };
   StylePolicy: {

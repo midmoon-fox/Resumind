@@ -27,7 +27,7 @@ class LinkMark(Contract):
 
 
 class ColorAttrs(Contract):
-    color: Literal["#333333", "#1F2937", "#2563EB"]
+    color: Literal["#333333", "#1F2937", "#2563EB", "#7661A6", "#D4A72C", "#357A5B", "#AAA3BE", "#879FB7"]
 
 
 class ColorMark(Contract):
@@ -178,7 +178,7 @@ class Style(Contract):
     fontFamily: Literal["Microsoft YaHei", "SimSun"]
     fontSize: int = Field(ge=10, le=20)
     lineHeight: float = Field(ge=1.1, le=2)
-    accentColor: Literal["#333333", "#1F2937", "#2563EB"]
+    accentColor: Literal["#333333", "#1F2937", "#2563EB", "#7661A6", "#D4A72C", "#357A5B", "#AAA3BE", "#879FB7"]
     sectionGap: int = Field(ge=0, le=32)
 
     @model_validator(mode="before")

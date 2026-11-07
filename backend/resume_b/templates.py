@@ -1,5 +1,5 @@
 """Initial public definitions; published layout assets are integrated separately."""
-from .documents import COLORS, SECTION_TYPES, TEMPLATE_NAMES, string, validate_template
+from .documents import COLORS, THEME_COLORS, SECTION_TYPES, TEMPLATE_NAMES, string, validate_template
 from .documents import require
 from .richtext import validate_richtext
 from copy import deepcopy
@@ -7,7 +7,7 @@ from copy import deepcopy
 
 def get_template(key: str, version: str = "1.0.0") -> dict:
     validate_template(key, version)
-    require(version == "1.0.0", "/templateVersion", "initial seed definitions only cover version 1.0.0")
+    require(version in {"1.0.0", "1.1.0"}, "/templateVersion", "unsupported template release")
     return {
         "id": key,
         "version": version,
@@ -16,7 +16,7 @@ def get_template(key: str, version: str = "1.0.0") -> dict:
         "allowedSectionTypes": sorted(SECTION_TYPES),
         "stylePolicy": {
             "fontFamilies": ["Microsoft YaHei", "SimSun"],
-            "colors": ["#333333", "#1F2937", "#2563EB"],
+            "colors": list(THEME_COLORS) if version == "1.1.0" else ["#333333", "#1F2937", "#2563EB"],
             "fontSizeMin": 10, "fontSizeMax": 20,
             "lineHeightMin": 1.1, "lineHeightMax": 2,
         },

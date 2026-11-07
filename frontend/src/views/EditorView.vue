@@ -19,6 +19,7 @@ import {
 import AdditionalEducation from '../components/resume/AdditionalEducation.vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import { resumeTemplates } from '../types/templates';
+import { themeColors } from '../types/themeColors';
 import { modulePickerOptions } from '../types/sectionRegistry';
 import BaseModal from '../components/common/BaseModal.vue';
 import AiResult from '../components/common/AiResult.vue';
@@ -657,14 +658,16 @@ async function doExport() {
             >主题颜色
             <div class="color-options">
               <button
-                v-for="color in ['#333333', '#1F2937', '#2563EB']"
-                :key="color"
-                :style="{ background: color }"
-                :aria-label="'主题颜色' + color"
-                :aria-pressed="doc.style.accent === color"
-                @click="doc.style.accent = color"
+                v-for="color in themeColors"
+                :key="color.value"
+                type="button"
+                :style="{ background: color.value, color: color.ink }"
+                :aria-label="'主题颜色：' + color.label"
+                :title="color.label"
+                :aria-pressed="doc.style.accent === color.value"
+                @click="doc.style.accent = color.value"
               >
-                <Check v-if="doc.style.accent === color" :size="16" />
+                <Check v-if="doc.style.accent === color.value" :size="16" />
               </button></div></label
           ><label class="field"
             >字体<ElSelect v-model="doc.style.font" aria-label="字体"

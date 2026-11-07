@@ -13,9 +13,17 @@ SECTION_TYPES = frozenset({
     "ACHIEVEMENTS", "CERTIFICATES", "GOAL", "CHARTS", "HOBBIES", "PUBLICATIONS",
     "REFERENCES", "SOCIAL_LINKS", "STRENGTHS", "TEXT", "VOLUNTEERING", "WORK_EXPERIENCE",
 })
-COLORS = frozenset({"#333333", "#1F2937", "#2563EB"})
+THEME_COLORS = ("#333333", "#1F2937", "#2563EB", "#7661A6", "#D4A72C", "#357A5B", "#AAA3BE", "#879FB7")
+COLORS = frozenset(THEME_COLORS)
 TEMPLATE_NAMES = {"simple": "简洁通用", "project": "项目突出", "ribbon": "紫韵雅致", "sidebar": "蓝灰双栏"}
 DEFAULT_STYLE = {"fontFamily": "Microsoft YaHei", "fontSize": 14, "lineHeight": 1.6, "accentColor": "#333333", "sectionGap": 12}
+
+
+def default_style(template_key, version):
+    style = dict(DEFAULT_STYLE)
+    if version == '1.1.0':
+        style['accentColor'] = {'ribbon': '#AAA3BE', 'sidebar': '#879FB7'}.get(template_key, style['accentColor'])
+    return style
 
 
 def require(condition, path, message):

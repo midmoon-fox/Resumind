@@ -1,0 +1,29 @@
+.sidebar { padding: 0; border-bottom: 4mm solid var(--accent); background: linear-gradient(to right, #f0f1f2 0 30%, white 30%); }
+.sidebar-top { height: 14mm; background: var(--accent); color: var(--theme-ink); padding: 2mm 8mm; letter-spacing: 3px; font-size: 16pt; }
+.sidebar-columns { display: grid; grid-template-columns: 30% minmax(0, 1fr); min-height: 279mm; }
+.profile-sidebar { min-width: 0; padding: 11mm 6mm; color: #41464b; font-size: 10pt; }
+.sidebar .profile-photo { display: block; width: 33mm; height: 44mm; object-fit: cover; border: 1mm solid white; box-shadow: 0 0 0 1px #d7dade; margin: 0 auto 8mm; }
+.sidebar h1 { font-size: 23pt; text-align: center; font-weight: 500; letter-spacing: 2px; }
+.sidebar .intention { color: #505963; text-align: center; font-size: 10pt; margin: 4mm 0 9mm; }
+.profile-sidebar h2 { margin: 9mm -6mm 5mm; padding: 1mm 6mm; background: var(--accent); color: var(--theme-ink); border: 0; font-size: 12pt; }
+.profile-sidebar p { margin: 3mm 0; overflow-wrap: anywhere; }
+.sidebar-main { min-width: 0; padding: 6mm 7mm 10mm; }
+.sidebar-main .resume-section { margin-top: max(4mm, var(--section-gap)); }
+.sidebar-main .resume-section:first-child { margin-top: 0; }
+.sidebar-main h2 { display: flex; align-items: center; gap: 2mm; font-weight: 500; font-size: 12pt; border-bottom: 1px solid #d5d9dd; padding-bottom: 2mm; margin-bottom: 4mm; }
+.sidebar-main h2::before { content: ''; flex: 0 0 6mm; width: 6mm; height: 6mm; background: var(--accent); border-radius: 50%; }
+.sidebar-main h2 span { display: inline-block; background: var(--accent); color: var(--theme-ink); border-radius: 5mm; padding: 0 4mm; }
+.sidebar-main h3 { font-size: 11pt; }
+.sidebar-main .entry-heading { display: block; }
+.sidebar-main .dates { display: block; margin-top: 1mm; }
+.sidebar-main .subtitle { color: #525b65; }
+.sidebar-main .chart-label { flex-basis: 24mm; }
+.sidebar-main .chart-value { min-width: 10mm; }
+.sidebar-main .chart-fill { background: var(--accent); }
+@media print {
+  .sidebar { background: linear-gradient(to right, #f0f1f2 0 30%, white 30%); }
+  .sidebar-columns { display: block; min-height: 0; }
+  .profile-sidebar { float: left; width: 30%; padding: 6mm 4mm; }
+  .profile-sidebar h2 { margin-inline: -4mm; padding-inline: 4mm; }
+  .sidebar-main { margin-left: 30%; padding: 6mm 0 4mm 6mm; }
+}
