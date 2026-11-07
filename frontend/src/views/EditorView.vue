@@ -17,6 +17,7 @@ import {
   Redo2,
 } from '@lucide/vue';
 import AdditionalEducation from '../components/resume/AdditionalEducation.vue';
+import EducationDates from '../components/resume/EducationDates.vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import { resumeTemplates } from '../types/templates';
 import { themeColors } from '../types/themeColors';
@@ -451,10 +452,9 @@ async function doExport() {
                 ></label>
               </div>
               <label class="field"
-                >教育时间<ElInput
+                >教育时间<EducationDates
                   v-model="doc.profile.educationPeriod"
-                  maxlength="60"
-                  aria-label="教育时间" /></label
+                  /></label
               ><AdditionalEducation :profile="doc.profile" />
             </el-collapse-item>
             <el-collapse-item name="skills">

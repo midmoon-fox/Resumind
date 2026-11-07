@@ -55,7 +55,7 @@ class Profile(Model):
     phone: Annotated[str, Field(max_length=32)] | None
     email: Annotated[str, Field(max_length=254)]
     intention: Annotated[str, Field(max_length=100)]
-    age: Annotated[int, Field(ge=16, le=100)] | None
+    age: Annotated[int, Field(ge=0, le=100)] | None
     education: Annotated[list[Education], Field(max_length=50)]
     skills: list[str]
 

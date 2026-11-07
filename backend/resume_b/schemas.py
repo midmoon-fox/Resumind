@@ -100,7 +100,7 @@ class Profile(Contract):
     phone: str | None = Field(max_length=32)
     email: str = Field(max_length=254)
     intention: str = Field(max_length=100)
-    age: int | None = Field(ge=16, le=100)
+    age: int | None = Field(ge=0, le=100)
     education: list[Education]
     skills: list[str]
 

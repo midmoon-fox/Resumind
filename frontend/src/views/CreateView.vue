@@ -17,6 +17,7 @@ import FileUpload from '../components/common/FileUpload.vue';
 import JdEditor from '../components/jd/JdEditor.vue';
 import PageHeading from '../components/common/PageHeading.vue';
 import AdditionalEducation from '../components/resume/AdditionalEducation.vue';
+import EducationDates from '../components/resume/EducationDates.vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import BaseModal from '../components/common/BaseModal.vue';
 import TemplateGallery from '../components/resume/TemplateGallery.vue';
@@ -479,11 +480,8 @@ async function generate() {
                 <ElOption :value="'大专'" :label="'大专'" />
                 <ElOption :value="'其他'" :label="'其他'" /></ElSelect></label
             ><label class="field"
-              >教育时间<ElInput
+              >教育时间<EducationDates
                 v-model="draft.profile.educationPeriod"
-                maxlength="60"
-                placeholder="2023.09 至 2027.06"
-                aria-label="教育时间"
             /></label>
           </div>
           <AdditionalEducation :profile="draft.profile" /><label class="field"

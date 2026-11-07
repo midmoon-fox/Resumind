@@ -101,7 +101,7 @@ def validate_document(document, *, previous=None):
     for key, limit in (("name", 100), ("phone", 32), ("email", 254), ("intention", 100)):
         if key != "phone" or profile[key] is not None:
             string(profile[key], "/document/profile/" + key, limit)
-    require(profile["age"] is None or type(profile["age"]) is int and 16 <= profile["age"] <= 100, "/document/profile/age", "expected integer 16..100 or null")
+    require(profile["age"] is None or type(profile["age"]) is int and 0 <= profile["age"] <= 100, "/document/profile/age", "年龄请填写 0–100 之间的整数，也可以留空")
     for key in ("education", "skills"):
         require(isinstance(profile[key], list), "/document/profile/" + key, "expected array")
     for i, skill in enumerate(profile["skills"]):

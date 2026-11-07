@@ -23,7 +23,26 @@ def main():
                 page = context.new_page()
                 page.set_default_timeout(15000)
                 page.emulate_media(media='print')
-                page.set_content(value['html'], wait_until='load')
+                source = value['html']
+                if 'class="sheet sidebar"' in source or 'class="sheet ribbon"' in source:
+                    # Decorative templates own the whole A4 sheet. Keep text insets
+                    # inside the layout instead of shrinking it with print margins.
+                    print_css = '''
+                      @page { size: A4; margin: 0; }
+                      html, body { margin: 0; padding: 0; }
+                      .sheet.sidebar { width: 210mm; min-height: 297mm; padding: 0;
+                        border-bottom-width: 4mm; }
+                      .sidebar-columns { display: flow-root; min-height: 279mm; }
+                      .profile-sidebar { float: left; width: 30%; padding: 11mm 6mm; }
+                      .profile-sidebar h2 { margin-inline: -6mm; padding-inline: 6mm; }
+                      .sidebar-main { margin-left: 30%; min-height: 279mm;
+                        padding: 6mm 7mm 10mm; }
+                      .sheet.ribbon { width: 210mm; min-height: 297mm; padding: 10mm 0 14mm; }
+                      .ribbon-masthead { padding: 0 15mm 6mm; }
+                      .ribbon-content { margin: 0 13mm 0 15mm; }
+                    '''
+                    source = source.replace('</head>', '<style>' + print_css + '</style></head>', 1)
+                page.set_content(source, wait_until='load')
                 page.evaluate('() => document.fonts.ready')
                 overflow = page.evaluate('() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1')
                 if overflow:

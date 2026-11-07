@@ -2,7 +2,17 @@
 import type { Profile } from '../../types/app';
 import { toProfile } from '../../services/mapping';
 import BaseButton from '../common/BaseButton.vue';
+import { computed, ref, watch } from 'vue';
 const props = defineProps<{ profile: Profile }>();
+const ageInput = ref(props.profile.age == null ? '' : String(props.profile.age));
+watch(() => props.profile.age, (age) => { ageInput.value = age == null ? '' : String(age); });
+const ageError = computed(() => ageInput.value !== '' &&
+  (!/^\d+$/.test(ageInput.value) || Number(ageInput.value) > 100)
+  ? '年龄请输入 0–100 之间的整数' : '');
+function updateAge(value: string) {
+  ageInput.value = value;
+  if (!ageError.value) props.profile.age = value === '' ? null : Number(value);
+}
 function add() {
   props.profile.education = toProfile(props.profile, '').education;
   props.profile.education.push({
@@ -52,11 +62,13 @@ function add() {
   <BaseButton size="small" variant="secondary" :disabled="!profile.school.trim()" @click="add"
     >新增其他教育经历</BaseButton
   ><label class="field"
-    >年龄（选填）<ElInputNumber
-      v-model="profile.age"
-      :min="16"
-      :max="100"
-      placeholder="16–100，可留空"
+    >年龄（选填）<ElInput
+      :model-value="ageInput"
+      @update:model-value="updateAge"
+      inputmode="numeric"
+      style="width: 120px; max-width: 100%"
+      placeholder="0–100"
+      :aria-invalid="!!ageError"
       aria-label="年龄（选填）"
-  /></label>
+  /><span v-if="ageError" class="form-error" role="alert">{{ ageError }}</span></label>
 </template>
