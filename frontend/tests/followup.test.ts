@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { advanceFollowup } from '../src/services/followup.ts';
+import { advanceFollowup, finishFollowup } from '../src/services/followup.ts';
 
 type View = Parameters<typeof advanceFollowup>[0];
 function view(status: string, extra = {}): View {
@@ -114,4 +114,28 @@ test('failed tasks and missing current turns never silently finish', async () =>
     /模型暂时不可用/,
   );
   await assert.rejects(advanceFollowup(view('REVIEW_REQUIRED'), ports), /当前问题/);
+});
+
+test('next ends remaining questions with the current revision', async () => {
+  const calls: unknown[] = [];
+  await finishFollowup(view('AWAITING_ANSWER', { revision: 7 }), async (body) => {
+    calls.push(body);
+  });
+  assert.deepEqual(calls, [{ baseRevision: 7, reason: '用户点击下一步，跳过剩余追问' }]);
+});
+
+test('next does not complete an already completed session twice', async () => {
+  await finishFollowup(view('COMPLETED'), async () => {
+    throw new Error('unexpected write');
+  });
+});
+
+test('completion failure propagates instead of silently advancing', async () => {
+  const failure = new Error('内容已更新，请重试');
+  await assert.rejects(
+    finishFollowup(view('AWAITING_ANSWER'), async () => {
+      throw failure;
+    }),
+    failure,
+  );
 });

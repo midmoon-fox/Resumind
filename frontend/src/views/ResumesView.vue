@@ -33,6 +33,20 @@ const list = computed(() =>
   filteredResumes.value.filter((r) => status.value === 'all' || r.status === status.value),
 );
 const preview = ref<ResumeDocument | null>(null);
+const openingEditor = ref(false);
+async function editPreview() {
+  if (!preview.value || openingEditor.value) return;
+  const id = preview.value.id;
+  openingEditor.value = true;
+  try {
+    const failure = await router.push('/resumes/' + id + '/edit');
+    if (!failure) preview.value = null;
+  } catch {
+    // Router errors are displayed by the shared router.onError handler.
+  } finally {
+    openingEditor.value = false;
+  }
+}
 const pendingDelete = ref<ResumeDocument | null>(null);
 const impact = ref<Schema<'DeletionImpact'> | null>(null);
 async function requestDelete(resume: ResumeDocument) {
@@ -206,7 +220,9 @@ async function restoreOne(id: string) {
       <BaseButton
         v-if="preview"
         class="full-width"
-        @click="router.push('/resumes/' + preview.id + '/edit')"
+        :loading="openingEditor"
+        :disabled="openingEditor"
+        @click="editPreview"
         >编辑这份简历 <Pencil :size="16" /></BaseButton
     ></BaseModal>
     <BaseModal :open="!!pendingDelete" title="删除这份简历？" @close="pendingDelete = null"

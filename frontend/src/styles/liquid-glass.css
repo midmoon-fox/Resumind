@@ -1,0 +1,294 @@
+/* Reference direction: ice blue, mist gray, pearlescent translucent surfaces.
+   Blur is limited to navigation and the hero; content stays readable. */
+@media screen {
+  .app-main,
+  .creation-shell {
+    background: linear-gradient(180deg, #eaf3ff 0px, #f6faff 160px, #ffffff 320px);
+  }
+  .sidebar {
+    background: #ffffff;
+    border-color: #d3e1f1;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+  .sidebar .nav-link {
+    color: var(--color-ink-2);
+  }
+  .sidebar .nav-link:hover,
+  .sidebar .sidebar-utility .nav-link:hover {
+    background: #e1ecfa;
+  }
+  .sidebar .nav-link-current,
+  .sidebar .nav-link-current:hover {
+    color: var(--color-accent-text);
+    background: #d5e8ff;
+    box-shadow: none;
+  }
+  .sidebar .brand-icon {
+    color: #275e9b;
+    border: 1px solid #a7cefc;
+    background: #a7cefc;
+    box-shadow: none;
+  }
+  .sidebar .sidebar-account {
+    color: var(--color-ink-2);
+    border-color: #d3e1f1;
+    background: #ffffff;
+    box-shadow: none;
+  }
+  .sidebar .sidebar-account:hover {
+    background: #e1ecfa;
+    border-color: #c4d8ee;
+  }
+  .topbar {
+    background: #ffffff;
+    border-color: #d3e1f1;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .topbar::after {
+    content: none;
+  }
+  .hero-banner {
+    border: 1px solid var(--color-glass-edge);
+    border-radius: 28px;
+    background: linear-gradient(180deg, #f7f7f8, #e4e6e9 52%, #f0f1f3);
+    background-size: 180% 180%;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      inset 0 -1px 0 #ffffff9c,
+      0 18px 48px #54758d17;
+  }
+  .hero-banner::after {
+    border-color: #ffffff7a;
+    box-shadow:
+      0 0 0 14px #ffffff1a,
+      0 0 0 35px #ffffff12,
+      0 0 80px #a6d9ee33;
+  }
+  .hero-content h2 {
+    color: #212529;
+    text-shadow: 0 1px 0 #ffffffa6;
+  }
+  .hero-content > p {
+    color: #515a63;
+  }
+  :root .base-button.button-primary:not(.button-ghost),
+  :root .hero-buttons .base-button.button-primary:not(.button-ghost) {
+    color: #ffffff;
+    border-color: #4f9cf9;
+    background: #4f9cf9;
+    box-shadow: none;
+  }
+  :root .hero-buttons .base-button.button-primary:not(.button-ghost) .button-hover-dot {
+    background: #e5f4ff;
+  }
+  :root .base-button.button-secondary:not(.button-ghost) {
+    background: #ffffff;
+    border-color: #4f9cf9;
+    box-shadow: none;
+  }
+  :root .base-button.danger-button:not(.button-ghost) {
+    color: var(--color-error);
+    background: var(--color-error-soft);
+    border-color: var(--color-error);
+  }
+  :root .base-button.danger-button:not(.button-ghost):is(:hover, :focus-visible):not(:disabled) {
+    color: #fff;
+  }
+  .panel,
+  .library-card,
+  .resume-card,
+  .feature-card {
+    background: linear-gradient(145deg, #ffffffd9, #ffffffa6);
+    border-color: #ffffffe0;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 8px 24px var(--color-glass-shadow);
+  }
+  .feature-card:hover {
+    background: linear-gradient(145deg, #fffffff2, #eaf5ffb3);
+  }
+  .feature-card .feature-icon {
+    border: 1px solid #ffffffe0;
+    background: linear-gradient(145deg, #ffffffa6, #b8dff280);
+    box-shadow: inset 0 1px 0 #fff;
+  }
+  .feature-card.feature-jobs .feature-icon {
+    background: linear-gradient(145deg, #fff7dd, #ffe492);
+    color: #315fc0;
+  }
+  .feature-card.feature-interview .feature-icon {
+    background: linear-gradient(145deg, #eef2ff, #5986ef33);
+    color: #526d8b;
+  }
+  .new-resume-card {
+    background: #ffffff61;
+    border-color: #a8bdcd;
+  }
+  .dashboard .resume-card .resume-thumbnail,
+  .library-preview {
+    background: radial-gradient(ellipse at 100% 0%, #b7d8ef52, transparent 65%), #f0f5fa;
+  }
+  .tabs,
+  .editor-tabs {
+    background: #e2ebf3a6;
+    box-shadow: inset 0 1px 2px #69849b0d;
+  }
+  .tabs > button.active {
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 3px 12px #7891a51a;
+  }
+  .count-badge {
+    background: var(--color-accent-soft);
+    box-shadow: inset 0 1px 0 #ffffffbf;
+  }
+  :root .el-input__wrapper,
+  :root .el-select__wrapper,
+  :root .el-textarea__inner {
+    background: #fffffff0;
+  }
+  .editor-cards .el-collapse-item {
+    background: #ffffffd9;
+    border-color: #ffffffeb;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 5px 16px #56738d0a;
+  }
+  :root .app-dialog {
+    background: #f8fbfffa;
+    border-color: #fff;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 20px 60px #52708c26;
+  }
+}
+@media screen and (max-width: 640px) {
+  .hero-banner {
+    border-radius: 24px;
+  }
+  .topbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .topbar {
+    background: #ffffff;
+  }
+}
+
+/* Bright palette interaction states keep the existing radial-fill animation. */
+@media screen {
+  :root .base-button.button-primary:not(.button-ghost)::after {
+    background: #4f9cf9;
+  }
+  :root .base-button.button-primary:not(.button-ghost):is(:hover, :focus-visible):not(:disabled),
+  :root
+    .hero-buttons
+    .base-button.button-primary:not(.button-ghost):is(:hover, :focus-visible):not(:disabled),
+  :root .base-button.button-primary:not(.button-ghost):focus:not(:focus-visible):not(:hover) {
+    color: #ffffff;
+  }
+  :root .base-button.button-primary:not(.button-ghost) .button-hover-dot {
+    background: #ffffff;
+  }
+  .sidebar .nav-link-current,
+  .sidebar .nav-link-current:hover {
+    color: #275e9b;
+  }
+  .sidebar .nav-link-current svg {
+    color: #275e9b;
+  }
+  .form-error,
+  .error-box,
+  .field-validation-error {
+    color: var(--color-error-ink);
+  }
+  .pill.green,
+  .status-ready {
+    color: var(--color-success-ink);
+    background: var(--color-success-soft);
+  }
+  :root .base-button.danger-button:not(.button-ghost) {
+    color: var(--color-error-ink);
+  }
+  :root .base-button.danger-button:not(.button-ghost)::after {
+    background: #ff5758;
+  }
+  :root .base-button.danger-button:not(.button-ghost):is(:hover, :focus-visible):not(:disabled) {
+    color: #212529;
+  }
+  :root .el-button--primary:not(.base-button) {
+    --el-button-text-color: #ffffff;
+    --el-button-hover-text-color: #ffffff;
+    --el-button-active-text-color: #ffffff;
+  }
+  .editor-tabs button.active {
+    color: #212529;
+  }
+}
+
+@media screen {
+  .sidebar-account .avatar {
+    color: #212529;
+    background: #37a3ff;
+  }
+  .creation-steps .el-step__head.is-process {
+    color: #275e9b;
+  }
+  .showcase-selected {
+    color: #275e9b;
+  }
+  :root .editor-page .editor-tabs button.active {
+    color: #212529;
+  }
+}
+
+/* Shared action palette; monochrome feature icons. */
+@media screen {
+  .dashboard .feature-card .feature-icon {
+    color: #212529;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+  .dashboard .feature-card .feature-action {
+    color: #212529;
+  }
+  .dashboard .feature-card:hover .feature-action {
+    color: #315fc0;
+  }
+  :root .base-button.button-primary:not(.button-ghost):not(.danger-button) {
+    border-color: #4f9cf9;
+  }
+  :root .base-button.button-primary:not(.button-ghost) .button-hover-dot {
+    background: #ffffff;
+  }
+  :root .el-button--primary:not(.base-button) {
+    --el-button-bg-color: #4f9cf9;
+    --el-button-border-color: #4f9cf9;
+    --el-button-hover-bg-color: #4f9cf9;
+    --el-button-hover-border-color: #4f9cf9;
+    --el-button-active-bg-color: #4f9cf9;
+    --el-button-active-border-color: #4f9cf9;
+  }
+}
+
+@media screen {
+  .hero-content h2 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .page-heading h1 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .feature-card h3 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}

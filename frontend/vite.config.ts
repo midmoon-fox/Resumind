@@ -11,6 +11,17 @@ const proxy: ProxyOptions = {
 
 export default defineConfig({
   plugins: [vue(), Components({ resolvers: [ElementPlusResolver()], dts: 'src/components.d.ts' })],
+  optimizeDeps: {
+    // Auto-imported Element Plus dependencies must be ready before lazy routes open.
+    include: [
+      'element-plus/es',
+      ...[
+        'base', 'button', 'cascader', 'checkbox', 'collapse', 'collapse-item',
+        'config-provider', 'date-picker', 'dialog', 'input', 'input-number',
+        'message', 'message-box', 'option', 'select', 'slider', 'steps', 'step', 'upload',
+      ].map((component) => `element-plus/es/components/${component}/style/css`),
+    ],
+  },
   server: {
     host: '127.0.0.1',
     port: 5173,

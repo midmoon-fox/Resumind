@@ -146,12 +146,13 @@ onBeforeUnmount(() => entranceContext?.revert());
   </div>
 </template>
 
+
 <style scoped>
 .auth-page {
-  --auth-periwinkle: #969be7;
-  --auth-pink: #eec1dd;
-  --auth-lavender: #d1d0ef;
-  --auth-pearl: #fcf8fb;
+  --auth-periwinkle: #a7cefc;
+  --auth-pink: #dceaff;
+  --auth-lavender: #e6efff;
+  --auth-pearl: #fafcff;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -196,18 +197,18 @@ onBeforeUnmount(() => entranceContext?.revert());
   gap: 12px;
 }
 .auth-story .brand strong {
-  color: #343348;
+  color: #3a4041;
   font-size: 23px;
   font-weight: 700;
 }
 .auth-story .brand-icon {
   width: 42px;
   height: 42px;
-  color: #6863b8;
+  color: #7f9a9c;
   border: 1px solid #ffffffb3;
   border-radius: 13px;
   background: #ffffff80;
-  box-shadow: 0 4px 16px #716a9c12;
+  box-shadow: 0 4px 16px #7b8b8c12;
 }
 .auth-form-area {
   position: static;
@@ -227,8 +228,8 @@ onBeforeUnmount(() => entranceContext?.revert());
   backdrop-filter: blur(28px) saturate(135%);
   -webkit-backdrop-filter: blur(28px) saturate(135%);
   box-shadow:
-    0 24px 80px #726c9e24,
-    0 4px 16px #847a9e0a,
+    0 24px 80px #7d8d8e24,
+    0 4px 16px #8691920a,
     inset 0 1px 0 #ffffffcc;
 }
 .auth-form {
@@ -249,14 +250,14 @@ onBeforeUnmount(() => entranceContext?.revert());
   margin: 0 auto 20px;
   border: 1px solid #ffffffb3;
   border-radius: 15px;
-  color: #7771c8;
+  color: #8ea9ab;
   background: #ffffff70;
-  box-shadow: 0 4px 12px #8278b412;
+  box-shadow: 0 4px 12px #8c9ea012;
 }
 .auth-form > h1 {
   max-width: none;
   margin: 0 0 72px;
-  color: #211f41;
+  color: #2a3536;
   font-size: 36px;
   font-weight: 650;
   line-height: 1.2;
@@ -265,7 +266,7 @@ onBeforeUnmount(() => entranceContext?.revert());
 }
 .auth-form > p:not(.auth-switch):not(.form-error) {
   margin: 0 0 32px;
-  color: #6a667e;
+  color: #6e7576;
   font-size: 14px;
   line-height: 1.7;
   text-align: center;
@@ -284,7 +285,7 @@ onBeforeUnmount(() => entranceContext?.revert());
   border-radius: 12px;
   background: #ffffff66;
   box-shadow:
-    0 1px 3px #7d749c05,
+    0 1px 3px #818e8f05,
     inset 0 1px 0 #ffffffa6;
   transition:
     border-color 180ms ease,
@@ -293,25 +294,25 @@ onBeforeUnmount(() => entranceContext?.revert());
 }
 .auth-form .field input:not([type='checkbox']):not([type='range']):not([type='color']) {
   padding: 14px 16px;
-  color: #343348;
+  color: #3a4041;
 }
 .auth-form .password-input input:not([type='checkbox']):not([type='range']):not([type='color']) {
   border: 0;
   box-shadow: none;
   padding-left: 16px;
   background: transparent;
-  color: #343348;
+  color: #3a4041;
 }
 .auth-form input::placeholder {
-  color: #797388;
+  color: #7a8081;
   font-weight: 400;
 }
 .auth-form .field > input:focus,
 .auth-form .password-input:focus-within {
-  border-color: #969be7;
+  border-color: #a7cefc;
   outline: none;
   background: #ffffff9c;
-  box-shadow: 0 0 0 3px #969be724;
+  box-shadow: 0 0 0 3px #a7cefc24;
 }
 .auth-form .password-input input:focus {
   outline: none;
@@ -322,16 +323,16 @@ onBeforeUnmount(() => entranceContext?.revert());
   margin-top: 6px;
   border-color: #ffffffc7;
   background: #ffffff94;
-  box-shadow: 0 4px 16px #969be712;
+  box-shadow: 0 4px 16px #a7cefc12;
   font-size: 15px;
 }
 .auth-switch {
   margin-top: 24px;
-  color: #6a667e;
+  color: #6e7576;
   text-align: center;
 }
 .auth-switch a {
-  color: #605b9c;
+  color: #708587;
   font-weight: 600;
 }
 .auth-form .demo-notice {
@@ -343,7 +344,7 @@ onBeforeUnmount(() => entranceContext?.revert());
   border: 0;
   border-top: 1px solid #ffffff8f;
   border-radius: 0;
-  color: #716b80;
+  color: #727879;
   background: transparent;
   font-size: 12px;
   line-height: 1.8;
@@ -356,7 +357,7 @@ onBeforeUnmount(() => entranceContext?.revert());
 .auth-back {
   top: 38px;
   right: 36px;
-  color: #605b80;
+  color: #677374;
 }
 .auth-form .form-error {
   color: var(--color-error);

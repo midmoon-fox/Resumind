@@ -183,6 +183,7 @@ defineExpose({ load, busy });
     <p v-if="error" class="form-error" role="alert">{{ error }}</p>
   </div>
 </template>
+
 <style scoped>
 .jd-editor {
   min-width: 0;
@@ -196,13 +197,13 @@ defineExpose({ load, busy });
 .jd-upload {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--border-color, #dedbed);
+  border: 1px solid var(--border-color, var(--color-rule));
   border-radius: 18px;
   margin: 16px 0;
   perspective: 800px;
   background:
-    linear-gradient(#d1d0ef33 1px, transparent 1px),
-    linear-gradient(90deg, #d1d0ef33 1px, transparent 1px);
+    linear-gradient(#bfd1e633 1px, transparent 1px),
+    linear-gradient(90deg, #bfd1e633 1px, transparent 1px);
   background-size: 22px 22px;
 }
 .jd-upload :deep(.el-upload) {
@@ -223,7 +224,7 @@ defineExpose({ load, busy });
   text-align: center;
 }
 .jd-upload small {
-  color: var(--text-secondary, #716b83);
+  color: var(--text-secondary, var(--color-muted));
 }
 .jd-upload-card {
   display: grid;
@@ -231,18 +232,18 @@ defineExpose({ load, busy });
   width: 88px;
   height: 88px;
   margin-top: 8px;
-  border: 1px solid #dedbed;
+  border: 1px solid var(--color-rule);
   border-radius: 16px;
   background: #ffffffeb;
-  color: #7353d9;
-  box-shadow: 0 5px 18px #30214b12;
+  color: var(--color-accent);
+  box-shadow: 0 5px 18px var(--color-shadow-raised);
   transition:
     transform 0.3s,
     box-shadow 0.3s;
 }
 .jd-upload:is(:hover, :focus-within) .jd-upload-card {
   transform: translateY(-6px) rotateX(10deg) rotateY(-8deg);
-  box-shadow: 0 12px 24px #7353d926;
+  box-shadow: 0 12px 24px var(--color-focus-soft);
 }
 @media (prefers-reduced-motion: reduce) {
   .jd-upload-card {

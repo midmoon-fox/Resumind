@@ -1,6 +1,16 @@
 import type { Schema } from './schema';
 
 type Session = Schema<'FollowupView'>;
+
+/** Skip remaining questions without altering previously confirmed experience. */
+export async function finishFollowup(
+  session: Session,
+  complete: (body: { baseRevision: number; reason: string }) => Promise<unknown>,
+): Promise<void> {
+  if (session.status === 'COMPLETED') return;
+  await complete({ baseRevision: session.revision, reason: '用户点击下一步，跳过剩余追问' });
+}
+
 type FollowupPorts = {
   read: () => Promise<Session>;
   wait: (taskId: string) => Promise<unknown>;

@@ -52,7 +52,6 @@ const {
   loadVersions,
   refreshResume,
   templates,
-  refreshTemplates,
 } = useAppStore();
 const { success, error } = useToast();
 const doc = computed(() => state.resumes.find((r) => r.id === route.params.id));
@@ -60,23 +59,15 @@ const availableThemeColors = computed(() => {
   const template = latestTemplate(templates.value, doc.value?.template ?? '');
   return themeColors.filter((color) => supportsTheme(template, color.value));
 });
-async function chooseThemeColor(color: string) {
+function chooseThemeColor(color: string) {
   const current = doc.value;
   if (!current) return;
-  const templateId = current.template;
-  try {
-    await refreshTemplates();
-    if (doc.value?.id !== current.id || current.template !== templateId) return;
-    if (!supportsTheme(latestTemplate(templates.value, templateId), color)) {
-      error('当前模板不支持这个颜色，请选择其他主题颜色。');
-      return;
-    }
-    current.style.accent = color;
-  } catch {
-    error('暂时无法获取模板颜色，请稍后再试。');
+  if (!supportsTheme(latestTemplate(templates.value, current.template), color)) {
+    error('当前模板不支持这个颜色，请选择其他主题颜色。');
+    return;
   }
+  current.style.accent = color;
 }
-onMounted(() => { refreshTemplates().catch(() => {}); });
 const {
   busy: aiBusy,
   notice: aiNotice,
@@ -725,12 +716,13 @@ async function doExport() {
                 :key="color.value"
                 type="button"
                 :style="{ background: color.value, color: color.ink }"
-                :aria-label="'主题颜色：' + color.label"
+                :aria-label="'主题颜色' + color.label"
                 :title="color.label"
-                :aria-pressed="doc.style.accent === color.value"
+
+                :aria-pressed="doc.style.accent.toUpperCase() === color.value"
                 @click="chooseThemeColor(color.value)"
               >
-                <Check v-if="doc.style.accent === color.value" :size="16" />
+                <Check v-if="doc.style.accent.toUpperCase() === color.value" :size="16" />
               </button></div></label
           ><label class="field"
             >字体<ElSelect v-model="doc.style.font" aria-label="字体"
@@ -873,8 +865,8 @@ async function doExport() {
   width: 36px;
   height: 36px;
   margin: 0 auto 16px;
-  border: 3px solid rgba(115, 83, 217, 0.2);
-  border-top-color: #7353d9;
+  border: 3px solid var(--color-focus-soft);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: editor-spin 0.8s linear infinite;
 }
@@ -884,11 +876,11 @@ async function doExport() {
   }
 }
 .editor-tabs button.active {
-  background: #7353d9;
-  color: #fff;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
   border-radius: 10px;
   font-weight: 700;
-  box-shadow: 0 3px 10px #7353d92b;
+  box-shadow: 0 3px 10px var(--color-focus-soft);
 }
 .editor-preview {
   height: calc(100dvh - 250px);

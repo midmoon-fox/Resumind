@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DashboardView from '../views/DashboardView.vue';
 import { useAppStore } from '../composables/useAppStore';
+import { useToast } from '../composables/useToast';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -79,7 +80,11 @@ router.beforeEach(async (to, from) => {
   await initialize();
   try {
     await flushAll();
-  } catch {
+  } catch (cause) {
+    useToast().error(
+      '当前修改未能保存，暂时无法切换页面。' +
+        (cause instanceof Error ? cause.message : '请重试保存。'),
+    );
     return false;
   }
   const requestedPath = to.query.redirect;
@@ -106,5 +111,9 @@ router.beforeEach(async (to, from) => {
 router.afterEach((to, from, failure) => {
   if (!failure && from.name === 'create' && to.name !== 'create') useAppStore().discardWorkspace();
   document.title = String(to.meta.title || '简立得') + ' · 简立得';
+});
+router.onError((cause) => {
+  console.error('页面切换失败', cause);
+  useToast().error('页面加载失败，未能完成跳转。请稍后重试；若仍失败，请刷新页面。');
 });
 export default router;

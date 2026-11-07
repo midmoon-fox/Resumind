@@ -6,21 +6,40 @@ import {
   ArrowRight,
   CalendarDays,
   FileText,
+  Pencil,
   Plus,
   SearchX,
   Sparkles,
   X,
 } from '@lucide/vue';
 import BaseButton from '../components/common/BaseButton.vue';
+import BaseModal from '../components/common/BaseModal.vue';
+import ResumeDocumentView from '../components/resume/ResumeDocument.vue';
 import HeroIllustration from '../components/dashboard/HeroIllustration.vue';
 import FeatureCard from '../components/dashboard/FeatureCard.vue';
 import ResumeCard from '../components/dashboard/ResumeCard.vue';
 import { useDashboard } from '../composables/useDashboard';
 import { useAppStore } from '../composables/useAppStore';
 import type { FeatureKey, ResumeSummary } from '../types/dashboard';
+import type { ResumeDocument } from '../types/app';
 const router = useRouter();
 const { state } = useAppStore();
 const { resumes, search, sortOrder, filteredResumes } = useDashboard();
+const preview = ref<ResumeDocument | null>(null);
+const openingEditor = ref(false);
+async function editPreview() {
+  if (!preview.value || openingEditor.value) return;
+  const id = preview.value.id;
+  openingEditor.value = true;
+  try {
+    const failure = await router.push('/resumes/' + id + '/edit');
+    if (!failure) preview.value = null;
+  } catch {
+    // Router errors are displayed by the shared router.onError handler.
+  } finally {
+    openingEditor.value = false;
+  }
+}
 const today = new Intl.DateTimeFormat('zh-CN', {
   month: 'long',
   day: 'numeric',
@@ -55,7 +74,7 @@ function selectFeature(feature: FeatureKey) {
   void router.push({ generator: '/create', jobs: '/jobs', interview: '/interview' }[feature]);
 }
 function openResume(resume: ResumeSummary) {
-  void router.push('/resumes/' + resume.id + '/edit');
+  preview.value = state.resumes.find((item) => item.id === resume.id) ?? null;
 }
 function showAll() {
   search.value = '';
@@ -68,10 +87,10 @@ function showAll() {
     <section class="welcome-row" aria-labelledby="welcome-title">
       <div>
         <h1 class="wrap-heading" id="welcome-title">
-          你好，{{ state.account.nickname }}
+          <span class="title-underline">你好，{{ state.account.nickname }}</span>
           <Sparkles class="welcome-symbol" :size="20" aria-hidden="true" />
         </h1>
-        
+
       </div>
       <div class="welcome-actions">
         <span class="today"><CalendarDays :size="16" />{{ today }}</span
@@ -79,24 +98,24 @@ function showAll() {
       </div>
     </section>
 
-    <section class="hero-banner" aria-labelledby="hero-title">
+    <section class="hero-banner hero-split" aria-labelledby="hero-title">
       <div class="hero-content">
-        <h2 class="wrap-heading" id="hero-title">简立得，一体化定制岗位简历</h2>
+        <h2 id="hero-title">简立得，<br />一体化定制<span class="title-underline">岗位简历</span></h2>
         <p>结合目标岗位 JD，筛选并组织相关经历，生成可编辑的定制简历</p>
         <div class="hero-buttons">
           <BaseButton @click="openCreate"
             ><Sparkles :size="17" />开始制作定制简历<ArrowRight :size="17" /></BaseButton
           >
         </div>
-        
+
       </div>
-      <HeroIllustration />
+      <div class="hero-mascot-panel"><HeroIllustration /></div>
     </section>
 
     <section class="quick-start" aria-labelledby="quick-title">
       <div class="section-heading">
         <h2 class="wrap-heading" id="quick-title">
-          你的AI求职助手<span>我们不只可以帮你制作简历简历</span>
+          你的AI求职助手<span>从简历到面试，一步步准备</span>
         </h2>
         <span class="subtle-label">以真实经历为基础</span>
       </div>
@@ -104,7 +123,7 @@ function showAll() {
         <FeatureCard
           feature="generator"
           eyebrow="TAILORED RESUME"
-          title="一站式迅速定制简历"
+          title="为目标岗位定制简历"
           description="以真实经历为基础，结合目标岗位 JD 筛选和组织内容，生成可编辑的专属简历。"
           action="开始定制简历"
           @select="selectFeature"
@@ -135,7 +154,7 @@ function showAll() {
             <h2 class="wrap-heading" id="recent-title">
               最近简历 <span class="count-badge">{{ resumes.length }}</span>
             </h2>
-   
+
           </div>
           <button type="button" class="text-link" @click="showAll">
             查看全部 <ArrowRight :size="15" />
@@ -209,10 +228,24 @@ function showAll() {
           >
         </div>
         <div class="journey-divider" />
-        
+
       </aside>
     </div>
 
+    <BaseModal :open="!!preview" :title="preview?.title || '简历预览'" wide @close="preview = null">
+      <div v-if="preview" class="document-modal-preview">
+        <ResumeDocumentView :document="preview" />
+      </div>
+      <BaseButton
+        v-if="preview"
+        class="full-width"
+        :loading="openingEditor"
+        :disabled="openingEditor"
+        @click="editPreview"
+      >
+        编辑这份简历 <Pencil :size="16" />
+      </BaseButton>
+    </BaseModal>
   </div>
 </template>
 
@@ -223,5 +256,108 @@ function showAll() {
   overflow-wrap: break-word;
   min-width: 0;
   text-wrap: balance;
+}
+.document-modal-preview {
+  height: min(68dvh, 860px);
+  min-height: 280px;
+  overflow: hidden;
+}
+.document-modal-preview :deep(.server-resume-preview) {
+  height: 100%;
+}
+.hero-banner.hero-split {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  min-height: 340px;
+  padding: 28px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  animation: none;
+}
+.hero-split::before,
+.hero-split::after {
+  content: none;
+}
+.hero-mascot-panel {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 180px;
+  background: transparent;
+}
+.hero-mascot-panel :deep(.pet-habitat) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  gap: 16px;
+  padding: 12px 16px;
+}
+.hero-mascot-panel :deep(.pet-header) {
+  display: none;
+}
+.hero-split .hero-content {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+}
+.hero-split .hero-content h2 {
+  color: #212529;
+  font-family: var(--font-body);
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  text-shadow: none;
+}
+.title-underline {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  white-space: nowrap;
+}
+.title-underline::after {
+  position: absolute;
+  content: '';
+  inset: auto -4px -0.06em;
+  height: 0.35em;
+  z-index: -1;
+  background: url('../assets/text-underline.svg') center / 100% 100% no-repeat;
+}
+.hero-split .hero-content > p {
+  max-width: 40ch;
+  margin-top: 20px;
+  color: #515a63;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.hero-split .hero-buttons {
+  margin-top: 30px;
+}
+@media (max-width: 700px) {
+  .hero-banner.hero-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: 24px 0;
+  }
+  .hero-mascot-panel {
+    min-height: 230px;
+  }
+  .hero-split .hero-content h2 {
+    font-size: clamp(24px, 5vw, 34px);
+  }
+}
+</style>
+
+<style>
+.el-dialog:has(.document-modal-preview) {
+  margin-top: 4dvh;
+  margin-bottom: 4dvh;
 }
 </style>

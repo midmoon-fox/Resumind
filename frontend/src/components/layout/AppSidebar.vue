@@ -110,9 +110,154 @@ const navigation = [
 </template>
 
 <style scoped>
-/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, kept shared workspace shell */
+.sidebar {
+  left: 0;
+  height: 100dvh;
+  padding: 12px 8px 8px;
+  color: #1e1e1e;
+  background: #ffffff;
+  border-right: 1px solid #e6e6e6;
+  font-family: Inter, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  box-shadow: none;
+}
+
+.sidebar .brand {
+  min-height: 56px;
+  margin: 0 4px 16px;
+  padding: 4px 8px;
+  gap: 12px;
+}
+
+.sidebar .brand-icon {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  color: #275e9b;
+  background: #e5f2ff;
+  box-shadow: none;
+  transform: none;
+}
+
+.sidebar .brand-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sidebar .brand strong {
+  color: #1e1e1e;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.sidebar .brand small {
+  margin-top: 0;
+  color: #767676;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.primary-nav,
+.sidebar-utility {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar .nav-link {
+  min-height: 40px;
+  padding: 8px 12px;
+  gap: 12px;
+  border-radius: 6px;
+  color: #1e1e1e;
+  background: transparent;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  box-shadow: none;
+  transform: none;
+  transition: background-color 120ms ease;
+}
+
+.sidebar .nav-link svg {
+  width: 20px;
+  height: 20px;
+  color: #444444;
+}
+
+.sidebar .nav-link:hover {
+  color: #1e1e1e;
+  background: #f5f5f5;
+  transform: none;
+}
+
+.sidebar .nav-link-current,
+.sidebar .nav-link-current:hover,
+.sidebar-utility .router-link-exact-active {
+  color: #1e1e1e;
+  background: #e5f2ff;
+  box-shadow: none;
+}
+
+.sidebar .nav-link-current svg {
+  color: #444444;
+}
+
+.sidebar .nav-link::before {
+  content: none;
+}
+
+.sidebar-bottom {
+  padding-top: 24px;
+}
+
+.sidebar-utility {
+  padding-bottom: 12px;
+}
+
+.sidebar .sidebar-account {
+  width: 100%;
+  min-height: 60px;
+  margin: 0;
+  padding: 12px;
+  gap: 10px;
+  border: 0;
+  border-top: 1px solid #e6e6e6;
+  border-radius: 0;
+  color: #1e1e1e;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.sidebar .sidebar-account:hover {
+  background: #f5f5f5;
+}
+
+.sidebar .avatar {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  color: #275e9b;
+  background: #e5f2ff;
+  font-size: 12px;
+}
+
 .account-text {
   min-width: 0;
+}
+
+.sidebar .account-text strong {
+  color: #1e1e1e;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.sidebar .account-text small {
+  margin-top: 0;
+  color: #767676;
+  font-size: 11px;
+  line-height: 16px;
 }
 </style>

@@ -39,11 +39,21 @@ withDefaults(
   </ElButton>
 </template>
 
+<style>
+/* Preserve the slot's direction icon instead of adding a second hover arrow. */
+.base-button:has(.button-content svg:is([class*='arrow-'], [class*='chevron-']))
+  .button-hover-arrow {
+  display: none;
+}
+</style>
+
 <style scoped>
 /* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, kept shared workspace shell */
 .base-button {
   min-width: 0;
+  --color-accent: #4f9cf9;
+  --color-accent-ink: #ffffff;
 }
 </style>
 

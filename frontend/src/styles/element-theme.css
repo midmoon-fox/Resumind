@@ -1,11 +1,16 @@
 :root {
-  --el-color-primary: #7453d7;
-  --el-color-primary-dark-2: #5d3bb8;
-  --el-color-primary-light-3: #9e87e3;
-  --el-color-primary-light-5: #b9a9eb;
-  --el-color-primary-light-7: #d5cbf3;
-  --el-color-primary-light-8: #e3ddf7;
-  --el-color-primary-light-9: #f1eefa;
+  --el-color-success: #00ca75;
+  --el-color-danger: #ff5758;
+  --el-color-warning: #ffe492;
+  --el-checkbox-checked-bg-color: #5986ef;
+  --el-checkbox-checked-input-border-color: #5986ef;
+  --el-color-primary: #37a3ff;
+  --el-color-primary-dark-2: #4f9cf9;
+  --el-color-primary-light-3: #73bdff;
+  --el-color-primary-light-5: #a7cefc;
+  --el-color-primary-light-7: #cbe3ff;
+  --el-color-primary-light-8: #deedff;
+  --el-color-primary-light-9: #eef6ff;
   --el-font-family: var(--font-body);
   --el-border-radius-base: 10px;
   --el-text-color-primary: var(--color-ink);
@@ -109,6 +114,14 @@
   box-shadow: none;
   background: transparent;
 }
-:root .el-textarea__inner { border: 0; }
-:root .el-select__input-wrapper input { border: 0; outline: 0; box-shadow: none; }
-:root { --el-text-color-placeholder: var(--color-muted); }
+:root .el-textarea__inner {
+  border: 0;
+}
+:root .el-select__input-wrapper input {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+:root {
+  --el-text-color-placeholder: var(--color-muted);
+}

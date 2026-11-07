@@ -1,0 +1,517 @@
+/* UI UX Pro Max: hierarchy, readable forms, visible focus, state clarity and
+   touch-friendly controls. Existing component events and motion stay in place. */
+@media screen {
+  .app-main {
+    background-color: var(--color-canvas);
+  }
+  .sidebar {
+    border-right-color: var(--color-rule);
+  }
+  .sidebar .nav-link {
+    min-height: 46px;
+    font-size: 14px;
+  }
+  .sidebar .nav-link-current,
+  .sidebar .nav-link-current:hover {
+    color: var(--color-accent-text);
+    background: linear-gradient(95deg, var(--color-accent-soft), #dfefef33);
+    font-weight: 600;
+  }
+  .sidebar .nav-link-current svg {
+    color: var(--color-accent);
+  }
+  .sidebar .brand-icon {
+    color: var(--color-accent-text);
+  }
+  .sidebar .brand small,
+  .sidebar .account-text small {
+    color: var(--color-muted);
+  }
+  .topbar {
+    background-color: var(--color-card);
+  }
+  .topbar .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .header-account {
+    min-height: 44px;
+  }
+
+  :is(.page-container, .creation-session-page) .page-heading h1 {
+    font-size: clamp(26px, 2.3vw, 30px);
+    font-weight: 650;
+    line-height: 1.4;
+  }
+  .page-heading p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .page-heading::after {
+    width: 48px;
+  }
+  .section-heading h2 {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  .section-heading h2 > span:not(.count-badge) {
+    display: block;
+    margin: 5px 0 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .welcome-row h1 {
+    line-height: 1.5;
+  }
+  .hero-content h2 {
+    font-size: clamp(28px, 2.65vw, 38px);
+    line-height: 1.4;
+  }
+  .hero-content > p {
+    font-size: 15px;
+    line-height: 1.9;
+    max-width: 36em;
+  }
+  .hero-art-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Same capsule/radial-fill feedback; primary and secondary differ at rest. */
+  :root .base-button.el-button {
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  :root .base-button.button-small {
+    min-height: 40px;
+  }
+  :root .base-button.button-primary:not(.button-ghost) {
+    color: var(--color-accent-ink);
+    border-color: var(--color-accent);
+    background: #4f9cf9;
+    box-shadow: 0 4px 12px var(--color-focus-soft);
+  }
+  :root .base-button.button-primary:not(.button-ghost)::after {
+    background: var(--color-accent-hover);
+  }
+  :root .base-button.button-primary:not(.button-ghost) .button-hover-dot {
+    background: var(--color-accent-soft);
+  }
+  :root .base-button.button-primary:not(.button-ghost):focus:not(:focus-visible):not(:hover) {
+    color: var(--color-accent-ink);
+  }
+  :root .base-button.button-secondary:not(.button-ghost) {
+    color: var(--color-accent-text);
+    border-color: var(--color-accent-border);
+    background: var(--color-card);
+  }
+  :root .base-button.button-secondary:not(.button-ghost):is(:hover, :focus-visible):not(:disabled) {
+    color: var(--color-accent-ink);
+    border-color: var(--color-accent);
+  }
+  :root .hero-buttons .base-button.button-primary:not(.button-ghost) {
+    color: var(--color-accent-text);
+    border-color: #ffffff99;
+    background: #4f9cf9;
+    box-shadow: 0 8px 26px #285a9233;
+  }
+  :root
+    .hero-buttons
+    .base-button.button-primary:not(.button-ghost):is(:hover, :focus-visible):not(:disabled) {
+    color: var(--color-accent-ink);
+  }
+  :root .hero-buttons .base-button.button-primary:not(.button-ghost) .button-hover-dot {
+    background: var(--color-accent);
+  }
+  :root .base-button.danger-button:not(.button-ghost) {
+    color: var(--color-error);
+    background: var(--color-error-soft);
+    border-color: var(--color-error);
+  }
+  :root .base-button.danger-button:not(.button-ghost)::after {
+    background: var(--color-error);
+  }
+  :root .base-button.danger-button:not(.button-ghost):is(:hover, :focus-visible):not(:disabled) {
+    color: var(--color-accent-ink);
+  }
+  :root .base-button:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+  :root .base-button:disabled {
+    box-shadow: none;
+  }
+
+  /* White surfaces sit on cream canvas; no new component structure. */
+  .panel,
+  .library-card,
+  .resume-card,
+  .new-resume-card {
+    background-color: var(--color-card);
+    border-color: var(--color-rule);
+    border-radius: 16px;
+    box-shadow: var(--shadow-surface);
+  }
+  .panel:is(.job-card):hover,
+  .library-card:hover,
+  .resume-card:hover {
+    border-color: var(--color-accent-border);
+  }
+  .dashboard .feature-grid {
+    gap: 12px;
+  }
+  .feature-card {
+    padding: 20px 16px;
+    border: 1px solid var(--color-rule);
+    background: var(--color-card);
+    box-shadow: var(--shadow-surface);
+  }
+  .feature-card h3 {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  .feature-card > p {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--color-ink-2);
+  }
+  .feature-card .feature-action {
+    color: var(--color-accent-text);
+    font-weight: 600;
+  }
+  .feature-card .feature-icon {
+    width: 40px;
+    height: 40px;
+    padding: 9px;
+    color: var(--color-accent-text);
+    background: var(--color-accent-soft);
+  }
+  .feature-card.feature-jobs .feature-icon {
+    background: var(--color-sky);
+    color: var(--color-sky-ink);
+  }
+  .feature-card.feature-interview .feature-icon {
+    background: var(--color-sage);
+    color: var(--color-sage-ink);
+  }
+  .feature-card .feature-corner {
+    top: 22px;
+    right: 14px;
+    color: var(--color-muted);
+  }
+  .new-resume-card {
+    border-style: dashed;
+    box-shadow: none;
+    color: var(--color-accent-text);
+  }
+  .count-badge {
+    color: var(--color-accent-text);
+    background: var(--color-accent-soft);
+  }
+  .resume-toolbar {
+    gap: 16px;
+  }
+  .sort-control {
+    flex: 0 0 auto;
+  }
+  .sort-control .el-select {
+    width: 132px;
+  }
+  .library-card-body {
+    padding: 20px;
+  }
+  .library-card-body h2,
+  .job-card h2 {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .library-card-body > p {
+    line-height: 1.75;
+  }
+  .tabs,
+  .editor-tabs {
+    padding: 4px;
+    background: var(--color-paper-3);
+    border-radius: 12px;
+  }
+  .tabs > button {
+    min-height: 40px;
+    border-radius: 9px;
+  }
+  .tabs > button.active {
+    color: var(--color-accent-text);
+    background: var(--color-card);
+    box-shadow: var(--shadow-surface);
+  }
+  .pill {
+    border-radius: 6px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-text);
+  }
+  .pill.green {
+    background: var(--color-success-soft);
+    color: var(--color-success);
+  }
+  .app-empty {
+    padding: 40px 24px;
+  }
+  .app-empty h2 {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .app-empty p {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  /* Shared form controls: one boundary, visible focus, readable values. */
+  .field {
+    gap: 9px;
+    color: var(--color-ink-2);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .field-hint,
+  .soft-note,
+  .body-copy {
+    line-height: 1.85;
+  }
+  .field-hint {
+    font-size: 13px;
+  }
+  .body-copy {
+    font-size: 15px;
+  }
+  :root .el-input__wrapper,
+  :root .el-select__wrapper {
+    min-height: 46px;
+    border-radius: 10px;
+    background: var(--color-card);
+  }
+  :root .el-input__inner,
+  :root .el-select__selected-item,
+  :root .el-textarea__inner {
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  :root .el-input__wrapper.is-focus,
+  :root .el-select__wrapper.is-focused {
+    box-shadow:
+      0 0 0 1px var(--color-focus) inset,
+      0 0 0 3px var(--color-focus-soft);
+  }
+  :root .el-textarea__inner {
+    border-radius: 10px;
+    line-height: 1.8;
+  }
+  :root .el-textarea__inner:focus {
+    box-shadow:
+      0 0 0 1px var(--color-focus) inset,
+      0 0 0 3px var(--color-focus-soft);
+  }
+  .field input:not([class*='el-']):not([type='checkbox']):not([type='range']):not([type='color']),
+  .field select:not([class*='el-']),
+  .field textarea:not([class*='el-']) {
+    border-radius: 10px;
+    color: var(--color-ink);
+    background: var(--color-card);
+    font-weight: 400;
+  }
+  .field input:not([class*='el-']):not([type='checkbox']):not([type='range']):not([type='color']),
+  .field select:not([class*='el-']) {
+    min-height: 46px;
+  }
+  .field input:not([class*='el-']):focus-visible,
+  .field select:not([class*='el-']):focus-visible,
+  .field textarea:not([class*='el-']):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  .form-grid {
+    column-gap: 24px;
+  }
+  .form-grid > .field {
+    margin-block: 12px;
+  }
+  .form-error,
+  .error-box {
+    color: var(--color-error);
+    background: var(--color-error-soft);
+    border-color: color-mix(in srgb, var(--color-error) 25%, var(--color-card));
+    border-radius: 10px;
+  }
+  .soft-note {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-text);
+    border-radius: 10px;
+  }
+  .question-card {
+    background: var(--color-accent-soft);
+    border: 1px solid var(--color-rule);
+    border-radius: 14px;
+  }
+  .question-card h3 {
+    font-size: 20px;
+    line-height: 1.65;
+  }
+  .question-card p {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .wizard-panel > h2 {
+    font-size: 22px;
+    line-height: 1.5;
+  }
+  .wizard-footer {
+    padding-top: 24px;
+  }
+  .wizard-footer > span {
+    font-variant-numeric: tabular-nums;
+  }
+  .creation-steps .el-step__head.is-process {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .creation-steps .el-step__title.is-process {
+    color: var(--color-accent-text);
+    font-weight: 600;
+  }
+  .creation-steps .el-step__icon {
+    width: 32px;
+    height: 32px;
+  }
+  .creation-steps .el-step.is-horizontal .el-step__line {
+    top: 15px;
+  }
+  .creation-steps .el-step__title {
+    line-height: 1.8;
+    padding-top: 8px;
+  }
+
+  .editor-cards .el-collapse-item {
+    border-color: var(--color-rule);
+    box-shadow: var(--shadow-surface);
+  }
+  .editor-cards .el-collapse-item__header {
+    color: var(--color-ink);
+  }
+  .editor-controls .field {
+    font-size: 14px;
+  }
+  .editor-preview {
+    border-radius: 14px;
+  }
+  :root .app-dialog {
+    border: 1px solid var(--color-rule);
+    padding: 24px;
+    box-shadow: var(--shadow-floating);
+  }
+  :root .app-dialog .el-dialog__title {
+    font-size: 20px;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  :root .app-dialog .el-dialog__body {
+    padding-block: 16px 8px;
+  }
+  :root .el-select-dropdown__item {
+    min-height: 40px;
+    line-height: 40px;
+  }
+  :root .el-select-dropdown__item.is-selected {
+    color: var(--color-accent-text);
+    background: var(--color-accent-soft);
+  }
+  :root .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: var(--color-accent-text);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .page-container {
+    padding-inline: 16px;
+  }
+  .page-heading {
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .page-heading-actions {
+    justify-content: flex-start;
+  }
+  .page-heading h1 {
+    font-size: 26px;
+  }
+  .section-heading h2 {
+    font-size: 18px;
+  }
+  .welcome-row {
+    flex-wrap: wrap;
+  }
+  .welcome-row > div:first-child {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+  .welcome-actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+  .welcome-row h1 {
+    display: block;
+  }
+  .welcome-symbol {
+    display: inline;
+    margin-left: 6px;
+    vertical-align: -2px;
+  }
+  .hero-content h2 {
+    font-size: 28px;
+  }
+  .hero-content > p {
+    font-size: 16px;
+  }
+  .feature-card > p {
+    font-size: 15px;
+  }
+  .panel {
+    border-radius: 14px;
+  }
+  .topbar :is(.icon-button, .user-menu-trigger) {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  :root .base-button.el-button {
+    min-height: 44px;
+  }
+  :root .el-input__inner,
+  :root .el-select__selected-item,
+  :root .el-textarea__inner {
+    font-size: 16px;
+  }
+  .field input:not([class*='el-']),
+  .field textarea:not([class*='el-']),
+  .field select:not([class*='el-']) {
+    font-size: 16px;
+  }
+  .tabs > button {
+    min-height: 44px;
+  }
+  .wizard-panel > h2 {
+    font-size: 20px;
+  }
+  .question-card h3 {
+    font-size: 18px;
+  }
+  .wizard-footer {
+    gap: 12px;
+  }
+  .library-card-body {
+    padding: 16px;
+  }
+  :root .app-dialog {
+    padding: 20px;
+  }
+}

@@ -11,7 +11,8 @@ const { state, saveExperiences, refreshWorkspace } = useAppStore();
 const session = ref<Schema<'FollowupView'> | null>(null),
   busy = ref(false),
   error = ref(''),
-  answer = ref('');
+  answer = ref(''),
+  skippedLastQuestion = ref(false);
 let active = true,
   completed = false;
 const turn = computed(() =>
@@ -21,7 +22,7 @@ watch(busy, (value) => emit('busy', value), { flush: 'sync' });
 onBeforeUnmount(() => {
   active = false;
 });
-async function run(action: () => Promise<void>) {
+async function run(action: () => Promise<void>, autoContinue = true) {
   if (busy.value || !active) return;
   busy.value = true;
   error.value = '';
@@ -32,7 +33,13 @@ async function run(action: () => Promise<void>) {
   } finally {
     busy.value = false;
   }
-  if (active && !error.value && session.value?.status === 'COMPLETED' && !completed) {
+  if (
+    autoContinue &&
+    active &&
+    !error.value &&
+    session.value?.status === 'COMPLETED' &&
+    !completed
+  ) {
     completed = true;
     emit('completed');
   }
@@ -71,7 +78,7 @@ async function initialize() {
     // Bind the accepted session before waiting, so refresh/recovery reuses the same session.
     session.value = await api<Schema<'FollowupView'>>(accepted.resourceUrl);
     if (active) await load(session.value.id);
-  });
+  }, false);
 }
 async function action(suffix: string, body: Record<string, unknown>) {
   await run(async () => {
@@ -81,9 +88,10 @@ async function action(suffix: string, body: Record<string, unknown>) {
       baseRevision: current.revision,
       ...body,
     });
+    skippedLastQuestion.value = suffix === 'skips';
     await load(current.id);
     answer.value = '';
-  });
+  }, suffix !== 'skips');
 }
 async function submit() {
   if (!answer.value.trim() || !turn.value) return;
@@ -121,11 +129,19 @@ onMounted(() => {
         <BaseButton variant="secondary" @click="action('skips', { turnId: turn.id })"
           >跳过这一问</BaseButton
         >
-        <BaseButton variant="ghost" @click="action('completions', { reason: '用户主动结束' })"
-          >结束追问，选择模板</BaseButton
-        >
       </div>
     </template>
+    <div v-else-if="session?.status === 'COMPLETED' && !error" class="callout" role="status">
+      <strong>{{ skippedLastQuestion ? '已跳过这一问' : '本轮追问已结束' }}</strong>
+      <p>
+        {{
+          session.roundsShown >= session.maxRounds
+            ? '已达到本轮追问上限。'
+            : '目前没有其他需要补充的问题。最多 4 题并不代表每次都会提问 4 题。'
+        }}
+        点击下方“下一步”选择模板。
+      </p>
+    </div>
     <p v-if="error" class="form-error" role="alert">{{ error }}</p>
     <BaseButton v-if="error" variant="secondary" :loading="busy" @click="initialize"
       >重新加载追问</BaseButton

@@ -18,13 +18,14 @@ defineEmits<{ apply: [] }>();
     >
   </section>
 </template>
+
 <style scoped>
 .ai-result {
   margin-top: 12px;
   padding: 16px;
-  border: 1px solid #d1d0ef;
+  border: 1px solid var(--color-accent-border);
   border-radius: 12px;
-  background: #f8f6ff;
+  background: var(--color-accent-soft);
 }
 .ai-result-text {
   white-space: pre-wrap;

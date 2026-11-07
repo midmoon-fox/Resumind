@@ -2,30 +2,32 @@
 /* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, shared app shell kept while content regions become distinct task workspaces */
 /* Hallmark · paper: var(--color-paper) · accent: var(--color-accent) · display: var(--font-display) · body: var(--font-body) · axes: light/grotesk-sans/cool · posture: restrained · contrast: default UI checked in render · finish-review: subagent, 2 resolved */
 :root {
-  --color-paper: #fefdff;
-  --color-paper-2: #f6f5f9;
-  --color-paper-3: #edeaf2;
-  --color-paper-4: #e3dfee;
-  --color-ink: #28232f;
-  --color-ink-2: #504858;
-  --color-muted: #696070;
-  --color-rule: #ded9e5;
-  --color-field-edge: #897b95;
-  --color-accent: #7453d7;
-  --color-accent-hover: #5d3bb8;
-  --color-accent-ink: #fefdff;
-  --color-accent-soft: #eee8fa;
-  --color-accent-text: #5d3aa7;
-  --color-focus: #6541bb;
-  --color-success: #30624b;
-  --color-success-soft: #edf5ef;
-  --color-error: #a03f55;
-  --color-error-soft: #fbf0f3;
-  --color-warning: #80511f;
-  --color-overlay: #28232f80;
-  --color-shadow: #28232f12;
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f8ff;
+  --color-paper-3: #edf4ff;
+  --color-paper-4: #dceaff;
+  --color-ink: #212529;
+  --color-ink-2: #515a63;
+  --color-muted: #59636e;
+  --color-rule: #cccccc;
+  --color-field-edge: #8593a2;
+  --color-accent: #37a3ff;
+  --color-accent-hover: #4f9cf9;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #eaf4ff;
+  --color-accent-text: #275e9b;
+  --color-focus: #37a3ff;
+  --color-success: #00ca75;
+  --color-success-soft: #e5faf0;
+  --color-error: #ff5758;
+  --color-error-soft: #fff0f0;
+  --color-warning: #765b00;
+  --color-overlay: #21252980;
+  --color-shadow: #21252912;
   --color-clear: transparent;
-  --font-body: 'Microsoft YaHei UI', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-body:
+    'Inter', 'PingFang SC', 'DengXian', 'Noto Sans CJK SC', 'Microsoft YaHei', 'Segoe UI',
+    sans-serif;
   --font-display: var(--font-body);
   --font-outlier: var(--font-body);
   --font-resume: 'Microsoft YaHei', 'Segoe UI', sans-serif;
@@ -35,7 +37,7 @@
   --primary-light: var(--color-accent-soft);
   --muted: var(--color-muted);
   --border: var(--color-rule);
-  --sidebar-width: 224px;
+  --sidebar-width: 256px;
   --space-3xs: 2px;
   --space-2xs: 4px;
   --space-xs: 8px;
@@ -95,13 +97,49 @@
 /* Purple brand restored at user request; document-specific colours remain user controlled. */
 :root {
   --color-mint: #e3f2e9;
-  --color-ice: #e7eff8;
-  --color-lemon: #f7f1d6;
+  --color-ice: #e7f7f8;
+  --color-lemon: #ffe492;
   --color-sheen: #ffffff26;
 }
 
 :root {
-  --color-ribbon-light: #e6dafb;
-  --color-ribbon-strong: #cbb4ef;
+  --color-ribbon-light: #ddeeef;
+  --color-ribbon-strong: #a7cefc;
   --color-sheen-strong: #ffffff55;
+}
+
+/* UI UX Pro Max review: clear surfaces, accessible roles, consistent elevation. */
+:root {
+  --color-canvas: #f4f8ff;
+  --color-card: #ffffff;
+  --color-sky: #dfefef;
+  --color-sky-ink: #376d73;
+  --color-sage: #edf3f4;
+  --color-sage-ink: #547277;
+  --color-accent-border: #a7cefc;
+  --color-focus-soft: #37a3ff24;
+  --color-shadow-soft: #285a9208;
+  --color-shadow-raised: #285a9212;
+  --shadow-surface: 0 4px 20px var(--color-shadow-soft);
+  --shadow-floating: 0 16px 40px var(--color-shadow-raised);
+}
+
+/* Ice-blue liquid glass: frosted chrome, readable content surfaces. */
+:root {
+  --color-glass-edge: #ffffffe0;
+  --color-glass: #ffffff94;
+  --color-glass-strong: #ffffffd9;
+  --color-glass-shadow: #56738d14;
+}
+
+/* User-selected bright blue palette; darker text roles keep small text legible. */
+:root {
+  --color-brand-light: #a7cefc;
+  --color-highlight: #ffe492;
+  --color-blue-secondary: #5986ef;
+  --color-blue-action: #4f9cf9;
+  --color-success-ink: #087347;
+  --color-error-ink: #a7282c;
+  --color-accent-ink: #212529;
+  --color-focus: #275e9b;
 }

@@ -29,6 +29,7 @@ import { useToast } from '../composables/useToast';
 import { api, uploadFile } from '../services/client';
 import { archiveTitle } from '../services/jd';
 import { waitTask, resource, tasks } from '../services/tasks';
+import { finishFollowup } from '../services/followup';
 import type { Schema } from '../services/schema';
 import { experienceData, mergeSources } from '../services/mapping';
 
@@ -164,8 +165,9 @@ async function next() {
       const session = await api<Schema<'FollowupView'>>(
         `/api/followup-sessions/${draft.value.backend.activeFollowupSessionId}`,
       );
-      if (session.status !== 'COMPLETED')
-        throw new Error('请先完成或提前结束智能追问，再进入模板选择');
+      await finishFollowup(session, (body) =>
+        api('/api/followup-sessions/' + session.id + '/completions', 'POST', body),
+      );
     }
     const nextStep = Math.min(4, draft.value.step + 1);
     await saveWorkspace((['JD', 'PROFILE', 'MATERIALS', 'FOLLOWUP', 'EDITOR'] as const)[nextStep]);
@@ -662,6 +664,11 @@ async function generate() {
   </div>
 </template>
 
+
+
+
+
+
 <style scoped>
 .creation-session-page {
   width: 100%;
@@ -685,12 +692,11 @@ async function generate() {
   }
 }
 </style>
-
 <style scoped>
 .inline-jd-editor {
   margin-top: 20px;
   padding-top: 24px;
-  border-top: 1px solid #dedbed;
+  border-top: 1px solid var(--color-rule);
 }
 .jd-expand-enter-active,
 .jd-expand-leave-active {
@@ -710,15 +716,13 @@ async function generate() {
   }
 }
 </style>
-
 <style scoped>
 .template-stage {
-  border-top: 4px solid #969be7;
-  background: linear-gradient(145deg, #fcf8fb, #fff 60%);
+  border-top: 4px solid var(--color-accent);
+  background: linear-gradient(145deg, var(--color-canvas), #fff 60%);
   margin-top: 24px;
 }
 </style>
-
 <style scoped>
 .creation-session-page.template-gallery-page {
   max-width: 1440px;
@@ -746,15 +750,14 @@ async function generate() {
   margin: 32px auto 0;
 }
 </style>
-
 <style scoped>
 .field-validation-error {
   display: block;
-  color: #bf3653;
+  color: var(--color-error-ink);
   font-size: 13px;
   margin-top: 6px;
 }
 .field:has([aria-invalid='true']) :deep(.el-input__wrapper) {
-  box-shadow: 0 0 0 1px #bf3653 inset;
+  box-shadow: 0 0 0 1px var(--color-error) inset;
 }
 </style>
