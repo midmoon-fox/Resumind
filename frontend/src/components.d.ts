@@ -19,6 +19,8 @@ declare module 'vue' {
     BaseButton: typeof import('./components/common/BaseButton.vue')['default']
     BaseModal: typeof import('./components/common/BaseModal.vue')['default']
     DemoNotice: typeof import('./components/common/DemoNotice.vue')['default']
+    EditorModuleTitle: typeof import('./components/resume/EditorModuleTitle.vue')['default']
+    EducationDates: typeof import('./components/resume/EducationDates.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCascader: typeof import('element-plus/es')['ElCascader']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
