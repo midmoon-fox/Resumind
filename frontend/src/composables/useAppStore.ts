@@ -25,6 +25,7 @@ import {
   experienceType,
 } from '../services/mapping';
 import { clearTasks } from '../services/tasks';
+import { latestTemplate, supportsTheme } from '../services/templatePolicy';
 
 export const emptyProfile = (): Profile => ({
   name: '',
@@ -208,6 +209,9 @@ async function refreshWorkspace(id: string) {
   });
   persist();
 }
+async function refreshTemplates() {
+  templates.value = await allPages<Schema<'TemplateOutput'>>('/api/templates');
+}
 async function refreshData() {
   loading.value = true;
   loadError.value = '';
@@ -343,16 +347,21 @@ async function saveResume(doc: ResumeDocument) {
   saveTimers.delete(doc.id);
   let payload: Schema<'PatchResume'>;
   try {
+    let template = latestTemplate(templates.value, doc.template);
+    if (!supportsTheme(template, doc.style.accent)) {
+      await refreshTemplates();
+      template = latestTemplate(templates.value, doc.template);
+    }
+    if (!supportsTheme(template, doc.style.accent)) {
+      throw new Error('当前模板不支持这个主题颜色，请在“设计”中重新选择颜色。');
+    }
     payload = {
       baseRevision: doc.revision,
       title: doc.title,
       document: toDocument(doc),
       style: toStyle(doc),
       templateId: doc.template,
-      templateVersion:
-        templates.value.find((t) => t.id === doc.template)?.version ??
-        doc.backend?.templateVersion ??
-        '1.0.0',
+      templateVersion: template!.version,
     };
   } catch (e) {
     storageStatus.value = 'error';
@@ -538,6 +547,7 @@ export function useAppStore() {
     persist,
     refreshAccount,
     refreshData,
+    refreshTemplates,
     refreshResume,
     loadVersions,
     refreshWorkspace,

@@ -20,6 +20,7 @@ import AdditionalEducation from '../components/resume/AdditionalEducation.vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import { resumeTemplates } from '../types/templates';
 import { themeColors } from '../types/themeColors';
+import { latestTemplate, supportsTheme } from '../services/templatePolicy';
 import { modulePickerOptions } from '../types/sectionRegistry';
 import BaseModal from '../components/common/BaseModal.vue';
 import AiResult from '../components/common/AiResult.vue';
@@ -47,9 +48,32 @@ const {
   lastSaveError,
   loadVersions,
   refreshResume,
+  templates,
+  refreshTemplates,
 } = useAppStore();
 const { success, error } = useToast();
 const doc = computed(() => state.resumes.find((r) => r.id === route.params.id));
+const availableThemeColors = computed(() => {
+  const template = latestTemplate(templates.value, doc.value?.template ?? '');
+  return themeColors.filter((color) => supportsTheme(template, color.value));
+});
+async function chooseThemeColor(color: string) {
+  const current = doc.value;
+  if (!current) return;
+  const templateId = current.template;
+  try {
+    await refreshTemplates();
+    if (doc.value?.id !== current.id || current.template !== templateId) return;
+    if (!supportsTheme(latestTemplate(templates.value, templateId), color)) {
+      error('当前模板不支持这个颜色，请选择其他主题颜色。');
+      return;
+    }
+    current.style.accent = color;
+  } catch {
+    error('暂时无法获取模板颜色，请稍后再试。');
+  }
+}
+onMounted(() => { refreshTemplates().catch(() => {}); });
 const {
   busy: aiBusy,
   notice: aiNotice,
@@ -658,14 +682,14 @@ async function doExport() {
             >主题颜色
             <div class="color-options">
               <button
-                v-for="color in themeColors"
+                v-for="color in availableThemeColors"
                 :key="color.value"
                 type="button"
                 :style="{ background: color.value, color: color.ink }"
                 :aria-label="'主题颜色：' + color.label"
                 :title="color.label"
                 :aria-pressed="doc.style.accent === color.value"
-                @click="doc.style.accent = color.value"
+                @click="chooseThemeColor(color.value)"
               >
                 <Check v-if="doc.style.accent === color.value" :size="16" />
               </button></div></label
