@@ -271,17 +271,10 @@ function showAll() {
   gap: clamp(28px, 4vw, 64px);
   min-height: 340px;
   padding: 28px 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  animation: none;
-}
-.hero-split::before,
-.hero-split::after {
-  content: none;
 }
 .hero-mascot-panel {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   min-width: 0;
@@ -304,12 +297,12 @@ function showAll() {
 .hero-split .hero-content {
   width: 100%;
   min-width: 0;
-  padding: 0;
+  padding: 0 0 0 104px;
 }
 .hero-split .hero-content h2 {
   color: #212529;
   font-family: var(--font-body);
-  font-size: clamp(26px, 2.6vw, 40px);
+  font-size: clamp(24px, 2.3vw, 36px);
   line-height: 1.3;
   letter-spacing: -0.035em;
   font-weight: 700;
@@ -350,7 +343,7 @@ function showAll() {
     min-height: 230px;
   }
   .hero-split .hero-content h2 {
-    font-size: clamp(24px, 5vw, 34px);
+    font-size: clamp(22px, 4.6vw, 30px);
   }
 }
 </style>

@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
 <template>
   <section
     ref="habitat"
-    class="pet-habitat"
+    class=".hero-art pet-habitat"
     :class="{ 'pet-resting': resting, 'pet-happy': happy }"
     aria-label="求职搭子泡泡"
     :style="{
@@ -170,15 +170,15 @@ onBeforeUnmount(() => {
   min-width: 0;
   height: 310px;
   padding: 14px 20px 16px;
-  /* border: 1px solid #ffffffe0; */
+  border: 1px solid #ffffffe0;
   border-radius: 26px;
-  /* background: linear-gradient(145deg, #ffffff78, #f0f7ff42 60%, #ddeaf440); */
-  /* box-shadow:
+  background: linear-gradient(145deg, #ffffff78, #f0f7ff42 60%, #ddeaf440);
+  box-shadow:
     inset 0 1px 0 #fff,
     inset 0 -1px 0 #ffffff70,
-    0 16px 40px #48657b12; */
-  /* backdrop-filter: blur(12px); */
-  /* -webkit-backdrop-filter: blur(12px); */
+    0 16px 40px #48657b12;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .hero-art.pet-habitat::after {
   content: none;
