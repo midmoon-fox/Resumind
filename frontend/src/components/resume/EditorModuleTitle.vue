@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Trash2 } from '@lucide/vue';
-defineProps<{ title: string; anchor: string; expanded: boolean; removable?: boolean }>();
+withDefaults(defineProps<{ title: string; anchor: string; expanded: boolean; removable?: boolean }>(), {
+  removable: true,
+});
 defineEmits<{ remove: [] }>();
 </script>
 <template>
