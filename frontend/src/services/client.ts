@@ -9,8 +9,8 @@ export function backendUrl(path: string, origin = import.meta.env?.VITE_API_BASE
     return path;
   }
   const target = new URL(origin);
-  if (target.protocol !== 'https:' || target.pathname !== '/' || target.search || target.hash || target.username || target.password)
-    throw new Error('后端公网地址必须是 HTTPS 域名');
+  if ((target.protocol !== 'https:' && target.protocol !== 'http:') || target.pathname !== '/' || target.search || target.hash || target.username || target.password)
+    throw new Error('后端公网地址必须是 HTTP 或 HTTPS 域名');
   return target.origin + path;
 }
 
