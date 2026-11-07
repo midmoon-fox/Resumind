@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="route.meta.authPage"><slot /></div>
+  <div v-if="route.meta.authPage || route.meta.landingPage"><slot /></div>
   <div v-else-if="route.meta.creationSession" class="creation-shell">
     <a href="#main-content" class="skip-link">跳到制作简历</a>
     <main id="main-content" class="creation-main" tabindex="-1"><slot /></main>

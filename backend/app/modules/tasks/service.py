@@ -91,11 +91,23 @@ def resource_ref(task: Task) -> ResourceRef:
     return ResourceRef(resourceType=resource_type, resourceId=task.resource_id, resourceUrl=url)
 
 
+def can_retry_manually(task: Task) -> bool:
+    error = task.error_json or {}
+    # A fresh model draft may pass review. Require an explicit click for this retry.
+    return task.status == "FAILED" and (
+        error.get("canRetry") is True
+        or (task.kind == Kind.GENERATE_PREPARATION and error.get("code") == "MODEL_FACT_UNSUPPORTED")
+    )
+
+
 def get_task(session: Session, registry: Registry, task_id: str, user_id: str) -> TaskView:
     task = session.get(Task, task_id)
     if task is None or task.user_id != user_id:
         raise ResourceUnavailable()
     registry.get(Kind(task.kind)).check(session, snapshot(task), False)
+    error = TaskError.model_validate(task.error_json) if task.error_json else None
+    if error is not None and can_retry_manually(task):
+        error = error.model_copy(update={"canRetry": True})
     return TaskView(
         id=task.id,
         kind=Kind(task.kind),
@@ -103,7 +115,7 @@ def get_task(session: Session, registry: Registry, task_id: str, user_id: str) -
         stage=task.stage,
         attempt=task.attempt,
         result=resource_ref(task) if task.status == "SUCCEEDED" else None,
-        error=TaskError.model_validate(task.error_json) if task.error_json else None,
+        error=error,
         createdAt=task.created_at.replace(tzinfo=UTC),
         updatedAt=task.updated_at.replace(tzinfo=UTC),
     )

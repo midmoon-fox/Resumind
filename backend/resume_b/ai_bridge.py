@@ -69,7 +69,12 @@ def replace_target(document, target, proposed):
     else:
         field = target["field"]
         fields(proposed, field, "/proposed")
-        require(isinstance(proposed[field], list) and len(proposed[field]) == len(original[field]), "/proposed/" + field, "profile entry count must be unchanged")
+        entries = proposed[field]
+        require(isinstance(entries, list), "/proposed/" + field, "expected array")
+        # Skills carry no entry IDs and an audited rewrite can combine them into one paragraph.
+        consolidated_skills = field == "skills" and bool(original[field]) and len(entries) == 1
+        require(len(entries) == len(original[field]) or consolidated_skills,
+                "/proposed/" + field, "profile entry count must be unchanged")
         if field == "education":
             for old, new in zip(original[field], proposed[field]):
                 require(isinstance(new, dict) and all(new.get(key) == old[key] for key in ("id", "startDate", "endDate", "isCurrent")), "/proposed/education", "education identity and dates must be unchanged")

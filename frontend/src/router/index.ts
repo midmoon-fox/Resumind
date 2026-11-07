@@ -2,10 +2,16 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DashboardView from '../views/DashboardView.vue';
 import { useAppStore } from '../composables/useAppStore';
 import { useToast } from '../composables/useToast';
+import { authRedirect } from './authRedirect';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', redirect: '/dashboard' },
+    {
+      path: '/',
+      name: 'landing',
+      component: () => import('../views/LandingView.vue'),
+      meta: { title: '你的专属简历，即刻拥有', landingPage: true },
+    },
     {
       path: '/dashboard',
       name: 'dashboard',
@@ -76,8 +82,9 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 });
 router.beforeEach(async (to, from) => {
+  if (to.meta.landingPage && !from.name) return true;
   const { state, initialize, flushAll, discardWorkspace } = useAppStore();
-  await initialize();
+  if (!to.meta.landingPage) await initialize();
   try {
     await flushAll();
   } catch (cause) {
@@ -87,23 +94,18 @@ router.beforeEach(async (to, from) => {
     );
     return false;
   }
-  const requestedPath = to.query.redirect;
-  const redirectTo =
-    typeof requestedPath === 'string' &&
-    requestedPath.startsWith('/') &&
-    !requestedPath.startsWith('//') &&
-    !/^\/(login|register)(?:[/?#]|$)/.test(requestedPath)
-      ? requestedPath
-      : '/dashboard';
-
-  if (to.meta.authPage) return state.demoSignedIn ? redirectTo : true;
-  if (!state.demoSignedIn) return { name: 'login', query: { redirect: to.fullPath } };
+  if (to.meta.landingPage) return true;
+  if (to.meta.authPage)
+    return state.demoSignedIn ? (authRedirect(to.query.redirect) ?? '/dashboard') : true;
+  if (!state.demoSignedIn) return { name: 'landing', query: { redirect: to.fullPath } };
   if (to.name === 'create' && from.name !== 'create') {
     discardWorkspace();
     const jd = state.jds.find((j) => j.id === to.query.jdId && j.version?.status === 'CONFIRMED');
     if (jd) {
       state.workspace.jdId = jd.id;
       state.workspace.direction = jd.version?.jobTitle || jd.title;
+    } else if (typeof to.query.direction === 'string') {
+      state.workspace.direction = to.query.direction.trim().slice(0, 100);
     }
   }
   return true;

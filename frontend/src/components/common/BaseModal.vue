@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ open: boolean; title: string; wide?: boolean }>();
+const props = defineProps<{ open: boolean; title: string; wide?: boolean; keepMounted?: boolean }>();
 const emit = defineEmits<{ close: [] }>();
 </script>
 <template>
@@ -9,7 +9,7 @@ const emit = defineEmits<{ close: [] }>();
     :width="props.wide ? 'min(1040px, calc(100vw - 32px))' : 'min(600px, calc(100vw - 32px))'"
     class="app-dialog"
     :before-close="() => emit('close')"
-    destroy-on-close
+    :destroy-on-close="!props.keepMounted"
     append-to-body
     ><slot
   /></ElDialog>

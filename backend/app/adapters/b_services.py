@@ -362,10 +362,9 @@ class BServicesAdapter:
             if lock and resume.revision != 1:
                 raise ResourceUnavailable()
         elif task.kind == Kind.GENERATE_PREPARATION:
-            prep = db.get(Preparation, task.resource_id)
-            if prep is None or prep.user_id != task.user_id or prep.task_id != task.id:
+            prep = self._preparations(db).get(task.user_id, task.resource_id, lock=lock)
+            if prep.task_id != task.id:
                 raise ResourceUnavailable()
-            self._preparations(db).version(task.user_id, prep.resume_version_id, lock=lock)
         else:
             raise ResourceUnavailable()
 

@@ -7,12 +7,14 @@ from sqlalchemy import select
 
 from app.modules.ai.errors import AiFailure
 from app.modules.ai.experience_schemas import ExperienceData
+from app.modules.c_core.abilities import INTRODUCTION_VERSION
 from app.modules.c_core.models import (
     FollowupTurn,
     RecommendationRun,
     RecommendedJob,
     Suggestion,
 )
+from app.modules.c_core.rewrite_policy import REWRITE_VERSION
 from app.modules.c_core.validation import clone, read_target, revision, state
 from app.modules.followups import service as followups
 from app.modules.tasks.lifecycle import TaskOperationError
@@ -168,11 +170,13 @@ class CServices:
                 "target": target,
                 "original": original,
                 "instruction": request.instruction,
+                "templateId": resume["templateId"],
+                "rewritePromptVersion": REWRITE_VERSION,
                 "profile": profile_context,
                 "jdSnapshot": clone(resume.get('jdSnapshot')),
                 "module": clone(next(s for s in resume['document']['sections'] if s['id'] == target['sectionId'])),
             },
-            prompt_version="rewrite-1.1.0",
+            prompt_version=REWRITE_VERSION,
             bind=lambda task: setattr(row, "task_id", task.id),
         )
 
@@ -236,6 +240,10 @@ class CServices:
             "version": clone(version),
             "resumeVersionId": request.resumeVersionId,
         }
+        prompt_version = "preparation-1.1.0"
+        if request.type == "INTRODUCTION":
+            prompt_version = INTRODUCTION_VERSION
+            payload["preparationPromptVersion"] = prompt_version
         identifier = self.b.create_preparation(db, user, request.model_dump())
         return create_task(
             db,
@@ -245,7 +253,7 @@ class CServices:
             resource_type=ResourceType.PREPARATION,
             resource_id=identifier,
             input_data=payload,
-            prompt_version="preparation-1.1.0",
+            prompt_version=prompt_version,
             bind=lambda task: self.b.bind_task(db, user, "PREPARATION", identifier, task.id),
         )
 

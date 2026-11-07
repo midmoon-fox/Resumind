@@ -43,18 +43,40 @@ class PreparationRenderer:
 
     def docx(self, blocks):
         from docx import Document
+        from docx.oxml import OxmlElement
+        from docx.oxml.ns import qn
         from docx.shared import Pt, RGBColor
+
         document = Document(BytesIO(self.docx_template_loader()))
+        styles = {"title": "Title", "heading": "Heading 1", "label": "Heading 2", "body": "Normal"}
+        for kind, name in styles.items():
+            style = document.styles[name]
+            style.font.name = "Microsoft YaHei"
+            style.font.color.rgb = RGBColor(0, 0, 0)
+            style.font.size = Pt({"title": 20, "heading": 14, "label": 11, "body": 12}[kind])
+            style.font.bold = kind != "body"
+            style.paragraph_format.line_spacing = 1.3
+            fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
+            for attr in ("asciiTheme", "hAnsiTheme", "eastAsiaTheme", "cstheme"):
+                fonts.attrib.pop(qn(f"w:{attr}"), None)
+            for attr in ("eastAsia", "cs"):
+                fonts.set(qn(f"w:{attr}"), "Microsoft YaHei")
+        title_properties = document.styles["Title"].element.get_or_add_pPr()
+        title_border = title_properties.find(qn("w:pBdr"))
+        if title_border is not None:
+            title_properties.remove(title_border)
+
         for kind, value in blocks:
-            style = {"title": "Title", "heading": "Heading 1", "label": "Heading 2", "body": "Normal"}[kind]
+            style = styles[kind]
             # Split explicit user newlines without evaluating any markup or template syntax.
             lines = value.replace("\r\n", "\n").replace("\r", "\n").split("\n")
             for line in lines:
-                paragraph = document.add_paragraph(line, style)
+                paragraph = document.add_paragraph(style=style)
+                if line:
+                    run = paragraph.add_run(line)
+                    run._element.get_or_add_rPr().append(OxmlElement("w:noProof"))
                 if kind != "body":
                     paragraph.paragraph_format.keep_with_next = True
-        document.styles["Title"].font.color.rgb = RGBColor(0, 0, 0)
-        document.styles["Normal"].font.size = Pt(12)
         output = BytesIO()
         document.save(output)
         data = output.getvalue()

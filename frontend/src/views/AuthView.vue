@@ -6,10 +6,19 @@ import gsap from 'gsap';
 import { ArrowRight, Eye, EyeOff, Sparkles } from '@lucide/vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import TiltCard from '../components/common/TiltCard.vue';
+import { authRedirect } from '../router/authRedirect';
 const route = useRoute(),
   router = useRouter(),
   { login } = useAppStore();
 const register = computed(() => route.path === '/register');
+const redirectQuery = computed(() => {
+  const redirect = authRedirect(route.query.redirect);
+  return redirect ? { redirect } : {};
+});
+const authSwitchTarget = computed(() => ({
+  name: register.value ? 'login' : 'register',
+  query: redirectQuery.value,
+}));
 const authRoot = ref<HTMLElement | null>(null);
 let entranceContext: gsap.Context | undefined;
 const email = ref(''),
@@ -34,15 +43,7 @@ async function enter() {
       register.value ? nickname.value.trim() : undefined,
     );
     password.value = '';
-    const redirect = route.query.redirect;
-    const destination =
-      typeof redirect === 'string' &&
-      redirect.startsWith('/') &&
-      !redirect.startsWith('//') &&
-      !/^\/(login|register)(?:[/?#]|$)/.test(redirect)
-        ? redirect
-        : '/dashboard';
-    await router.replace(destination);
+    await router.replace(authRedirect(route.query.redirect) ?? '/dashboard');
   } catch (e) {
     error.value = e instanceof Error ? e.message : '登录失败，请重试';
   } finally {
@@ -67,13 +68,13 @@ onBeforeUnmount(() => entranceContext?.revert());
 <template>
   <div ref="authRoot" class="auth-page">
     <section class="auth-story">
-      <RouterLink to="/login" class="brand"
+      <RouterLink :to="{ name: 'landing', query: redirectQuery }" class="brand"
         ><span class="brand-icon"><Sparkles :size="25" /></span
         ><span><strong>简立得</strong></span></RouterLink
       >
     </section>
     <section class="auth-form-area">
-      <RouterLink v-if="register" to="/login" class="auth-back"
+      <RouterLink v-if="register" :to="authSwitchTarget" class="auth-back"
         >返回登录 <ArrowRight :size="15"
       /></RouterLink>
       <TiltCard class="auth-glass-card">
@@ -132,7 +133,7 @@ onBeforeUnmount(() => entranceContext?.revert());
           /></BaseButton>
           <p class="auth-switch">
             {{ register ? '已经有账户？' : '还没有账户？'
-            }}<RouterLink :to="register ? '/login' : '/register'">{{
+            }}<RouterLink :to="authSwitchTarget">{{
               register ? '返回登录' : '前往注册'
             }}</RouterLink>
           </p>

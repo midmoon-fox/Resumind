@@ -487,7 +487,10 @@ async function restoreVersion(id: string) {
   await refreshResume(doc.id);
   await loadVersions(doc.id);
 }
-async function saveWorkspace(step?: Schema<'WorkspacePatch'>['step']) {
+async function saveWorkspace(
+  step?: Schema<'WorkspacePatch'>['step'],
+  { includeProfile = false } = {},
+) {
   const d = state.workspace;
   if (!d.backend)
     d.backend = await api<Schema<'WorkspaceOut'>>('/api/workspaces', 'POST', {
@@ -499,7 +502,7 @@ async function saveWorkspace(step?: Schema<'WorkspacePatch'>['step']) {
     baseRevision: d.backend.revision,
     title: d.title || '我的简历工作区',
     direction: d.direction || null,
-    profile: toProfile(d.profile, d.direction),
+    ...(includeProfile ? { profile: toProfile(d.profile, d.direction) } : {}),
     jdVersionId: jd?.version?.id ?? null,
     ...(step ? { step } : {}),
   });

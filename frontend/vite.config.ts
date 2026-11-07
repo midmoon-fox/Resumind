@@ -1,15 +1,18 @@
-import { defineConfig, type ProxyOptions } from 'vite';
+import { defineConfig, loadEnv, type ProxyOptions } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-const backend = 'https://localhost:8443';
-const proxy: ProxyOptions = {
-  target: backend,
-  changeOrigin: true,
-  secure: false, // Accept the local backend's development certificate in the Vite proxy only.
-};
+function backendProxy(mode: string) {
+  const { RESUMIND_DEV_BACKEND_URL } = loadEnv(mode, process.cwd(), 'RESUMIND_DEV_');
+  const proxy: ProxyOptions = {
+    target: RESUMIND_DEV_BACKEND_URL || 'https://localhost:8443',
+    changeOrigin: true,
+    secure: false, // Accept the local backend's development certificate in the Vite proxy only.
+  };
+  return { '/api': proxy, '/internal/files': proxy };
+}
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [vue(), Components({ resolvers: [ElementPlusResolver()], dts: 'src/components.d.ts' })],
   optimizeDeps: {
     // Auto-imported Element Plus dependencies must be ready before lazy routes open.
@@ -26,6 +29,6 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 5173,
     strictPort: true,
-    proxy: { '/api': proxy, '/internal/files': proxy },
+    proxy: backendProxy(mode),
   },
-});
+}));
