@@ -99,11 +99,11 @@ const templates = computed(() =>
   font-weight: 700;
   letter-spacing: 0.04em;
   margin: 0 0 12px;
-  color: #292337;
+  color: #212529;
 }
 .showcase-heading p {
   font-size: 14px;
-  color: #777184;
+  color: #212529;
   margin: 0;
 }
 .showcase-filters {
@@ -114,17 +114,17 @@ const templates = computed(() =>
   margin: 0 0 42px;
 }
 .showcase-filters button {
-  border: 1px solid #e8e5ee;
+  border: 1px solid #FFFFFF;
   border-radius: 9px;
   padding: 9px 18px;
-  background: #fff;
-  color: #716b7c;
+  background: #FFFFFF;
+  color: #212529;
   cursor: pointer;
 }
 .showcase-filters button.active {
-  background: #7051d5;
+  background: #37A3FF;
   color: white;
-  border-color: #7051d5;
+  border-color: #37A3FF;
 }
 .showcase-grid {
   display: grid;
@@ -138,10 +138,10 @@ const templates = computed(() =>
   overflow: hidden;
   text-align: left;
   background: white;
-  border: 1px solid #e7e4ec;
+  border: 1px solid #FFFFFF;
   border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 2px 8px #31234b05;
+  box-shadow: 0 2px 8px #21252905;
   transition:
     transform 0.2s,
     box-shadow 0.2s,
@@ -149,15 +149,15 @@ const templates = computed(() =>
 }
 .showcase-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 14px 32px #31234b13;
+  box-shadow: 0 14px 32px #21252913;
 }
 .showcase-card.selected {
-  border-color: #8060db;
-  box-shadow: 0 0 0 2px #8060db33;
+  border-color: #4F9CF9;
+  box-shadow: 0 0 0 2px #4F9CF933;
 }
 .showcase-card:focus-visible,
 .showcase-filters button:focus-visible {
-  outline: 3px solid #969be7;
+  outline: 3px solid #A7CEFC;
   outline-offset: 4px;
 }
 .showcase-paper {
@@ -252,8 +252,8 @@ const templates = computed(() =>
   gap: 8px;
   align-items: center;
   padding: 13px 14px;
-  background: #faf9fc;
-  border-top: 1px solid #efedf3;
+  background: #FFFFFF;
+  border-top: 1px solid #FFFFFF;
   font-size: 13px;
   font-weight: 600;
 }
@@ -261,17 +261,17 @@ const templates = computed(() =>
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #7353d9;
+  color: #37A3FF;
   font-size: 11px;
 }
 .showcase-category {
   font-size: 10px;
-  color: #90899d;
+  color: #212529;
   font-weight: 400;
 }
 .showcase-note {
   text-align: center;
-  color: #918a9b;
+  color: #212529;
   font-size: 12px;
   margin: 26px 0 0;
 }

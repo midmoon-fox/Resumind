@@ -2,28 +2,28 @@
 /* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, shared app shell kept while content regions become distinct task workspaces */
 /* Hallmark · paper: var(--color-paper) · accent: var(--color-accent) · display: var(--font-display) · body: var(--font-body) · axes: light/grotesk-sans/cool · posture: restrained · contrast: default UI checked in render · finish-review: subagent, 2 resolved */
 :root {
-  --color-paper: #fefdff;
-  --color-paper-2: #f6f5f9;
-  --color-paper-3: #edeaf2;
-  --color-paper-4: #e3dfee;
-  --color-ink: #28232f;
-  --color-ink-2: #504858;
-  --color-muted: #696070;
-  --color-rule: #ded9e5;
-  --color-field-edge: #897b95;
-  --color-accent: #7453d7;
-  --color-accent-hover: #5d3bb8;
-  --color-accent-ink: #fefdff;
-  --color-accent-soft: #eee8fa;
-  --color-accent-text: #5d3aa7;
-  --color-focus: #6541bb;
-  --color-success: #30624b;
-  --color-success-soft: #edf5ef;
-  --color-error: #a03f55;
-  --color-error-soft: #fbf0f3;
-  --color-warning: #80511f;
-  --color-overlay: #28232f80;
-  --color-shadow: #28232f12;
+  --color-paper: #FFFFFF;
+  --color-paper-2: #FFFFFF;
+  --color-paper-3: #A7CEFC;
+  --color-paper-4: #A7CEFC;
+  --color-ink: #212529;
+  --color-ink-2: #212529;
+  --color-muted: #212529;
+  --color-rule: #CCCCCC;
+  --color-field-edge: #CCCCCC;
+  --color-accent: #37A3FF;
+  --color-accent-hover: #4F9CF9;
+  --color-accent-ink: #212529;
+  --color-accent-soft: #A7CEFC;
+  --color-accent-text: #5986EF;
+  --color-focus: #37A3FF;
+  --color-success: #00CA75;
+  --color-success-soft: #FFFFFF;
+  --color-error: #FF5758;
+  --color-error-soft: #FFFFFF;
+  --color-warning: #212529;
+  --color-overlay: #21252980;
+  --color-shadow: #21252912;
   --color-clear: transparent;
   --font-body: 'Microsoft YaHei UI', 'Microsoft YaHei', 'Segoe UI', sans-serif;
   --font-display: var(--font-body);
@@ -94,14 +94,14 @@
 
 /* Purple brand restored at user request; document-specific colours remain user controlled. */
 :root {
-  --color-mint: #e3f2e9;
-  --color-ice: #e7eff8;
-  --color-lemon: #f7f1d6;
-  --color-sheen: #ffffff26;
+  --color-mint: #00CA75;
+  --color-ice: #A7CEFC;
+  --color-lemon: #FFE492;
+  --color-sheen: #FFFFFF26;
 }
 
 :root {
-  --color-ribbon-light: #e6dafb;
-  --color-ribbon-strong: #cbb4ef;
-  --color-sheen-strong: #ffffff55;
+  --color-ribbon-light: #A7CEFC;
+  --color-ribbon-strong: #4F9CF9;
+  --color-sheen-strong: #FFFFFF55;
 }

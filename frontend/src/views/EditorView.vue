@@ -873,8 +873,8 @@ async function doExport() {
   width: 36px;
   height: 36px;
   margin: 0 auto 16px;
-  border: 3px solid rgba(115, 83, 217, 0.2);
-  border-top-color: #7353d9;
+  border: 3px solid rgba(55, 163, 255, 0.2);
+  border-top-color: #37A3FF;
   border-radius: 50%;
   animation: editor-spin 0.8s linear infinite;
 }
@@ -884,11 +884,11 @@ async function doExport() {
   }
 }
 .editor-tabs button.active {
-  background: #7353d9;
-  color: #fff;
+  background: #37A3FF;
+  color: #FFFFFF;
   border-radius: 10px;
   font-weight: 700;
-  box-shadow: 0 3px 10px #7353d92b;
+  box-shadow: 0 3px 10px #37A3FF2b;
 }
 .editor-preview {
   height: calc(100dvh - 250px);

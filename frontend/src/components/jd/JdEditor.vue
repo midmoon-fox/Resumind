@@ -196,13 +196,13 @@ defineExpose({ load, busy });
 .jd-upload {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--border-color, #dedbed);
+  border: 1px solid var(--border-color, #FFFFFF);
   border-radius: 18px;
   margin: 16px 0;
   perspective: 800px;
   background:
-    linear-gradient(#d1d0ef33 1px, transparent 1px),
-    linear-gradient(90deg, #d1d0ef33 1px, transparent 1px);
+    linear-gradient(#A7CEFC33 1px, transparent 1px),
+    linear-gradient(90deg, #A7CEFC33 1px, transparent 1px);
   background-size: 22px 22px;
 }
 .jd-upload :deep(.el-upload) {
@@ -223,7 +223,7 @@ defineExpose({ load, busy });
   text-align: center;
 }
 .jd-upload small {
-  color: var(--text-secondary, #716b83);
+  color: var(--text-secondary, #212529);
 }
 .jd-upload-card {
   display: grid;
@@ -231,18 +231,18 @@ defineExpose({ load, busy });
   width: 88px;
   height: 88px;
   margin-top: 8px;
-  border: 1px solid #dedbed;
+  border: 1px solid #FFFFFF;
   border-radius: 16px;
-  background: #ffffffeb;
-  color: #7353d9;
-  box-shadow: 0 5px 18px #30214b12;
+  background: #FFFFFFeb;
+  color: #37A3FF;
+  box-shadow: 0 5px 18px #21252912;
   transition:
     transform 0.3s,
     box-shadow 0.3s;
 }
 .jd-upload:is(:hover, :focus-within) .jd-upload-card {
   transform: translateY(-6px) rotateX(10deg) rotateY(-8deg);
-  box-shadow: 0 12px 24px #7353d926;
+  box-shadow: 0 12px 24px #37A3FF26;
 }
 @media (prefers-reduced-motion: reduce) {
   .jd-upload-card {

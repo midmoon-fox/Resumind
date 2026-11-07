@@ -84,18 +84,18 @@ withDefaults(
 
 <style scoped>
 .base-button:not(.button-ghost) {
-  color: var(--color-ink, #292337);
-  background: var(--color-paper, #fff);
+  color: var(--color-ink, #212529);
+  background: var(--color-paper, #FFFFFF);
 }
 .base-button:not(.button-ghost) .button-content {
   animation: none !important;
   opacity: 1 !important;
 }
 .base-button:not(.button-ghost):not(:disabled):is(:hover, :focus-visible) {
-  color: var(--color-accent-ink, #fff);
+  color: var(--color-accent-ink, #FFFFFF);
 }
 .base-button:not(.button-ghost):focus:not(:focus-visible):not(:hover) {
-  color: var(--color-ink, #292337);
+  color: var(--color-ink, #212529);
 }
 .base-button:not(.button-ghost):not(:disabled):focus-visible .button-hover-arrow {
   opacity: 1;

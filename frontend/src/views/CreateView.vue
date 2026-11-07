@@ -690,7 +690,7 @@ async function generate() {
 .inline-jd-editor {
   margin-top: 20px;
   padding-top: 24px;
-  border-top: 1px solid #dedbed;
+  border-top: 1px solid #FFFFFF;
 }
 .jd-expand-enter-active,
 .jd-expand-leave-active {
@@ -713,8 +713,8 @@ async function generate() {
 
 <style scoped>
 .template-stage {
-  border-top: 4px solid #969be7;
-  background: linear-gradient(145deg, #fcf8fb, #fff 60%);
+  border-top: 4px solid #A7CEFC;
+  background: linear-gradient(145deg, #FFFFFF, #FFFFFF 60%);
   margin-top: 24px;
 }
 </style>
@@ -734,8 +734,8 @@ async function generate() {
 .template-gallery-page .callout {
   max-width: 664px;
   margin: 32px auto 16px;
-  background: #fff;
-  border: 1px solid #e8e5ee;
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
   border-radius: 12px;
 }
 .template-gallery-page .field-hint {
@@ -750,11 +750,11 @@ async function generate() {
 <style scoped>
 .field-validation-error {
   display: block;
-  color: #bf3653;
+  color: #FF5758;
   font-size: 13px;
   margin-top: 6px;
 }
 .field:has([aria-invalid='true']) :deep(.el-input__wrapper) {
-  box-shadow: 0 0 0 1px #bf3653 inset;
+  box-shadow: 0 0 0 1px #FF5758 inset;
 }
 </style>
