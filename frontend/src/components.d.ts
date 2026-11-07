@@ -43,6 +43,7 @@ declare module 'vue' {
     FluidCursor: typeof import('./components/ui/FluidCursor.vue')['default']
     FollowupPanel: typeof import('./components/resume/FollowupPanel.vue')['default']
     HeroIllustration: typeof import('./components/dashboard/HeroIllustration.vue')['default']
+    HeroWaves: typeof import('./components/dashboard/HeroWaves.vue')['default']
     JdEditor: typeof import('./components/jd/JdEditor.vue')['default']
     JobRecommendForm: typeof import('./components/jobs/JobRecommendForm.vue')['default']
     JobRecommendResult: typeof import('./components/jobs/JobRecommendResult.vue')['default']

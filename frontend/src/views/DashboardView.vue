@@ -16,6 +16,7 @@ import BaseButton from '../components/common/BaseButton.vue';
 import BaseModal from '../components/common/BaseModal.vue';
 import ResumeDocumentView from '../components/resume/ResumeDocument.vue';
 import HeroIllustration from '../components/dashboard/HeroIllustration.vue';
+import HeroWaves from '../components/dashboard/HeroWaves.vue';
 import FeatureCard from '../components/dashboard/FeatureCard.vue';
 import ResumeCard from '../components/dashboard/ResumeCard.vue';
 import { useDashboard } from '../composables/useDashboard';
@@ -99,6 +100,7 @@ function showAll() {
     </section>
 
     <section class="hero-banner hero-split" aria-labelledby="hero-title">
+      <HeroWaves />
       <div class="hero-content">
         <h2 id="hero-title">简立得，<br />一体化定制<span class="title-underline">岗位简历</span></h2>
         <p>结合目标岗位 JD，筛选并组织相关经历，生成可编辑的定制简历</p>
@@ -265,12 +267,23 @@ function showAll() {
 .document-modal-preview :deep(.server-resume-preview) {
   height: 100%;
 }
+.welcome-actions {
+  align-items: center;
+}
 .hero-banner.hero-split {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(28px, 4vw, 64px);
   min-height: 340px;
   padding: 28px 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  animation: none;
+}
+.hero-banner.hero-split::before,
+.hero-banner.hero-split::after {
+  content: none;
 }
 .hero-mascot-panel {
   position: relative;
@@ -295,6 +308,8 @@ function showAll() {
   display: none;
 }
 .hero-split .hero-content {
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-width: 0;
   padding: 0 0 0 104px;

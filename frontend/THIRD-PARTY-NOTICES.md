@@ -11,3 +11,6 @@ public/licenses/ThreeUI-MIT.txt. No Pro or Beta components are used.
 The welcome page effects draw on Inspira UI by rahulv.dev and Pavel
 Dobryakov's WebGL Fluid Simulation. The MIT notices are included in
 public/licenses/Inspira-Fluid-MIT.txt.
+
+The dashboard wave background uses simplex-noise 4.0.3 by Jonas Wagner.
+Its MIT license is included in public/licenses/SimplexNoise-MIT.txt.
