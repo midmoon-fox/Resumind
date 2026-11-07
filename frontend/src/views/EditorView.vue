@@ -135,6 +135,7 @@ function aiSectionText(section: { id: string }) {
 const openCards = ref<string[]>([]);
 const removedCore = ref<string[]>([]);
 async function deleteModule(key: string, title: string) {
+  if (key === 'basic') return;
   const current = doc.value;
   if (!current) return;
   try {
@@ -148,11 +149,7 @@ async function deleteModule(key: string, title: string) {
   future.value = [];
   replaying = true;
   try {
-  if (key === 'basic') {
-    Object.assign(current.profile, { name: '', email: '', phone: '', photoData: null });
-    current.role = '';
-    removedCore.value.push(key);
-  } else if (key === 'education') {
+  if (key === 'education') {
     Object.assign(current.profile, { school: '', major: '', degree: '', educationPeriod: '', education: [] });
     current.sections = current.sections.filter((s) => s.kind !== 'EDUCATION');
     removedCore.value.push(key);
@@ -171,10 +168,10 @@ async function deleteModule(key: string, title: string) {
 const modulePickerValue = ref<string>();
 async function pickModule(value: unknown) {
   if (typeof value !== 'string' || !value) return;
-  const core = ({ BASIC: 'basic', EDUCATION: 'education', SKILLS: 'skills' } as Record<string, string>)[value];
-  if (core && (core === 'basic' || removedCore.value.includes(core))) {
+  const core = ({ EDUCATION: 'education', SKILLS: 'skills' } as Record<string, string>)[value];
+  if (core && removedCore.value.includes(core)) {
     removedCore.value = removedCore.value.filter((key) => key !== core);
-    if (core !== 'basic' && !doc.value?.sections.some((s) => s.kind === value)) addSection(value);
+    if (!doc.value?.sections.some((s) => s.kind === value)) addSection(value);
     openCards.value = [...openCards.value, core];
     await nextTick();
     modulePickerValue.value = undefined;
@@ -447,9 +444,9 @@ async function doExport() {
         </div>
         <template v-if="tab === 'content'"
           ><el-collapse v-model="openCards" class="editor-cards">
-            <el-collapse-item v-if="!removedCore.includes('basic')" name="basic">
+            <el-collapse-item name="basic">
               <template #title
-                ><EditorModuleTitle title="基本信息" anchor="edit-card-basic" :expanded="openCards.includes('basic')" @remove="deleteModule('basic', '基本信息')" /></template
+                ><EditorModuleTitle title="基本信息" anchor="edit-card-basic" :expanded="openCards.includes('basic')" :removable="false" /></template
               >
               <ProfilePhoto v-model="doc.profile.photoData" />
               <div class="form-grid">
@@ -699,7 +696,7 @@ async function doExport() {
           <div class="module-picker-row"><ElCascader
             v-model="modulePickerValue"
             class="module-picker"
-            :options="[{ value: 'BASIC', label: '基本信息' }, ...modulePickerOptions]"
+            :options="modulePickerOptions"
             :props="{ emitPath: false, expandTrigger: 'click' }"
             filterable
             clearable

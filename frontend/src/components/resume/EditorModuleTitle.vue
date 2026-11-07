@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Trash2 } from '@lucide/vue';
-defineProps<{ title: string; anchor: string; expanded: boolean }>();
+defineProps<{ title: string; anchor: string; expanded: boolean; removable?: boolean }>();
 defineEmits<{ remove: [] }>();
 </script>
 <template>
   <span class="module-title-row">
     <span class="editor-card-title" :id="anchor">{{ title }}</span>
-    <button v-if="expanded" type="button" class="module-title-delete"
+    <button v-if="expanded && removable !== false" type="button" class="module-title-delete"
       :aria-label="'删除模块' + title" :title="'删除' + title"
       @click.stop="$emit('remove')" @keydown.stop>
       <Trash2 :size="17" />
