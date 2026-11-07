@@ -15,3 +15,22 @@ test('deleted and unsupported targets have readable frontend errors', () => {
     /暂不支持/,
   );
 });
+
+test('empty skill and experience content is caught before requesting a rewrite', () => {
+  const skills = { kind: 'PROFILE_FIELD', sectionId: 'skills', field: 'skills' };
+  const item = { kind: 'ITEM_DESCRIPTION', sectionId: 'projects', itemId: 'entry' };
+  const entry = { id: 'entry', html: '<p>&#xA0;<br>\u200b</p>' };
+  const doc = {
+    profile: { skills: ' \u200b\n' },
+    sections: [
+      { id: 'skills', kind: 'SKILLS', items: [] },
+      { id: 'projects', kind: 'PROJECTS', items: [entry] },
+    ],
+  };
+  assert.match(validateAiTarget(doc, skills), /填写掌握的技能/);
+  assert.match(validateAiTarget(doc, item), /填写一些实际经历/);
+  doc.profile.skills = 'Python';
+  entry.html = '<p>整理接口测试记录</p>';
+  assert.equal(validateAiTarget(doc, skills), '');
+  assert.equal(validateAiTarget(doc, item), '');
+});

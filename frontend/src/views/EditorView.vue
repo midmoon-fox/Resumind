@@ -55,6 +55,14 @@ const {
 } = useAppStore();
 const { success, error } = useToast();
 const doc = computed(() => state.resumes.find((r) => r.id === route.params.id));
+const designTemplates = computed(() =>
+  resumeTemplates
+    .map((template) => ({
+      ...template,
+      published: !!latestTemplate(templates.value, template.id),
+    }))
+    .filter((template) => template.published || template.id === doc.value?.template),
+);
 const availableThemeColors = computed(() => {
   const template = latestTemplate(templates.value, doc.value?.template ?? '');
   return themeColors.filter((color) => supportsTheme(template, color.value));
@@ -702,9 +710,10 @@ async function doExport() {
           <label class="field"
             >简历模板<ElSelect v-model="doc.template" aria-label="简历模板"
               ><ElOption
-                v-for="template in resumeTemplates"
+                v-for="template in designTemplates"
                 :key="template.id"
                 :value="template.id"
+                :disabled="!template.published"
                 :label="
                   String(template.title) + ' ' + '·' + ' ' + String(template.category)
                 " /></ElSelect></label

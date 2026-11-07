@@ -26,13 +26,17 @@ class PreparationService:
         return version, resume
 
     def get(self, user, preparation_id, *, lock=False):
-        statement = select(Preparation).where(Preparation.id == preparation_id, Preparation.user_id == user)
+        statement = select(Preparation).where(
+            Preparation.id == preparation_id, Preparation.user_id == user, Preparation.deleted_at.is_(None),
+        )
         record = self.session.scalar(statement.execution_options(populate_existing=True))
         if record is None:
             raise ResourceNotFound()
         self.version(user, record.resume_version_id, lock=lock)
         if lock:
             record = self.session.scalar(statement.with_for_update().execution_options(populate_existing=True))
+            if record is None:
+                raise ResourceNotFound()
         return record
 
     def create_generation(self, user, version_id, task_id, kind, options, *, identifier=None):
@@ -117,6 +121,14 @@ class PreparationService:
         self.session.expire(record)
         return self.get(user, preparation_id)
 
+    def delete(self, user, preparation_id):
+        record = self.get(user, preparation_id, lock=True)
+        if record.status == "GENERATING":
+            raise StateConflict("资料正在生成，请完成或取消任务后再删除")
+        record.deleted_at = record.updated_at = utcnow()
+        record.revision += 1
+        self.session.flush()
+
     def outdated(self, user, record):
         version, resume = self.version(user, record.resume_version_id)
         return resume.revision != version.source_revision
@@ -124,4 +136,4 @@ class PreparationService:
     def list(self, user, version_id, *, page=1, page_size=20):
         self.version(user, version_id)
         require(type(page) is int and page >= 1 and type(page_size) is int and 1 <= page_size <= 20, "/query", "invalid pagination")
-        return list(self.session.scalars(select(Preparation).where(Preparation.user_id == user, Preparation.resume_version_id == version_id).order_by(Preparation.created_at.desc(), Preparation.id.desc()).offset((page - 1) * page_size).limit(page_size)))
+        return list(self.session.scalars(select(Preparation).where(Preparation.user_id == user, Preparation.resume_version_id == version_id, Preparation.deleted_at.is_(None)).order_by(Preparation.created_at.desc(), Preparation.id.desc()).offset((page - 1) * page_size).limit(page_size)))

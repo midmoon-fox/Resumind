@@ -15,7 +15,7 @@ class DeletionService:
         versions = list(self.session.scalars(select(ResumeVersion).where(ResumeVersion.user_id == user, ResumeVersion.resume_id == resume_id)))
         version_ids = [version.id for version in versions]
         exports = list(self.session.scalars(select(Export).where(Export.user_id == user, Export.resume_version_id.in_(version_ids))))
-        preparations = list(self.session.scalars(select(Preparation).where(Preparation.user_id == user, Preparation.resume_version_id.in_(version_ids))))
+        preparations = list(self.session.scalars(select(Preparation).where(Preparation.user_id == user, Preparation.resume_version_id.in_(version_ids), Preparation.deleted_at.is_(None))))
         preparation_exports = list(self.session.scalars(select(PreparationExport).where(PreparationExport.user_id == user, PreparationExport.preparation_id.in_([p.id for p in preparations]))))
         return resume, versions, exports, preparations, preparation_exports
 

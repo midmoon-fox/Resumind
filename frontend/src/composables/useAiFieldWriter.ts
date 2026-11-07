@@ -29,7 +29,13 @@ export function useAiFieldWriter(options: AiFieldOptions) {
     revision: number;
     original: string;
     needsFactConfirmation: boolean;
+    confirmationHint?: string;
   } | null>(null);
+
+  function fail(message: string) {
+    notice.value = `啊噢，出错了。${message}`;
+  }
+
   async function apply() {
     const suggestion = pending.value;
     if (!suggestion || busy.value) return;
@@ -54,8 +60,9 @@ export function useAiFieldWriter(options: AiFieldOptions) {
         doc.id !== suggestion.resumeId ||
         doc.revision !== suggestion.revision ||
         JSON.stringify([doc.profile, doc.sections, doc.role]) !== suggestion.original
-      )
-        throw new Error('原文已发生变化，请重新生成后再应用，当前内容未被覆盖');
+      ) {
+        return fail('原文已发生变化，请重新生成后再应用。');
+      }
       await api(`/api/suggestions/${suggestion.id}/applications`, 'POST', {
         baseRevision: doc.revision,
       });
@@ -63,8 +70,8 @@ export function useAiFieldWriter(options: AiFieldOptions) {
       pending.value = null;
       notice.value = '已应用到上方文本框，可撤销';
       options.onApplied?.();
-    } catch (e) {
-      notice.value = e instanceof Error ? e.message : '应用失败，请重试';
+    } catch {
+      fail('暂时无法应用这条建议，请稍后重试。');
     } finally {
       busy.value = false;
     }
@@ -82,14 +89,14 @@ export function useAiFieldWriter(options: AiFieldOptions) {
     notice.value = '正在生成…';
     try {
       const doc = options.getDoc();
-      if (!doc) return;
+      if (!doc) return fail('请重新打开简历后再试。');
       const problem = validateAiTarget(doc, target);
-      if (problem) throw new Error(problem);
+      if (problem) return fail(problem + '。');
       await options.saveResume(doc);
       const persisted = doc.backend?.document.sections.find(
         (section) => section.id === target.sectionId,
       );
-      if (!persisted) throw new Error('模块尚未保存成功，请先保存简历，再使用 AI 帮助');
+      if (!persisted) return fail('请先保存这个模块，再使用 AI 帮助。');
       const original = JSON.stringify([doc.profile, doc.sections, doc.role]);
       const revision = doc.revision;
       const accepted = await api<Schema<'AsyncAccepted'>>(
@@ -99,26 +106,21 @@ export function useAiFieldWriter(options: AiFieldOptions) {
       );
       const result = await resource<SuggestionValue>(accepted);
       if (result.status !== 'READY') {
-        throw new Error('建议尚未就绪，请稍后重试');
+        return fail('建议还没准备好，请稍后查看。');
       }
       const generatedText = suggestionText(result.proposed)
         .replace(/\u200b/g, '')
         .trim();
       if (!generatedText) {
-        notice.value = '内容太少了，AI无法帮助生成';
-        await ElMessageBox.alert('内容太少了，AI无法帮助生成', '提示', {
-          type: 'warning',
-          confirmButtonText: '知道了',
-          closeOnClickModal: false,
-        }).catch(() => {});
-        return;
+        return fail('没有生成可用的内容，可以补充一些具体信息后再试。');
       }
       if (
         options.getDoc()?.id !== doc.id ||
         doc.revision !== revision ||
         JSON.stringify([doc.profile, doc.sections, doc.role]) !== original
-      )
-        throw new Error('你已修改或切换简历，AI 结果未覆盖当前内容，请重新生成');
+      ) {
+        return fail('你已修改或切换简历，请重新生成。');
+      }
       pending.value = {
         id: result.id,
         key: activeKey.value,
@@ -127,12 +129,13 @@ export function useAiFieldWriter(options: AiFieldOptions) {
         revision,
         original,
         needsFactConfirmation: result.needsFactConfirmation,
+        confirmationHint: result.needsFactConfirmation ? result.explanation.trim() : undefined,
       };
       notice.value = result.needsFactConfirmation
         ? '生成结果包含待核实信息，暂不能应用'
         : '生成完成，请查看下方内容后点击应用';
-    } catch (e) {
-      notice.value = e instanceof Error ? e.message : '生成失败';
+    } catch {
+      fail('暂时没能生成可用内容，请稍后重试。');
     } finally {
       busy.value = false;
     }

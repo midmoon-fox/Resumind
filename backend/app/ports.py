@@ -156,7 +156,7 @@ class SqlRelations:
             return db.scalar(query.limit(1)) is not None
         if file.purpose == 'PREPARATION_EXPORT' and {'preparations', 'preparation_exports'} <= t.keys():
             p, e = t['preparations'], t['preparation_exports']
-            query = select(e.c.id).join(p, p.c.id == e.c.preparation_id).join(v, v.c.id == p.c.resume_version_id).join(r, r.c.id == v.c.resume_id).where(e.c.file_id == file.id, e.c.user_id == file.user_id, p.c.user_id == file.user_id, v.c.user_id == file.user_id, r.c.user_id == file.user_id, r.c.deleted_at.is_(None))
+            query = select(e.c.id).join(p, p.c.id == e.c.preparation_id).join(v, v.c.id == p.c.resume_version_id).join(r, r.c.id == v.c.resume_id).where(e.c.file_id == file.id, e.c.user_id == file.user_id, p.c.user_id == file.user_id, p.c.deleted_at.is_(None), v.c.user_id == file.user_id, r.c.user_id == file.user_id, r.c.deleted_at.is_(None))
             return db.scalar(query.limit(1)) is not None
         return False
 

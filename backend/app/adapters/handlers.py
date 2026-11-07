@@ -25,6 +25,7 @@ from app.services import add_source, leaves
 from app.modules.tasks.registry import Handler, HandlerFailure, ResourceUnavailable, TaskInput
 from app.modules.ai.errors import AiFailure
 from app.modules.tasks.schemas import TaskError
+from resume_b.service import ResourceNotFound
 
 
 def _get(db, cls, resource_id, user_id, lock=False):
@@ -280,12 +281,18 @@ def export_handler(b_handler, coordinator, resource_model) -> Handler:
     """把 B 的 ExportResumeHandler/ExportPreparationHandler 适配成 C 的 Handler。"""
 
     def check(db, task, lock):
-        record, version = coordinator.accessible(db, task.user_id, task.resource_id)
+        try:
+            record, version = coordinator.accessible(db, task.user_id, task.resource_id)
+        except ResourceNotFound:
+            raise ResourceUnavailable() from None
         if record.task_id != task.id:
             raise ResourceUnavailable()
         if lock:
             if resource_model.__name__ == 'PreparationExport':
-                coordinator.accessible(db, task.user_id, task.resource_id, lock=True)
+                try:
+                    coordinator.accessible(db, task.user_id, task.resource_id, lock=True)
+                except ResourceNotFound:
+                    raise ResourceUnavailable() from None
             else:
                 coordinator.deps.service(db).get(task.user_id, version.resume_id, lock=True)
             row = db.scalar(

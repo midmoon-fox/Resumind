@@ -146,22 +146,18 @@ async function run(action: () => Promise<void>) {
   }
 }
 async function next() {
-  if (jdBusy.value || followupBusy.value) return;
+  if (busy.value || jdBusy.value || followupBusy.value) return;
+  const currentStep = draft.value.step;
+  error.value = '';
   if (!(await validateCurrentStep())) return;
   await run(async () => {
-    if (draft.value.step === 1) {
-      if (!draft.value.profile.name.trim()) throw new Error('请填写姓名');
-      if (!draft.value.profile.email.trim() && !draft.value.profile.phone.trim())
-        throw new Error('请至少填写一种联系方式');
-      if (!draft.value.direction.trim()) throw new Error('请填写求职方向');
-    }
-    if (draft.value.step === 2) {
+    if (currentStep === 2) {
       if (draft.value.experiences.some((e) => !e.excluded && !e.confirmed))
         throw new Error('请确认采用的经历，或勾选暂不采用');
       await saveExperiences();
       await submitJdDraft();
     }
-    if (draft.value.step === 3 && draft.value.backend?.activeFollowupSessionId) {
+    if (currentStep === 3 && draft.value.backend?.activeFollowupSessionId) {
       const session = await api<Schema<'FollowupView'>>(
         `/api/followup-sessions/${draft.value.backend.activeFollowupSessionId}`,
       );
@@ -169,8 +165,10 @@ async function next() {
         api('/api/followup-sessions/' + session.id + '/completions', 'POST', body),
       );
     }
-    const nextStep = Math.min(4, draft.value.step + 1);
-    await saveWorkspace((['JD', 'PROFILE', 'MATERIALS', 'FOLLOWUP', 'EDITOR'] as const)[nextStep]);
+    const nextStep = Math.min(4, currentStep + 1);
+    await saveWorkspace((['JD', 'PROFILE', 'MATERIALS', 'FOLLOWUP', 'EDITOR'] as const)[nextStep], {
+      includeProfile: currentStep === 1,
+    });
     draft.value.step = nextStep;
   });
 }
@@ -639,6 +637,7 @@ async function generate() {
             @click="
               draft.step--;
               error = '';
+              fieldErrors = {};
             "
             ><ArrowLeft :size="15" />上一步</BaseButton
           ><span>{{ draft.step < 4 ? `${draft.step + 1} / 4` : '简历模板' }}</span

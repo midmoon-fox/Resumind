@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from .models import OutboxEvent, Task, utcnow
 from .registry import Registry, ResourceUnavailable
 from .schemas import TaskError
-from .service import snapshot
+from .service import can_retry_manually, snapshot
 
 TERMINAL = frozenset({"SUCCEEDED", "FAILED", "CANCELLED"})
 CANCEL_ERROR = TaskError(code="TASK_CANCELLED", message="任务已取消", canRetry=False)
@@ -68,12 +68,7 @@ def retry_task(
     if type(expected_attempt) is not int or expected_attempt < 0:
         raise ValueError("Expected attempt must be a nonnegative integer")
     task = owned_task(session, registry, task_id, user_id)
-    if (
-        task.status != "FAILED"
-        or task.attempt != expected_attempt
-        or not task.error_json
-        or task.error_json.get("canRetry") is not True
-    ):
+    if task.attempt != expected_attempt or not can_retry_manually(task):
         raise TaskOperationError()
     requeue(session, registry, task)
     return task

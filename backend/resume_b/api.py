@@ -296,7 +296,7 @@ def create_router(deps: Dependencies):
         path_id(versionId)
         page, size = pagination(request, {"resumeVersionId"})
         records = deps.preparations(context[0]).list(context[1], versionId, page=page, page_size=size)
-        total = context[0].scalar(select(func.count()).select_from(Preparation).where(Preparation.user_id == context[1], Preparation.resume_version_id == versionId))
+        total = context[0].scalar(select(func.count()).select_from(Preparation).where(Preparation.user_id == context[1], Preparation.resume_version_id == versionId, Preparation.deleted_at.is_(None)))
         return envelope(request, {"items": [preparation_json(context, item) for item in records], "page": page, "pageSize": size, "total": total})
 
     @router.get("/preparations/{preparationId}", response_model=Envelope[PreparationOutput])
@@ -307,6 +307,12 @@ def create_router(deps: Dependencies):
     def edit_preparation(preparationId: str, request: Request, body: PatchPreparation, context=Depends(deps.context, scope="function")):
         path_id(preparationId)
         return write(request, context, body.model_dump(), lambda: preparation_json(context, deps.preparations(context[0]).patch(context[1], preparationId, body.baseRevision, body.content.model_dump())))
+
+    @router.delete("/preparations/{preparationId}", status_code=204, dependencies=[Depends(deps.verify_write)])
+    def delete_preparation(preparationId: str, request: Request, context=Depends(deps.context, scope="function")):
+        path_id(preparationId)
+        write(request, context, {}, lambda: deps.preparations(context[0]).delete(context[1], preparationId))
+        return Response(status_code=204)
 
     @router.post("/preparations/{preparationId}/exports", status_code=202, dependencies=[Depends(deps.verify_write)], response_model=Envelope[Accepted])
     def export_preparation(preparationId: str, request: Request, body: PreparationExportRequest, user=Depends(deps.authenticated_user)):

@@ -6,7 +6,7 @@ const props = defineProps<{
   label: string;
   busy?: boolean;
   notice?: string;
-  suggestion?: { text: string; needsFactConfirmation: boolean } | null;
+  suggestion?: { text: string; needsFactConfirmation: boolean; confirmationHint?: string } | null;
 }>();
 const emit = defineEmits<{ 'update:modelValue': [value: string]; 'ai-help': []; apply: [] }>();
 </script>
@@ -18,7 +18,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: string]; 'ai-help': []; 
       @update:model-value="emit('update:modelValue', $event)"
     />
     <div class="ai-field-bar">
-      <span v-if="notice" class="ai-notice">{{ notice }}</span>
+      <span v-if="notice" class="ai-notice" role="status">{{ notice }}</span>
       <ElButton size="small" type="primary" plain :loading="busy" @click="emit('ai-help')"
         >AI 帮助</ElButton
       >

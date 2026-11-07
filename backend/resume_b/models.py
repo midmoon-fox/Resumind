@@ -103,6 +103,7 @@ class Preparation(Owned, Base):
     status: Mapped[str] = mapped_column(String(24))
     content_json: Mapped[dict] = mapped_column(JSON)
     generation_options_json: Mapped[dict] = mapped_column(JSON)
+    deleted_at: Mapped[datetime | None] = mapped_column(TIME)
     __table_args__ = (Index("ix_preparations_version_type_created_id", "resume_version_id", "type", "created_at", "id"),)
 
 

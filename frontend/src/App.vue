@@ -37,7 +37,8 @@ function leaveRoute(element: Element, done: () => void) {
   <ElConfigProvider :locale="zhCn" :z-index="3000" :empty-values="[null, undefined]"
     ><AppLayout>
       <RouterView v-slot="{ Component, route }">
-        <Transition :css="false" mode="out-in" @enter="enterRoute" @leave="leaveRoute">
+        <component v-if="route.meta.landingPage" :is="Component" :key="route.path" />
+        <Transition v-else :css="false" mode="out-in" @enter="enterRoute" @leave="leaveRoute">
           <div :key="route.path" class="route-surface"><component :is="Component" /></div>
         </Transition>
       </RouterView> </AppLayout

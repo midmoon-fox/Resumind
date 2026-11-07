@@ -3,12 +3,15 @@ import { computed, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowRight, Bookmark, MapPin, BriefcaseBusiness } from '@lucide/vue';
 import PageHeading from '../components/common/PageHeading.vue';
+import JobMatchView from './JobMatchView.vue';
 import BaseButton from '../components/common/BaseButton.vue';
 import BaseModal from '../components/common/BaseModal.vue';
 import { useAppStore } from '../composables/useAppStore';
 import { api } from '../services/client';
 import { resource } from '../services/tasks';
 import type { Schema } from '../services/schema';
+const directionHelpTitle = '还不确定适合什么岗位？';
+const directionHelpOpen = ref(false);
 const { state, user, snapshot, refreshData } = useAppStore(),
   router = useRouter();
 const resumeId = ref(state.resumes[0]?.id ?? ''),
@@ -96,6 +99,9 @@ async function archive(job: Schema<'JobView'>, use = false) {
     busy.value = false;
   }
 }
+function startRecommendedResume(job: { title: string }) {
+  void router.push({ name: 'create', query: { direction: job.title } });
+}
 onMounted(async () => {
   const id =
     typeof route.query.runId === 'string' ? route.query.runId : sessionStorage.getItem(runKey());
@@ -109,11 +115,15 @@ onMounted(async () => {
 </script>
 <template>
   <div class="page-container">
-    <PageHeading
-      eyebrow="FIND YOUR NEXT STEP"
-      title="岗位匹配"
-      description=""
-    />
+    <PageHeading class="jobs-heading" eyebrow="FIND YOUR NEXT STEP" title="岗位匹配">
+      <BaseButton
+        size="small"
+        variant="secondary"
+        aria-haspopup="dialog"
+        @click="directionHelpOpen = true"
+        >{{ directionHelpTitle }}</BaseButton
+      >
+    </PageHeading>
     <div class="panel">
       <div class="form-grid">
         <label class="field"
@@ -216,5 +226,38 @@ onMounted(async () => {
       >
       <p v-if="error" class="form-error">{{ error }}</p></BaseModal
     >
+    <BaseModal
+      :open="directionHelpOpen"
+      :title="directionHelpTitle"
+      class="job-direction-dialog"
+      wide
+      align-center
+      keep-mounted
+      @close="directionHelpOpen = false"
+    >
+      <JobMatchView @select-job="startRecommendedResume" />
+    </BaseModal>
   </div>
 </template>
+
+<style scoped>
+.jobs-heading {
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-md);
+}
+.jobs-heading :deep(.page-heading-actions) {
+  padding-top: 0;
+}
+:global(.el-dialog.job-direction-dialog) {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 32px);
+}
+:global(.job-direction-dialog .el-dialog__body) {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+</style>
