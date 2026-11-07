@@ -48,13 +48,11 @@ declare module 'vue' {
     ResumeCard: typeof import('./components/dashboard/ResumeCard.vue')['default']
     ResumeDocument: typeof import('./components/resume/ResumeDocument.vue')['default']
     ResumeThumbnail: typeof import('./components/dashboard/ResumeThumbnail.vue')['default']
-    RibbonBackdrop: typeof import('./components/motion/RibbonBackdrop.vue')['default']
     RichTextEditor: typeof import('./components/common/RichTextEditor.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TaskPanel: typeof import('./components/common/TaskPanel.vue')['default']
     TemplateGallery: typeof import('./components/resume/TemplateGallery.vue')['default']
     TiltCard: typeof import('./components/common/TiltCard.vue')['default']
-    ToastMessage: typeof import('./components/common/ToastMessage.vue')['default']
   }
 }

@@ -31,14 +31,4 @@ export function dateText(value: string) {
     timeZone: 'Asia/Shanghai',
   }).format(new Date(value));
 }
-export function downloadBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').slice(0, 160);
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 export const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;

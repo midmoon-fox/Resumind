@@ -80,7 +80,6 @@ function showAll() {
     </section>
 
     <section class="hero-banner" aria-labelledby="hero-title">
-      <!-- <RibbonBackdrop /> -->
       <div class="hero-content">
         <h2 class="wrap-heading" id="hero-title">简立得，一体化定制岗位简历</h2>
         <p>结合目标岗位 JD，筛选并组织相关经历，生成可编辑的定制简历</p>

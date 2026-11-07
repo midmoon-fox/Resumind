@@ -31,3 +31,7 @@ artifacts/
 .hallmark/
 .DS_Store
 Thumbs.db
+
+# Local design experiments and rollback snapshots
+**/color-history/
+**/color-backups/
