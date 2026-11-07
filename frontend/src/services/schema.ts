@@ -208,7 +208,7 @@ export interface Schemas {
     workspaceId: string;
     baseWorkspaceRevision: number;
     experienceRevisions: Array<Schemas['ExperienceRef']>;
-    templateId: 'simple' | 'project';
+    templateId: 'simple' | 'project' | 'ribbon' | 'sidebar';
     templateVersion: '1.0.0';
     sectionTypes: Array<'PROJECTS' | 'INTERNSHIPS' | 'CAMPUS' | 'AWARDS' | 'EDUCATION' | 'SKILLS' | 'ACHIEVEMENTS' | 'CERTIFICATES' | 'GOAL' | 'CHARTS' | 'HOBBIES' | 'PUBLICATIONS' | 'REFERENCES' | 'SOCIAL_LINKS' | 'STRENGTHS' | 'TEXT' | 'VOLUNTEERING' | 'WORK_EXPERIENCE'>;
     title?: string;

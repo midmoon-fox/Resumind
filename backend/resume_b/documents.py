@@ -14,6 +14,7 @@ SECTION_TYPES = frozenset({
     "REFERENCES", "SOCIAL_LINKS", "STRENGTHS", "TEXT", "VOLUNTEERING", "WORK_EXPERIENCE",
 })
 COLORS = frozenset({"#333333", "#1F2937", "#2563EB"})
+TEMPLATE_NAMES = {"simple": "简洁通用", "project": "项目突出", "ribbon": "紫韵雅致", "sidebar": "蓝灰双栏"}
 DEFAULT_STYLE = {"fontFamily": "Microsoft YaHei", "fontSize": 14, "lineHeight": 1.6, "accentColor": "#333333", "sectionGap": 12}
 
 
@@ -60,7 +61,7 @@ def validate_style(style):
 
 
 def validate_template(key, version):
-    require(isinstance(key, str) and key in {"simple", "project"}, "/templateId", "unsupported template key")
+    require(isinstance(key, str) and key in TEMPLATE_NAMES, "/templateId", "unsupported template key")
     require(isinstance(version, str) and len(version) <= 20 and re.fullmatch(r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)", version) is not None, "/templateVersion", "expected stable semantic version")
 
 

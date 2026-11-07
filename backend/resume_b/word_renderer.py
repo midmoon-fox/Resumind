@@ -36,8 +36,10 @@ class WordRenderer:
         stream = BytesIO()
         template.save(stream)
         output = Document(BytesIO(stream.getvalue()))
+        body = output.tables[0].cell(0, 1) if snapshot['templateId'] == 'sidebar' else output
         if profile.get('photoData'):
-            paragraph = output.paragraphs[0] if output.paragraphs else output.add_paragraph()
+            photo_host = output.tables[0].cell(0, 0) if snapshot['templateId'] == 'sidebar' else output
+            paragraph = photo_host.paragraphs[0] if photo_host.paragraphs else photo_host.add_paragraph()
             paragraph.add_run().add_picture(BytesIO(base64.b64decode(profile['photoData'].split(',', 1)[1])), width=Pt(58), height=Pt(78))
         normal = output.styles["Normal"]
         normal.font.name = style["fontFamily"]
@@ -54,25 +56,38 @@ class WordRenderer:
         # Every colored template rule follows the same editable accent as HTML/PDF.
         for border in output.styles['Heading 1'].element.iter(qn('w:bottom')):
             border.set(qn('w:color'), style['accentColor'][1:])
-        mapper = RichTextMapper(output, style)
+        theme = {'ribbon': 'AAA3BE', 'sidebar': '879FB7'}.get(snapshot['templateId'])
+        if theme:
+            output.styles['Heading 1'].font.color.rgb = RGBColor.from_string(theme)
+            for border in output.styles['Heading 1'].element.iter(qn('w:bottom')):
+                border.set(qn('w:color'), theme)
+        mapper = RichTextMapper(body, style)
         for section in document["sections"]:
             if not section_has_content(section, profile):
                 continue
-            heading = output.add_paragraph(section["title"], "Heading 1")
+            heading = body.add_paragraph(section["title"], "Heading 1")
             heading.paragraph_format.space_before = Pt(style["sectionGap"] * 0.75)
             heading.paragraph_format.keep_with_next = True
             if section["type"] == "EDUCATION":
                 for education in profile["education"]:
-                    output.add_paragraph(" / ".join(filter(None, (education["school"], education["major"], education["degree"]))))
-                    output.add_paragraph(date_label(education))
+                    body.add_paragraph(" / ".join(filter(None, (education["school"], education["major"], education["degree"]))))
+                    body.add_paragraph(date_label(education))
             elif section["type"] == "SKILLS":
                 if profile["skills"]:
-                    output.add_paragraph("\n".join(profile["skills"]))
+                    body.add_paragraph("\n".join(profile["skills"]))
+            elif section["type"] == "TEXT":
+                mapper.blocks(section["text"].get("content", []))
+            elif section["type"] == "SOCIAL_LINKS":
+                for link in section["links"]:
+                    body.add_paragraph(" · ".join(filter(None, (link["platform"], link["label"], link["url"]))))
+            elif section["type"] == "CHARTS":
+                for datum in section["chartData"]:
+                    body.add_paragraph(f'{datum["label"]} {datum["value"]} {datum["unit"] or ""}')
             else:
                 for item in section["items"]:
                     if not item_has_content(item):
                         continue
-                    title = output.add_paragraph(item["title"], "Heading 2")
+                    title = body.add_paragraph(item["title"], "Heading 2")
                     title.paragraph_format.keep_with_next = True
                     if snapshot['templateId'] == 'project' and section['type'] == 'PROJECTS':
                         for paragraph in (title,):
@@ -84,7 +99,7 @@ class WordRenderer:
                             paragraph._p.get_or_add_pPr().append(borders)
                     subtitle = " / ".join(filter(None, (item["subtitle"], date_label(item))))
                     if subtitle:
-                        output.add_paragraph(subtitle)
+                        body.add_paragraph(subtitle)
                     mapper.blocks(item["description"].get("content", []))
         result = BytesIO()
         output.save(result)

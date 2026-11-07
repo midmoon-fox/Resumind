@@ -1,5 +1,5 @@
 """Initial public definitions; published layout assets are integrated separately."""
-from .documents import COLORS, SECTION_TYPES, string, validate_template
+from .documents import COLORS, SECTION_TYPES, TEMPLATE_NAMES, string, validate_template
 from .documents import require
 from .richtext import validate_richtext
 from copy import deepcopy
@@ -11,7 +11,7 @@ def get_template(key: str, version: str = "1.0.0") -> dict:
     return {
         "id": key,
         "version": version,
-        "name": "简洁通用" if key == "simple" else "项目突出",
+        "name": TEMPLATE_NAMES[key],
         "supportedFormats": ["PDF", "DOCX", "HTML"],
         "allowedSectionTypes": sorted(SECTION_TYPES),
         "stylePolicy": {

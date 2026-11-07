@@ -3,16 +3,18 @@ import hashlib
 from pathlib import Path
 
 from .templates import TemplateService, get_template
+from .documents import TEMPLATE_NAMES
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def publish_templates(session):
+def publish_templates(session, *, keys=None):
     published = []
-    for key in ('simple', 'project'):
+    for key in TEMPLATE_NAMES if keys is None else keys:
         definition = get_template(key)
-        paths = [ROOT / 'assets/templates/1.0.0' / name
-                 for name in ('resume.html.j2', 'base.css', key + '.css')]
+        names = ((key + '.html.j2', 'sections.html.j2', 'base.css', key + '.css')
+                 if key in {'ribbon', 'sidebar'} else ('resume.html.j2', 'base.css', key + '.css'))
+        paths = [ROOT / 'assets/templates/1.0.0' / name for name in names]
         word = ROOT / 'assets/word' / f'{key}-1.0.0.docx'
         digest = hashlib.sha256(b''.join(p.read_bytes() for p in paths) + word.read_bytes()).hexdigest()
         asset_version = 'html-1.0.0:' + digest

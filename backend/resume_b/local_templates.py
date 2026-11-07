@@ -104,7 +104,8 @@ class StaticHtmlRenderer:
         contacts = [profile[key] for key in ("phone", "email") if profile[key]]
         if profile["age"] is not None:
             contacts.append(f"{profile['age']}岁")
-        root = environment.get_template("resume.html.j2").render(
+        layout = snapshot["templateId"] + ".html.j2" if snapshot["templateId"] in {"ribbon", "sidebar"} else "resume.html.j2"
+        root = environment.get_template(layout).render(
             profile=profile, sections=[{**s, "items": [i for i in s["items"] if item_has_content(i)]} for s in document["sections"] if section_has_content(s, profile)],
             style=style, templateId=snapshot["templateId"], contacts=contacts,
             inline=inline, dates=date_label)

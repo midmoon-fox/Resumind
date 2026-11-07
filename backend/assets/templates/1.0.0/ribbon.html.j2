@@ -1,0 +1,20 @@
+{% from 'sections.html.j2' import render_sections with context %}
+<main class="sheet ribbon" data-resume-print-root lang="zh-CN"
+ style="font-family:'{{ style.fontFamily }}',sans-serif;font-size:{{ style.fontSize }}pt;line-height:{{ style.lineHeight }};--accent:{{ style.accentColor }};--section-gap:{{ style.sectionGap }}px">
+  <div class="ribbon-masthead" aria-hidden="true"><span>个人简历</span><span class="masthead-dots">● ● ●</span></div>
+  <div class="ribbon-rule" aria-hidden="true"></div>
+  <div class="ribbon-content">
+    <header class="resume-header" data-edit-key="basic">
+      <h2><span>基本信息</span></h2>
+      {% if profile.get('photoData') %}<img class="profile-photo" src="{{ profile.photoData }}" alt="个人照片">{% endif %}
+      <h1 data-edit-field="name">{{ profile.name }}</h1>
+      {% if profile.intention %}<p class="intention" data-edit-field="intention">求职意向：{{ profile.intention }}</p>{% endif %}
+      <div class="basic-details">
+        {% if profile.phone %}<p>联系电话：{{ profile.phone }}</p>{% endif %}
+        {% if profile.email %}<p>电子邮箱：{{ profile.email }}</p>{% endif %}
+        {% if profile.age is not none %}<p>年龄：{{ profile.age }}岁</p>{% endif %}
+      </div>
+    </header>
+    {{ render_sections(sections, profile, dates, inline) }}
+  </div>
+</main>

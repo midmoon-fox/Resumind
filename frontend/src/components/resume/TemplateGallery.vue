@@ -226,6 +226,26 @@ const templates = computed(() =>
 .paper-project {
   background: linear-gradient(180deg, #faf9fd, white 38%);
 }
+.paper-ribbon { padding-top: 52px; position: relative; }
+.paper-ribbon::before { content: '个人简历'; position: absolute; top: 16px; left: 22px; color: #aaa3be; font-size: 22px; letter-spacing: 4px; }
+.paper-ribbon::after { content: ''; position: absolute; left: 0; right: 0; top: 46px; height: 6px; background: linear-gradient(60deg, #aaa3be 60%, #e8e5ed 60%); }
+.paper-ribbon .paper-heading { padding-top: 10px; }
+.paper-ribbon .paper-heading small { display: none; }
+.paper-ribbon section { border-left: 1px solid #d5d0dd; padding-left: 8px; }
+.paper-ribbon h3 { position: relative; margin-left: -13px; padding: 1px 12px 2px 7px; color: white; border: 0; background: linear-gradient(48deg, #aaa3be 42%, #e8e5ed 42%, #e8e5ed 44%, transparent 44%); }
+.paper-sidebar { display: grid; grid-template-columns: 30% minmax(0, 1fr); column-gap: 10px; padding: 28px 12px 12px 0; position: relative; background: linear-gradient(to right, #f0f1f2 0 30%, white 30%); border-bottom: 6px solid #879fb7; }
+.paper-sidebar::before { content: '● ● · ·'; color: white; letter-spacing: 3px; position: absolute; top: 0; left: 0; right: 0; height: 20px; padding-left: 10px; background: #879fb7; font-size: 12px; }
+.paper-sidebar .paper-heading { grid-column: 1; grid-row: 1 / span 6; padding: 0 7px; margin-top: 10px; text-align: center; }
+.paper-sidebar .paper-heading::before { content: ''; display: block; width: 40px; height: 54px; margin: 0 auto 12px; background: linear-gradient(#d5dce2, #e4e8eb); border: 2px solid white; }
+.paper-sidebar .paper-heading small { display: none; }
+.paper-sidebar .paper-heading strong { font-size: 15px; }
+.paper-sidebar .paper-heading span { font-size: 7px; }
+.paper-sidebar .paper-heading p { overflow-wrap: anywhere; font-size: 6px; }
+.paper-sidebar section { grid-column: 2; margin-top: 5px; }
+.paper-sidebar h3 { color: #657e95; border-color: #d5d9dd; }
+.paper-sidebar h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: #879fb7; border-radius: 50%; margin-right: 4px; }
+.paper-sidebar h4 { display: block; }
+.paper-sidebar h4 span { display: block; }
 .showcase-card-footer {
   display: flex;
   justify-content: space-between;
@@ -266,7 +286,7 @@ const templates = computed(() =>
   .showcase-filters {
     margin-bottom: 26px;
   }
-  .showcase-paper {
+  .showcase-paper:not(.paper-sidebar) {
     padding: 30px 25px;
   }
   .showcase-paper p {

@@ -72,7 +72,7 @@ class GenerateRequest(ContractModel):
     workspaceId: ResourceId
     baseWorkspaceRevision: Revision
     experienceRevisions: list[ExperienceRef] = Field(max_length=50)
-    templateId: Literal["simple", "project"]
+    templateId: Literal["simple", "project", "ribbon", "sidebar"]
     templateVersion: Literal["1.0.0"]
     sectionTypes: list[SectionType] = Field(min_length=1, max_length=18)
     title: Name = "我的简历"

@@ -1,0 +1,24 @@
+.ribbon { padding: 10mm 0 14mm; --ribbon-tone: #aaa3be; }
+.ribbon-masthead { display: flex; align-items: center; justify-content: space-between; padding: 0 15mm 6mm; color: #aaa3be; font-size: 30pt; font-weight: 300; letter-spacing: 5px; }
+.masthead-dots { font-size: 11pt; letter-spacing: 8px; }
+.ribbon-rule { height: 5mm; background: #e8e5ed; position: relative; margin-bottom: 5mm; }
+.ribbon-rule::before { content: ''; position: absolute; inset: 0 40% 0 0; background: #aaa3be; clip-path: polygon(0 0, 97% 0, 100% 100%, 0 100%); }
+.ribbon-content { margin: 0 13mm 0 15mm; border-left: 1px solid #d5d0dd; padding-left: 6mm; }
+.ribbon .resume-header { display: flow-root; margin-bottom: 5mm; }
+.ribbon h1 { font-size: 22pt; letter-spacing: 2px; margin: 3mm 0 2mm; }
+.ribbon .intention { font-size: 11pt; color: var(--accent); margin: 2mm 0; }
+.ribbon .basic-details { display: flex; flex-wrap: wrap; gap: 1mm 6mm; font-size: 9.5pt; color: #50505a; }
+.ribbon .profile-photo { float: right; width: 21mm; height: 28mm; object-fit: cover; margin: 3mm 0 2mm 5mm; }
+.ribbon h2 { position: relative; border-bottom: 1px solid #c9c6cf; padding: 0; margin: 0 0 3mm -10mm; line-height: 1.5; color: white; font-size: 11.5pt; }
+.ribbon h2 span { display: inline-block; min-width: 33mm; padding: 0 9mm 0 5mm; background: #aaa3be; clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%); }
+.ribbon h2::after { content: ''; position: absolute; left: 26mm; top: 0; width: 2mm; height: 100%; border-left: 1px solid white; border-right: 1px solid white; transform: skewX(38deg); }
+.ribbon .entry { margin-bottom: 3mm; }
+.ribbon .entry-heading h3 { font-size: 11pt; }
+.ribbon .subtitle, .ribbon .dates { color: #55535c; }
+.ribbon .resume-section { margin-top: max(4mm, var(--section-gap)); }
+@media print {
+  .ribbon { padding: 0; }
+  .ribbon-masthead { padding: 0 0 6mm; }
+  .ribbon-rule { margin-inline: 0; }
+  .ribbon-content { margin: 0 0 0 3mm; }
+}
