@@ -111,7 +111,7 @@ onBeforeUnmount(() => editor.value?.destroy());
         <ListOrdered :size="15" />
       </button>
       <label class="rich-color"
-        >文字颜色<ElSelect
+        ><span>文字颜色</span><ElSelect
           aria-label="文字颜色"
           :model-value="editor.getAttributes('textStyle').color || '#333333'"
           @change="editor.chain().focus().setColor(String($event)).run()"
@@ -139,3 +139,11 @@ onBeforeUnmount(() => editor.value?.destroy());
     <EditorContent :editor="editor" />
   </div>
 </template>
+<style scoped>
+.rich-toolbar { align-items: center; row-gap: 6px; }
+.rich-color { display: inline-flex; flex: 0 0 auto; align-items: center; white-space: nowrap; flex-wrap: nowrap; }
+.rich-color > span { flex: 0 0 auto; white-space: nowrap; }
+.rich-color :deep(.el-select) { width: 100px !important; min-width: 100px; flex: 0 0 100px; }
+.rich-color :deep(.el-select__wrapper) { min-width: 0; }
+.rich-toolbar > button { flex-shrink: 0; }
+</style>

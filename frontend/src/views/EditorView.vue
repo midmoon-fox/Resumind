@@ -18,6 +18,8 @@ import {
 } from '@lucide/vue';
 import AdditionalEducation from '../components/resume/AdditionalEducation.vue';
 import EducationDates from '../components/resume/EducationDates.vue';
+import EditorModuleTitle from '../components/resume/EditorModuleTitle.vue';
+import { ElMessageBox } from 'element-plus';
 import BaseButton from '../components/common/BaseButton.vue';
 import { resumeTemplates } from '../types/templates';
 import { themeColors } from '../types/themeColors';
@@ -131,9 +133,53 @@ function aiSectionText(section: { id: string }) {
   );
 }
 const openCards = ref<string[]>([]);
+const removedCore = ref<string[]>([]);
+async function deleteModule(key: string, title: string) {
+  const current = doc.value;
+  if (!current) return;
+  try {
+    await ElMessageBox.confirm(`确定删除“${title}”及其内容吗？删除后可用顶部撤销恢复。`, '确认删除模块', {
+      confirmButtonText: '确认删除', cancelButtonText: '取消', type: 'warning',
+      confirmButtonClass: 'el-button--danger', closeOnClickModal: false,
+    });
+  } catch { return; }
+  if (doc.value?.id !== current.id) return;
+  past.value.push(content());
+  future.value = [];
+  replaying = true;
+  try {
+  if (key === 'basic') {
+    Object.assign(current.profile, { name: '', email: '', phone: '', photoData: null });
+    current.role = '';
+    removedCore.value.push(key);
+  } else if (key === 'education') {
+    Object.assign(current.profile, { school: '', major: '', degree: '', educationPeriod: '', education: [] });
+    current.sections = current.sections.filter((s) => s.kind !== 'EDUCATION');
+    removedCore.value.push(key);
+  } else if (key === 'skills') {
+    current.profile.skills = '';
+    current.profile.skillItems = [];
+    current.sections = current.sections.filter((s) => s.kind !== 'SKILLS');
+    removedCore.value.push(key);
+  } else {
+    current.sections = current.sections.filter((s) => s.id !== key);
+  }
+  } finally { replaying = false; }
+  openCards.value = openCards.value.filter((id) => id !== key);
+  success('模块已删除，可点击顶部撤销恢复');
+}
 const modulePickerValue = ref<string>();
 async function pickModule(value: unknown) {
   if (typeof value !== 'string' || !value) return;
+  const core = ({ BASIC: 'basic', EDUCATION: 'education', SKILLS: 'skills' } as Record<string, string>)[value];
+  if (core && (core === 'basic' || removedCore.value.includes(core))) {
+    removedCore.value = removedCore.value.filter((key) => key !== core);
+    if (core !== 'basic' && !doc.value?.sections.some((s) => s.kind === value)) addSection(value);
+    openCards.value = [...openCards.value, core];
+    await nextTick();
+    modulePickerValue.value = undefined;
+    return;
+  }
   addSection(value);
   const created = doc.value?.sections.at(-1);
   if (created) openCards.value = [...openCards.value, created.id];
@@ -251,6 +297,7 @@ function undo() {
   future.value.push(content());
   replaying = true;
   Object.assign(doc.value, JSON.parse(past.value.pop()!));
+  removedCore.value = [];
   replaying = false;
 }
 function redo() {
@@ -400,9 +447,9 @@ async function doExport() {
         </div>
         <template v-if="tab === 'content'"
           ><el-collapse v-model="openCards" class="editor-cards">
-            <el-collapse-item name="basic">
+            <el-collapse-item v-if="!removedCore.includes('basic')" name="basic">
               <template #title
-                ><span class="editor-card-title" id="edit-card-basic">基本信息</span></template
+                ><EditorModuleTitle title="基本信息" anchor="edit-card-basic" :expanded="openCards.includes('basic')" @remove="deleteModule('basic', '基本信息')" /></template
               >
               <ProfilePhoto v-model="doc.profile.photoData" />
               <div class="form-grid">
@@ -427,9 +474,9 @@ async function doExport() {
                 /></label>
               </div>
             </el-collapse-item>
-            <el-collapse-item name="education">
+            <el-collapse-item v-if="!removedCore.includes('education')" name="education">
               <template #title
-                ><span class="editor-card-title" id="edit-card-education">教育经历</span></template
+                ><EditorModuleTitle title="教育经历" anchor="edit-card-education" :expanded="openCards.includes('education')" @remove="deleteModule('education', '教育经历')" /></template
               >
               <div class="form-grid">
                 <label class="field"
@@ -457,9 +504,9 @@ async function doExport() {
                   /></label
               ><AdditionalEducation :profile="doc.profile" />
             </el-collapse-item>
-            <el-collapse-item name="skills">
+            <el-collapse-item v-if="!removedCore.includes('skills')" name="skills">
               <template #title
-                ><span class="editor-card-title" id="edit-card-skills">专业技能</span></template
+                ><EditorModuleTitle title="专业技能" anchor="edit-card-skills" :expanded="openCards.includes('skills')" @remove="deleteModule('skills', '专业技能')" /></template
               >
               <label class="field"
                 >专业技能<ElInput
@@ -486,9 +533,7 @@ async function doExport() {
               :name="section.id"
             >
               <template #title
-                ><span class="editor-card-title" :id="`edit-card-${section.id}`">{{
-                  section.title || '未命名模块'
-                }}</span></template
+                ><EditorModuleTitle :title="section.title || '未命名模块'" :anchor="`edit-card-${section.id}`" :expanded="openCards.includes(section.id)" @remove="deleteModule(section.id, section.title || '未命名模块')" /></template
               >
               <div class="editor-section-heading">
                 <ElInput v-model="section.title" aria-label="模块名称" maxlength="50" /><button
@@ -514,10 +559,7 @@ async function doExport() {
                 ><button
                   class="icon-button danger-icon"
                   :aria-label="'删除模块' + section.title"
-                  @click="
-                    doc.sections.splice(index, 1);
-                    success('模块已删除，可点击顶部撤销恢复');
-                  "
+                  @click="deleteModule(section.id, section.title || '未命名模块')"
                 >
                   <Trash2 :size="15" />
                 </button>
@@ -654,10 +696,10 @@ async function doExport() {
               </template>
             </el-collapse-item>
           </el-collapse>
-          <ElCascader
+          <div class="module-picker-row"><ElCascader
             v-model="modulePickerValue"
             class="module-picker"
-            :options="modulePickerOptions"
+            :options="[{ value: 'BASIC', label: '基本信息' }, ...modulePickerOptions]"
             :props="{ emitPath: false, expandTrigger: 'click' }"
             filterable
             clearable
@@ -666,7 +708,7 @@ async function doExport() {
             aria-label="新增模块"
             popper-class="module-picker-popper"
             @change="pickModule"
-        /></template>
+        /></div></template>
         <template v-if="tab === 'design'"
           ><h2 class="editor-block-title wrap-heading">样式设计</h2>
           <label class="field"
@@ -874,8 +916,9 @@ async function doExport() {
 <style scoped>
 .module-picker {
   width: min(360px, 100%);
-  margin-top: 16px;
+  margin-top: 0;
 }
+.module-picker-row { padding-top: 10px; }
 </style>
 <style>
 .module-picker-popper .el-cascader-panel {
