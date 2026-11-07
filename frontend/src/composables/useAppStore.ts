@@ -87,7 +87,7 @@ export function exampleProfile(): Profile {
     major: '计算机科学与技术',
     degree: '本科',
     educationPeriod: '2023-09 – 2027-06',
-    skills: 'Vue\nTypeScript\nJavaScript\nHTML\nCSS\nGit',
+    skills: 'Vue、TypeScript、JavaScript、HTML、CSS 、Git',
   };
 }
 function seed(): AppState {
@@ -436,7 +436,7 @@ async function createResume(title: string, role: string, profile = emptyProfile(
     document: {
       schemaVersion: '1.0.0',
       profile: toProfile(profile, role),
-      sections: [section('EDUCATION', '教育背景'), section('SKILLS', '专业技能')],
+      sections: [section('EDUCATION', '教育背景')],
     },
     templateId: 'simple',
     templateVersion: '1.1.0',

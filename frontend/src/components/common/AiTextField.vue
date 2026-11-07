@@ -19,7 +19,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: string]; 'ai-help': []; 
     />
     <div class="ai-field-bar">
       <span v-if="notice" class="ai-notice" role="status">{{ notice }}</span>
-      <ElButton size="small" type="primary" plain :loading="busy" @click="emit('ai-help')"
+      <ElButton type="primary" class="ai-help-button" :loading="busy" @click="emit('ai-help')"
         >AI 帮助</ElButton
       >
     </div>
@@ -41,6 +41,17 @@ const emit = defineEmits<{ 'update:modelValue': [value: string]; 'ai-help': []; 
   justify-content: flex-end;
   gap: 8px;
   margin-top: 6px;
+}
+.ai-help-button {
+  height: 40px;
+  padding: 0 22px;
+  font-size: 15px;
+  border: none;
+  background: linear-gradient(135deg, #4f6ef7, #7c3aed);
+}
+.ai-help-button:hover,
+.ai-help-button:focus {
+  background: linear-gradient(135deg, #5d7bf8, #8b4ff0);
 }
 .ai-notice {
   font-size: 12px;

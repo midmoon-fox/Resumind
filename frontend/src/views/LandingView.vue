@@ -38,7 +38,7 @@ function authTarget(name: 'login' | 'register') {
     <div class="welcome-glow welcome-glow-two" aria-hidden="true"></div>
     <section class="welcome-content" aria-labelledby="welcome-title">
       <div class="welcome-badge">
-        <Sparkles :size="16" /> 简立得 · 让求职从容一点 <ArrowRight :size="15" />
+        <Sparkles :size="16" /> 简立得 简历生成AI助手
       </div>
       <p class="welcome-eyebrow">RESUME, MADE PERSONAL</p>
       <BreathingText id="welcome-title" class="welcome-title" text="你的专属简历，即刻拥有" />
@@ -51,7 +51,7 @@ function authTarget(name: 'login' | 'register') {
           >注册 <ArrowRight :size="18"
         /></RouterLink>
       </div>
-      <div class="welcome-orbit" aria-hidden="true"><span></span><i></i></div>
+
       <p class="welcome-footnote">把你的经历，写成下一段可能</p>
     </section>
   </main>
@@ -202,7 +202,7 @@ function authTarget(name: 'login' | 'register') {
   transform: translateY(-3px);
 }
 .welcome-button-primary {
-  color: var(--color-accent-ink);
+  color: white;
   background: linear-gradient(120deg, var(--color-accent), var(--color-accent-hover));
   box-shadow: 0 12px 30px color-mix(in srgb, var(--color-accent-hover) 28%, transparent);
 }
@@ -276,6 +276,7 @@ function authTarget(name: 'login' | 'register') {
   color: var(--color-muted);
   font-size: 13px;
   letter-spacing: 0.08em;
+  margin-top: 20px;
 }
 @media (max-width: 640px) {
   .welcome-content {

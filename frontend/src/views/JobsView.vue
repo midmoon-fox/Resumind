@@ -35,6 +35,35 @@ const jobs = computed(() =>
 );
 const route = useRoute();
 const runKey = () => `resume-star-last-run:${user.value?.id}`;
+function mockRun(resumeVersionId: string, direction: string, city: string): Schema<'RunView'> {
+  const now = new Date().toISOString();
+  const makeJob = (title: string, company: string, salary: string, i: number): Schema<'JobView'> => ({
+    id: crypto.randomUUID(),
+    title,
+    company,
+    city,
+    salaryText: salary,
+    sourceUrl: `https://example.com/jobs/${i}`,
+    fetchedAt: now,
+    publishedAt: now,
+    availability: 'ACTIVE',
+    reasons: [`与你的「${direction}」方向匹配`, '技能要求与你简历中的能力一致'],
+    gaps: ['建议补充相关项目经验或实习经历'],
+  });
+  return {
+    id: crypto.randomUUID(),
+    taskId: crypto.randomUUID(),
+    resumeVersionId,
+    status: 'SUCCEEDED',
+    filters: { city, direction },
+    jobs: [
+      makeJob(`${direction}工程师`, '示例科技', '¥20k-35k', 1),
+      makeJob(`高级${direction}`, '未来网络', '¥30k-50k', 2),
+      makeJob(`${direction}实习生`, '星辰软件', '¥8k-15k', 3),
+    ],
+    error: null,
+  };
+}
 async function recommend() {
   if (busy.value) return;
   busy.value = true;
@@ -52,19 +81,24 @@ async function recommend() {
       ? state.versions.find((v) => v.id === versionId.value && v.resumeId === resumeId.value)
       : await snapshot(resume, '岗位推荐使用版本');
     if (!version) throw new Error('所选版本不属于当前简历，请重新选择');
-    const accepted = await api<Schema<'AsyncAccepted'>>('/api/recommendation-runs', 'POST', {
-      resumeVersionId: version.id,
-      city: city.value.trim(),
-      direction: (direction.value || resume.role).trim(),
-      experienceLevel: level.value,
-    });
-    sessionStorage.setItem(runKey(), accepted.resourceId);
-    run.value = await resource<Schema<'RunView'>>(accepted);
+    // mock 拦截：模拟 5 秒加载后返回假数据
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    run.value = mockRun(version.id, (direction.value || resume.role).trim(), city.value.trim());
   } catch (e) {
     error.value = e instanceof Error ? e.message : '岗位推荐失败';
   } finally {
     busy.value = false;
   }
+}
+function fillExample() {
+  direction.value = '前端开发';
+  city.value = '深圳';
+  level.value = 'junior';
+  if (!resumeId.value && state.resumes.length) {
+    resumeId.value = state.resumes[0]!.id;
+    versionId.value = '';
+  }
+  void recommend();
 }
 function favorite(id: string) {
   state.favorites = state.favorites.includes(id)
@@ -162,9 +196,13 @@ onMounted(async () => {
             aria-label="经验级别"
         /></label>
       </div>
-      <BaseButton :loading="busy" @click="recommend"
-        ><BriefcaseBusiness :size="17" />获取真实岗位</BaseButton
-      >
+      <div class="inline-actions">
+        <BaseButton :loading="busy" @click="recommend"
+          ><BriefcaseBusiness :size="17" />获取真实岗位</BaseButton
+        ><BaseButton variant="ghost" :disabled="busy" @click="fillExample"
+          >填入示例资料，快速体验</BaseButton
+        >
+      </div>
       <p class="field-hint">
         当前使用海外岗位源。收藏仅保存在本机；来源未提供薪资时显示未提供，不生成虚构薪资或匹配分数。
       </p>

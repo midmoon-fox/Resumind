@@ -12,6 +12,7 @@ import {
 } from '@lucide/vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAppStore } from '../../composables/useAppStore';
+import Logo from '../../assets/Logo.png';
 
 defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: []; help: [] }>();
@@ -23,7 +24,7 @@ const navigation = [
   { title: '我的简历', path: '/resumes', icon: FileText },
   { title: '岗位匹配', path: '/jobs', icon: BriefcaseBusiness },
   { title: '模拟面试', path: '/interview', icon: MessageSquare },
-  { title: '岗位 JD 档案', path: '/jd-library', icon: FolderClosed },
+  { title: '岗位需求档案', path: '/jd-library', icon: FolderClosed },
 ];
 </script>
 
@@ -44,7 +45,7 @@ const navigation = [
     aria-label="主导航"
   >
     <RouterLink class="brand" to="/dashboard" @click="emit('close')">
-      <span class="brand-icon"><Sparkles :size="25" :stroke-width="1.8" /></span>
+      <span class="brand-icon"><img :src="Logo" alt="" /></span>
       <span><strong>简立得</strong><small>Resumind</small></span>
     </RouterLink>
     <button
@@ -102,7 +103,7 @@ const navigation = [
           }}</template></span
         ><span class="account-text"
           ><strong>{{ state.account.nickname }}</strong
-          ><small>开启你的职业可能</small></span
+          ></span
         ><ChevronRight :size="16" />
       </button>
     </div>
@@ -129,12 +130,12 @@ const navigation = [
 }
 
 .sidebar .brand-icon {
-  width: 32px;
-  height: 32px;
+  width: 52px;
+  height: 52px;
   border: 0;
   border-radius: 8px;
-  color: #275e9b;
-  background: #e5f2ff;
+  /* color: #275e9b; */
+  background:#ffffff;
   box-shadow: none;
   transform: none;
 }
@@ -145,7 +146,7 @@ const navigation = [
 }
 
 .sidebar .brand strong {
-  color: #1e1e1e;
+  color: #3487ed;
   font-size: 16px;
   line-height: 22px;
   font-weight: 600;
@@ -153,7 +154,7 @@ const navigation = [
 
 .sidebar .brand small {
   margin-top: 0;
-  color: #767676;
+  color: #3487ed;
   font-size: 12px;
   line-height: 18px;
 }

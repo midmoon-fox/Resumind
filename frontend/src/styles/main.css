@@ -3495,3 +3495,13 @@ button[aria-busy='true'] {
     max-width: 104px;
   }
 }
+/* 简历卡片缩略图：放大并只展示顶部约三分之一 */
+.resume-card .resume-thumbnail {
+  height: 165px;
+  display: flex;
+  justify-content: center;
+}
+.resume-card .thumbnail-paper {
+  transform: scale(2.2);
+  transform-origin: top center;
+}

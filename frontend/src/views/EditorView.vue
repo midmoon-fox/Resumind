@@ -394,7 +394,7 @@ async function doExport() {
                   ? '保存失败，请查看错误并重试'
                   : '已保存到服务端'
             }}
-            / 修订 {{ doc.revision }}</small
+            </small
           >
         </div>
       </div>
@@ -498,7 +498,8 @@ async function doExport() {
                 >教育时间<EducationDates
                   v-model="doc.profile.educationPeriod"
                   /></label
-              ><AdditionalEducation :profile="doc.profile" />
+              >
+              <AdditionalEducation :profile="doc.profile" />
             </el-collapse-item>
             <el-collapse-item v-if="!removedCore.includes('skills')" name="skills">
               <template #title
@@ -886,10 +887,12 @@ async function doExport() {
 }
 .editor-tabs button.active {
   background: var(--color-accent);
-  color: var(--color-accent-ink);
+  color: #fff !important;
   border-radius: 10px;
   font-weight: 700;
-  box-shadow: 0 3px 10px var(--color-focus-soft);
+}
+.editor-tabs{
+  background-color: rgb(236, 240, 251);
 }
 .editor-preview {
   height: calc(100dvh - 250px);
@@ -925,5 +928,90 @@ async function doExport() {
 }
 .module-picker-popper .el-cascader-menu {
   min-width: 140px;
+}
+</style>
+
+<style>
+/* 简历编辑页布局调整 */
+@media (min-width: 701px) {
+  .editor-grid {
+    grid-template-columns: minmax(400px, 1.25fr) minmax(0, 1fr);
+  }
+  .editor-controls {
+    max-height: calc(100dvh - 220px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 6px 16px 0;
+  }
+  .editor-preview {
+    max-height: calc(100dvh - 220px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .editor-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: none;
+    padding-top: 4px;
+    padding-bottom: 8px;
+  }
+}
+
+/* 简历编辑「内容」分块卡片 */
+.editor-controls {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.editor-cards {
+  border: none;
+}
+.editor-cards .el-collapse-item {
+  background: #ffffff;
+  border: 1px solid var(--color-rule);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+.editor-cards .el-collapse-item__header {
+  display: flex;
+  align-items: center;
+  height: auto;
+  min-height: 54px;
+  padding: 14px 20px;
+  line-height: 1.5;
+  background: none;
+  border-bottom: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+.editor-cards .el-collapse-item__wrap {
+  border-bottom: none;
+}
+.editor-cards .el-collapse-item__content {
+  padding: 0 20px 20px;
+}
+.editor-cards .el-collapse-item__arrow {
+  display: none;
+}
+.editor-cards .el-collapse-item__header::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--el-color-primary);
+  margin-left: auto;
+  padding-left: 12px;
+}
+.editor-cards .el-collapse-item.is-active .el-collapse-item__header::after {
+  content: '−';
+}
+.editor-card-add {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
 }
 </style>

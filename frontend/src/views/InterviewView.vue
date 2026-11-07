@@ -269,7 +269,6 @@ async function exportMaterials() {
       <BaseButton :loading="busy" :disabled="!!draft" @click="generate"
         ><Sparkles :size="16" />生成新资料</BaseButton
       >
-      <p>生成新资料会保留之前的资料。</p>
     </div>
     <div v-if="error && !exportOpen" class="inline-actions">
       <p class="form-error" role="alert">{{ error }}</p>
@@ -429,6 +428,18 @@ async function exportMaterials() {
 <style scoped>
 :global(.preparation-delete-confirm .el-message-box__btns) {
   column-gap: 8px;
+}
+.interview-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: var(--space-lg, 24px);
+  align-items: start;
+  margin-top: 24px;
+}
+@media (max-width: 900px) {
+  .interview-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .history-empty,
 .history-group-heading small,

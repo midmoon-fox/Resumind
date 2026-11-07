@@ -97,6 +97,32 @@ function selectExperience(id: string, checked: boolean) {
     ? [...new Set([...selected.value, id])]
     : selected.value.filter((value) => value !== id);
 }
+function fillExampleExperiences() {
+  draft.value.experiences = [
+    {
+      id: crypto.randomUUID(),
+      type: '项目经历',
+      title: '校园二手交易平台',
+      role: '前端开发',
+      period: '2024-03 – 2024-08',
+      description: '使用 Vue 3 与 Element Plus 搭建校园二手交易平台，实现商品发布、搜索与订单流程，日均活跃用户 500+。',
+      confirmed: true,
+      excluded: false,
+    },
+    {
+      id: crypto.randomUUID(),
+      type: '实习经历',
+      title: '前端开发实习生',
+      role: '实习生',
+      period: '2024-07 – 2024-09',
+      description: '参与公司数据看板的前端开发，负责图表组件封装与接口联调，优化首屏加载时间。',
+      confirmed: true,
+      excluded: false,
+    },
+  ];
+  draft.value.materialsText = '校园二手交易平台：前端开发，使用 Vue 3 与 Element Plus。\n前端开发实习：负责数据看板开发与接口联调。';
+  notify('已填入示例经历，请替换为真实经历');
+}
 const selected = ref<string[]>([]),
   busy = ref(false),
   error = ref('');
@@ -293,25 +319,26 @@ async function generate() {
         .map((e) => ({ id: e.id, revision: e.backend!.revision })),
       templateId: draft.value.template,
       templateVersion: '1.1.0',
-      sectionTypes: [
-        'EDUCATION',
-        ...new Set(
-          draft.value.experiences
-            .filter((e) => e.confirmed && !e.excluded && e.backend)
-            .map(
-              (e) =>
-                (
-                  ({
-                    PROJECT: 'PROJECTS',
-                    INTERNSHIP: 'INTERNSHIPS',
-                    CAMPUS: 'CAMPUS',
-                    AWARD: 'AWARDS',
-                  }) as const
-                )[e.backend!.type],
-            ),
-        ),
-        'SKILLS',
-      ],
+      sectionTypes: (() => {
+        const types = [
+          ...new Set(
+            draft.value.experiences
+              .filter((e) => e.confirmed && !e.excluded && e.backend)
+              .map(
+                (e) =>
+                  (
+                    ({
+                      PROJECT: 'PROJECTS',
+                      INTERNSHIP: 'INTERNSHIPS',
+                      CAMPUS: 'CAMPUS',
+                      AWARD: 'AWARDS',
+                    }) as const
+                  )[e.backend!.type],
+              ),
+          ),
+        ];
+        return types.length ? types : ['PROJECTS'];
+      })(),
       title: draft.value.title || draft.value.direction + ' · 我的简历',
     });
     generationTaskId.value = accepted.taskId;
@@ -332,7 +359,7 @@ async function generate() {
       v-if="draft.step < 4"
       eyebrow="CREATE WITH CONFIDENCE"
       title="制作简历"
-      description="不必一次写得完美，我们陪你一步步整理。"
+      description=""
       ><BaseButton variant="secondary" :disabled="busy" @click="router.push('/dashboard')"
         >退出制作</BaseButton
       ></PageHeading
@@ -349,8 +376,6 @@ async function generate() {
       <section class="panel wizard-panel" :class="{ 'template-stage': draft.step === 4 }">
         <template v-if="draft.step === 0"
           ><h2 class="wrap-heading">目标岗位与求职方向</h2>
-          <small class="step-context">第 1 步 / 共 4 步</small>
-          <p class="body-copy">岗位 JD 能让简历更有针对性，没有也可以跳过。</p>
           <label class="field"
             >简历名称 *<ElInput
               v-model="draft.title"
@@ -415,12 +440,20 @@ async function generate() {
               />
             </section>
           </Transition>
+          <BaseButton
+            variant="ghost"
+            @click="
+              draft.title = '前端开发工程师';
+              draft.direction = '前端开发工程师';
+              jdDraft = { text: '负责公司官网与后台管理系统的前端开发，使用 Vue 3、TypeScript 与 Element Plus，优化页面性能与交互体验。', file: null };
+              notify('已填入示例岗位，请替换为真实岗位');
+            "
+            >填入示例资料，快速体验</BaseButton
+          >
         </template>
         <template v-if="draft.step === 1"
           ><h2 class="wrap-heading">填写基本资料</h2>
           <ProfilePhoto v-model="draft.profile.photoData" />
-          <small class="step-context">第 2 步 / 共 4 步</small>
-          <p class="body-copy">这些信息将显示在简历中，账户昵称与真实姓名相互独立。</p>
           <div class="form-grid">
             <label class="field"
               >姓名 *<ElInput
@@ -504,8 +537,6 @@ async function generate() {
         >
         <template v-if="draft.step === 2"
           ><h2 class="wrap-heading">整理并确认经历</h2>
-          <small class="step-context">第 3 步 / 共 4 步</small>
-          <p class="body-copy">粘贴材料或手动填写。只有确认采用的经历会进入简历。</p>
           <FileUpload
             class="upload-zone"
             accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg"
@@ -611,7 +642,10 @@ async function generate() {
           </div>
           <p v-if="!draft.experiences.length" class="field-hint">
             暂时没有经历也没关系，可以继续通过补充追问梳理。
-          </p></template
+          </p>
+          <BaseButton variant="ghost" @click="fillExampleExperiences()"
+            >填入示例资料，快速体验</BaseButton
+          ></template
         >
         <template v-if="draft.step === 3"
           ><h2>补充经历信息</h2>

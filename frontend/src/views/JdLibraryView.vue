@@ -77,9 +77,9 @@ async function confirmRemove() {
   <div class="page-container">
     <PageHeading
       eyebrow="JOB DESCRIPTION LIBRARY"
-      title="岗位 JD 档案"
+      title="岗位需求档案"
       description=""
-      ><BaseButton @click="add"><Plus :size="17" />新增 JD 档案</BaseButton></PageHeading
+      ><BaseButton @click="add"><Plus :size="17" />新增岗位需求档案</BaseButton></PageHeading
     >
     <p v-if="error" class="form-error" role="alert">{{ error }}</p>
     <div class="panel">
@@ -88,8 +88,8 @@ async function confirmRemove() {
         <label class="inline-search"
           ><Search :size="16" /><ElInput
             v-model="search"
-            aria-label="搜索 JD"
-            placeholder="搜索岗位或公司"
+            aria-label="搜索岗位需求档案"
+            placeholder="搜索岗位需求档案或公司"
         /></label>
       </div>
       <div v-if="list.length" class="jd-list">
@@ -136,3 +136,7 @@ async function confirmRemove() {
     >
   </div>
 </template>
+
+<style scoped>
+
+</style>
