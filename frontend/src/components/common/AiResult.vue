@@ -22,9 +22,9 @@ defineEmits<{ apply: [] }>();
 .ai-result {
   margin-top: 12px;
   padding: 16px;
-  border: 1px solid #A7CEFC;
+  border: 1px solid #d1d0ef;
   border-radius: 12px;
-  background: #FFFFFF;
+  background: #f8f6ff;
 }
 .ai-result-text {
   white-space: pre-wrap;

@@ -20,7 +20,7 @@ defineEmits<{ remove: [] }>();
 .editor-card-title { flex: 1; min-width: 0; }
 .module-title-delete { flex: 0 0 30px; width: 30px; height: 30px; display: inline-flex;
   align-items: center; justify-content: center; border: 0; background: transparent;
-  color: #FF5758; border-radius: 6px; cursor: pointer; margin-right: 8px; }
-.module-title-delete:hover { background: #FFFFFF; }
-.module-title-delete:focus-visible { outline: 2px solid #FF5758; outline-offset: 2px; }
+  color: #dc2626; border-radius: 6px; cursor: pointer; margin-right: 8px; }
+.module-title-delete:hover { background: #fef2f2; }
+.module-title-delete:focus-visible { outline: 2px solid #dc2626; outline-offset: 2px; }
 </style>
