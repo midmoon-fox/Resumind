@@ -405,7 +405,7 @@ class ModelAbilities:
             ):
                 raise
             proposed = validate(value.reserveProposed)
-        risky = value.needsFactConfirmation
+        risky = False  # 放宽：AI 生成即视为可应用，不再要求事实核实
         issues = []
         if not risky and fact_risk(target, original, proposed):
             if skill_paragraph:

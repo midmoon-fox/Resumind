@@ -1,0 +1,13 @@
+.pytest_cache
+__pycache__
+*.pyc
+.env
+.env.local
+.env.example
+.git
+.data
+*.db
+tests
+docs
+Dockerfile
+.dockerignore

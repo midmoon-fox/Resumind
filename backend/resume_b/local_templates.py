@@ -16,8 +16,8 @@ ASSETS = Path(__file__).resolve().parents[1] / "assets/templates"
 
 # 编辑预览的 hover 高亮与定位提示样式
 EDIT_CSS = """
-[data-edit-key], [data-edit-item-id] { cursor: pointer; position: relative; }
-[data-edit-key].edit-hover, [data-edit-item-id].edit-hover {
+[data-edit-section-id], [data-edit-key="basic"] { cursor: pointer; position: relative; }
+[data-edit-section-id].edit-hover, [data-edit-key="basic"].edit-hover {
   outline: 3px solid #ef4444; outline-offset: 2px; border-radius: 4px;
 }
 .edit-hover::after {
@@ -59,7 +59,7 @@ BRIDGE_JS = """
       }
     }, '*');
   }
-  var els = document.querySelectorAll('[data-edit-key], [data-edit-item-id]');
+  var els = document.querySelectorAll('[data-edit-section-id], [data-edit-key="basic"]');
   for (var i = 0; i < els.length; i++) {
     (function (el) {
       el.setAttribute('tabindex', '0');
