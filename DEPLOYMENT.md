@@ -2,6 +2,10 @@
 
 前端网站：https://midmoon-fox.github.io/Resumind/
 
+当前临时后端入口：https://lived-lead-contacted-prix.trycloudflare.com
+
+该入口由本机 cloudflared 通过 QUIC 连接；电脑、Web、Worker、Supervisor 和连接器需要持续运行。连接器凭据只存本机私有运行目录，不在仓库中。
+
 前端静态文件发布在 `gh-pages` 分支，`main` 保留源码。Pages 使用 Hash 路由，刷新子页面不会 404。
 
 构建时在 `frontend` 目录设置：
