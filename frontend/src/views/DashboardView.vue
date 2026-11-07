@@ -94,7 +94,7 @@ function showAll() {
       </div>
       <div class="welcome-actions">
         <span class="today"><CalendarDays :size="16" />{{ today }}</span
-        ><BaseButton size="small" @click="openCreate"><Plus :size="17" />新建简历</BaseButton>
+        ><BaseButton variant="secondary" size="small" @click="openCreate"><Plus :size="17" />新建简历</BaseButton>
       </div>
     </section>
 
@@ -103,8 +103,8 @@ function showAll() {
         <h2 id="hero-title">简立得，<br />一体化定制<span class="title-underline">岗位简历</span></h2>
         <p>结合目标岗位 JD，筛选并组织相关经历，生成可编辑的定制简历</p>
         <div class="hero-buttons">
-          <BaseButton @click="openCreate"
-            ><Sparkles :size="17" />开始制作定制简历<ArrowRight :size="17" /></BaseButton
+          <BaseButton variant="secondary" @click="openCreate"
+            ><Sparkles :size="17" />开始制作定制简历</BaseButton
           >
         </div>
 

@@ -7,6 +7,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.openapi.utils import get_openapi
 from starlette.exceptions import HTTPException
+from .cors import configure_cors
 
 from .auth import MissingRateLimiter, RedisRateLimiter, router as auth_router
 from .core import Problem, Settings, database, reject_unknown_query
@@ -88,4 +89,5 @@ def create_app(settings=None, *, tasks=None, ai=None, storage=None, limiter=None
         return schema
 
     app.openapi = contract_openapi
+    configure_cors(app, settings.origin)
     return app

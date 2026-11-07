@@ -381,6 +381,8 @@ def create_app(settings=None):
     # ---- 生命周期 ----
     app.state._owned_clients = (model_client, *c_components._owned_clients, *((job_cache,) if job_cache else ()))
 
+    from app.cors import configure_cors
+    configure_cors(app, settings.origin)
     return app
 
 

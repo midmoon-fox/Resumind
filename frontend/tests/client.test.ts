@@ -146,3 +146,14 @@ test('backend validation details and request ID are preserved for troubleshootin
     )) as typeof fetch;
   await assert.rejects(api('/api/resumes'), /missing email.*trace-test/);
 });
+
+
+test('public deployment only forwards JWT requests to the configured HTTPS backend', async () => {
+  const { backendUrl } = await import('../src/services/client.ts');
+  assert.equal(backendUrl('/api/me', 'https://backend.example.com'), 'https://backend.example.com/api/me');
+  assert.equal(backendUrl('/internal/files/11111111-1111-4111-8111-111111111111?sig=test', 'https://backend.example.com'), 'https://backend.example.com/internal/files/11111111-1111-4111-8111-111111111111?sig=test');
+  assert.equal(backendUrl('/api/me', ''), '/api/me');
+  assert.throws(() => backendUrl('https://other.example/api/me', 'https://backend.example.com'));
+  assert.throws(() => backendUrl('//other.example/api/me', 'https://backend.example.com'));
+  assert.throws(() => backendUrl('/api/me', 'http://backend.example.com'));
+});

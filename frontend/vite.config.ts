@@ -13,6 +13,7 @@ function backendProxy(mode: string) {
 }
 
 export default defineConfig(({ mode }) => ({
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [vue(), Components({ resolvers: [ElementPlusResolver()], dts: 'src/components.d.ts' })],
   optimizeDeps: {
     // Auto-imported Element Plus dependencies must be ready before lazy routes open.

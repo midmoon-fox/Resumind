@@ -305,7 +305,7 @@ window.addEventListener('session-expired', () => {
   user.value = null;
   Object.assign(state, seed());
   initialization = undefined;
-  window.location.assign('/login');
+  window.dispatchEvent(new Event('auth-required'));
 });
 function touchResume(doc: ResumeDocument) {
   Object.assign(doc, resumeCompletion(doc));

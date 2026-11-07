@@ -1,5 +1,19 @@
 import type { Schema } from './schema';
 
+export function backendUrl(path: string, origin = import.meta.env?.VITE_API_BASE_URL ?? '') {
+  if (!/^\/(?:api\/|internal\/files\/)/.test(path))
+    throw new Error('无效的后端请求地址');
+  if (!origin) {
+    if (import.meta.env?.VITE_PAGES_DEPLOY === 'true')
+      throw new Error('公网后端尚未连接，请联系网站维护者启动后端公网服务');
+    return path;
+  }
+  const target = new URL(origin);
+  if (target.protocol !== 'https:' || target.pathname !== '/' || target.search || target.hash || target.username || target.password)
+    throw new Error('后端公网地址必须是 HTTPS 域名');
+  return target.origin + path;
+}
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -76,7 +90,7 @@ export async function authenticatedFetch(path: string, options: RequestInit = {}
   const headers = new Headers(options.headers);
   if (accessToken) headers.set('Authorization', `Bearer ${accessToken}`);
   const authenticated = !!accessToken;
-  const response = await fetch(path, { ...options, headers, credentials: 'omit' });
+  const response = await fetch(backendUrl(path), { ...options, headers, credentials: 'omit' });
   if (response.status === 401 && authenticated && !path.startsWith('/api/auth/')) {
     clearSessionToken();
     if (typeof window !== 'undefined') window.dispatchEvent(new Event('session-expired'));

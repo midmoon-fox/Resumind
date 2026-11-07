@@ -1,10 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import DashboardView from '../views/DashboardView.vue';
 import { useAppStore } from '../composables/useAppStore';
 import { useToast } from '../composables/useToast';
 import { authRedirect } from './authRedirect';
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: import.meta.env.VITE_PAGES_DEPLOY === 'true'
+    ? createWebHashHistory(import.meta.env.BASE_URL)
+    : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -117,5 +119,8 @@ router.afterEach((to, from, failure) => {
 router.onError((cause) => {
   console.error('页面切换失败', cause);
   useToast().error('页面加载失败，未能完成跳转。请稍后重试；若仍失败，请刷新页面。');
+});
+window.addEventListener('auth-required', () => {
+  void router.replace({ name: 'login', query: { redirect: router.currentRoute.value.fullPath } });
 });
 export default router;
